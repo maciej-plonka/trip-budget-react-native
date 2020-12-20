@@ -63,7 +63,7 @@ const ThemeContext = createContext<Theme>(theme)
 export const useThemeContext = () => useContext(ThemeContext)
 
 interface Props {
-    children?: Array<JSX.Element | undefined> | JSX.Element
+    children?: React.ReactNode
 }
 
 const Theme = ({children}: Props) => (

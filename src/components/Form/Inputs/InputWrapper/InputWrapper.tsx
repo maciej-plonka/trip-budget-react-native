@@ -6,7 +6,7 @@ import InputIcon from "./InputIcon";
 type Props = {
     label: string,
     icon?: IconName,
-    children?: Array<JSX.Element | undefined> | JSX.Element
+    children?: React.ReactNode
 }
 const InputWrapper = ({label, icon, children}: Props) => {
     return <View style={styles.wrapper}>

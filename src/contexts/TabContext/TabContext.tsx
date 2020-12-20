@@ -18,12 +18,11 @@ export const useTabDispatchContext = () => useContext(TabDispatchContext);
 
 interface Props {
     initialTabs?: Tab[],
-    children?: Array<JSX.Element | undefined> | JSX.Element
+    children?: React.ReactNode
 }
 
 const createInitialState = (tabs: Tab[]) => {
-    if (!tabs.length) return {tabs}
-    return {tabs, selected: tabs[0]}
+    return tabs.length ? {tabs, selected: tabs[0]} : {tabs}
 }
 export default function Tabs({initialTabs = [], children}: Props) {
     const [tabs, dispatcher] = useReducer(selectedTabReducer, createInitialState(initialTabs))

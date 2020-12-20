@@ -2,13 +2,13 @@ import React from "react";
 import {StyleProp, StyleSheet, View, ViewStyle} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
 
-interface HeaderBackground {
-    color: string | [string, string],
-    children?: Array<JSX.Element | undefined>,
+type Props = {
+    color: string | Gradient,
+    children?: React.ReactNode,
     style?: StyleProp<ViewStyle>
 }
 
-const HeaderBackground = ({color, children, style}: HeaderBackground) => {
+const HeaderBackground = ({color, children, style}: Props) => {
     if (typeof color === "string") {
         const backgroundStyle = {backgroundColor: color}
         return (
@@ -17,8 +17,9 @@ const HeaderBackground = ({color, children, style}: HeaderBackground) => {
             </View>
         )
     }
+    const {colors, start, end} = color
     return (
-        <LinearGradient colors={color} start={[0, 1]} end={[1, 0]} style={[StyleSheet.absoluteFill, style]}>
+        <LinearGradient colors={colors} start={start} end={end} style={[StyleSheet.absoluteFill, style]}>
             {children}
         </LinearGradient>
     )

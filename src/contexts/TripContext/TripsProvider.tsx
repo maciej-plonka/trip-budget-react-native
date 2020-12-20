@@ -20,7 +20,6 @@ const TripsProvider = ({children}: Props) => {
         removeTripById(tripId: number): Promise<Trip | undefined> {
             return Promise.resolve(undefined);
         }
-
     }
     return (
         <TripsContext.Provider value={trips}>

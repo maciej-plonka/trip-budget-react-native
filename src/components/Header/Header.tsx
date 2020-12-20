@@ -5,13 +5,12 @@ import {useTabContext} from "../../contexts/TabContext";
 import HeaderTabs from "./HeaderTabs";
 
 
-interface HeaderProps {
-    color: string | [string, string],
+type Props = {
+    color: string | Gradient,
     title: string,
 }
 
-
-const Header = ({color, title}: HeaderProps) => {
+const Header = ({color, title}: Props) => {
     const {tabs} = useTabContext()
     const isGradient = typeof color !== 'string'
     const height = (tabs && tabs.length) ? 124 : 82;
@@ -23,7 +22,7 @@ const Header = ({color, title}: HeaderProps) => {
         <View style={{height}}>
             <HeaderBackground style={backgroundStyle} color={color}>
                 <View style={titleWrapperStyle}>
-                    <Text  style={titleTextStyle}>{title}</Text>
+                    <Text style={titleTextStyle}>{title}</Text>
                 </View>
                 <HeaderTabs color={titleColor}/>
             </HeaderBackground>
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
         marginBottom: 16
     },
     titleText: {
-        fontWeight:"bold",
+        fontWeight: "bold",
         fontSize: 24
     }
 })

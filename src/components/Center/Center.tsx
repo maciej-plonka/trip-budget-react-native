@@ -1,7 +1,8 @@
 import React from "react";
 import {StyleProp, StyleSheet, View, ViewStyle} from "react-native";
+
 type Props = {
-    children?: Array<JSX.Element | undefined> | JSX.Element,
+    children?: React.ReactNode
     styles?: StyleProp<ViewStyle>
 }
 const Center = ({children, styles}:Props) => (

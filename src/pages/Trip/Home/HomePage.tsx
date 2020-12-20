@@ -1,25 +1,37 @@
 import React from "react";
 import Page from "../../Page";
-import TripCard from "./TripCard";
-import {FlatList} from "react-native";
 import {TripNavigationProps} from "../TripParamList";
-
-const data = [
-    {key: "1"},
-    {key: "2"},
-    {key: "3"},
-    {key: "4"},
-    {key: "5"},
-    {key: "6"},
-]
+import {FlatList, StyleSheet, Text} from "react-native";
+import Center from "../../../components/Center/Center";
+import {useTripsContext} from "../../../contexts/TripContext";
+import TripCard from "./TripCard";
 
 const TripHomePage: React.FC<TripNavigationProps<"HomePage">> = ({navigation}) => {
     const onFabPress = () => navigation.push("CreateNewTripPage");
+    const trips = useTripsContext();
+
     return (
         <Page title={"Trip Planner"} fab={{onPress: onFabPress, onRight: true}}>
-            <FlatList style={{padding: 16}}  data={data} renderItem={() => <TripCard/>}/>
+            <Center styles={styles.root}>
+                {!trips.length && <Text>No trip yet :)</Text>}
+                {!!trips.length && <FlatList style={styles.list}
+                                            data={trips}
+                                             keyExtractor={i => i.id.toString()}
+                                             renderItem={it => <TripCard trip={it.item} />}
+                />}
+            </Center>
+
         </Page>
     )
 }
+
+const styles = StyleSheet.create({
+    root: {
+
+    },
+    list: {
+        padding: 16,
+    }
+})
 
 export default TripHomePage;

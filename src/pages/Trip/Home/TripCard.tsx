@@ -1,18 +1,33 @@
 import React from "react";
 import {Image, Text, StyleSheet, View} from "react-native";
+import {Trip} from "../../../contexts/TripContext";
 
-interface TripCardProps {
-
+type Props = {
+    trip: Trip
 }
 
-const TripCard = ({}: TripCardProps) => {
+const formatDate = ({startDate, endDate}: Trip): string => {
+    const now = new Date();
+    console.dir(startDate);
+    if (now.getTime() > endDate.getTime())
+        return "Trip finished"
+    if (now.getTime() > startDate.getTime()) {
+        return "Already started"
+    }
+    return [startDate.getDate(), startDate.getMonth() + 1, startDate.getFullYear()]
+        .map(it => it < 10 ? "0" + it : "" + it)
+        .join(".")
+}
+
+
+const TripCard = ({trip}: Props) => {
     return (
         <View style={styles.card}>
             <Image source={{uri: "http://unsplash.it/365/176"}} style={styles.image}/>
             <View style={styles.description}>
-                <Text style={styles.title}>Japanese Trip 2021</Text>
-                <View style={{flex:1}}/>
-                <Text style={styles.date}>Already started</Text>
+                <Text style={styles.title}>{trip.name}</Text>
+                <View style={{flex: 1}}/>
+                <Text style={styles.date}>{formatDate(trip)}</Text>
             </View>
 
         </View>

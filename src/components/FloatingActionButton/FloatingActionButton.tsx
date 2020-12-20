@@ -10,7 +10,7 @@ interface FloatingActionButtonProps {
 }
 
 const FloatingActionButton = ({onPress, onRight}: FloatingActionButtonProps) => {
-    const {colors, start, end} = useThemeContext().color.primary
+    const {colors, start, end} = useThemeContext().colors.fab
     const offset = onRight ? styles.containerRight : styles.containerMiddle
     return (
         <TouchableOpacity style={[styles.container, offset]} onPress={onPress}>

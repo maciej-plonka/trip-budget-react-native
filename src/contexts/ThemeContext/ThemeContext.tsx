@@ -1,53 +1,61 @@
 import React, {createContext, useContext} from "react";
 
-type GradientPosition = [number, number]
-type GradientColor = [string, string]
+const gradients = {
+    green: {
+        colors: ["#52E07A", "#4AC9AA"],
+        start: [0, 1],
+        end: [1, 0]
+    } as Gradient,
 
-interface Gradient {
-    colors: GradientColor
-    start: GradientPosition
-    end: GradientPosition
+    purple: {
+        colors: ["#7F7DF2", "#C772EF"],
+        start: [0, 1],
+        end: [1, 0]
+    } as Gradient,
+    purpleReversed: {
+        colors: ["#C772EF", "#7F7DF2"],
+        start: [0, 1],
+        end: [1, 0]
+    } as Gradient,
+    orange: {
+        colors: ["#EF7297", "#FCC87B"],
+        start: [0, 1],
+        end: [1, 0]
+    } as Gradient,
+    red: {
+        colors:  ["#D04545", "#EF7297"],
+        start: [0, 1],
+        end: [1, 0]
+    } as Gradient,
 }
 
 interface Theme {
     background: string,
-    color: {
-        budget: Gradient,
-        shoppingList: Gradient
+    colors: {
+        headers: {
+            budget: Gradient,
+            shoppingList: Gradient
+        },
+        fab: Gradient,
         primary: Gradient,
         secondary: Gradient,
         remove: Gradient
+
     }
+
 }
 
 const theme: Theme = {
     background: "#EEF1F5",
-    color: {
-        budget: {
-            colors: ["#EF7297", "#FCC87B"],
-            start: [0, 1],
-            end: [1, 0]
+    colors: {
+        headers: {
+            budget: gradients.orange,
+            shoppingList: gradients.purple,
         },
-        shoppingList: {
-            colors: ["#7F7DF2", "#C772EF"],
-            start: [0, 1],
-            end: [1, 0]
-        },
-        primary: {
-            colors: ["#52E07A", "#4AC9AA"],
-            start: [0, 1],
-            end: [1, 0]
-        },
-        secondary: {
-            colors: ["#C772EF", "#7F7DF2"],
-            start: [0, 1],
-            end: [1, 0]
-        },
-        remove: {
-            colors: ["#D04545", "#EF7297"],
-            start: [0, 1],
-            end: [1, 0]
-        }
+        fab: gradients.green,
+        primary: gradients.green,
+        secondary: gradients.purpleReversed,
+        remove: gradients.red
     }
 }
 

@@ -5,7 +5,7 @@ import ColoredBackground from "../../ColoredBackground";
 
 type Props = {
     icon: ButtonIcon,
-    color: string | Gradient
+    color: Color
     text?: string
     onClick: () => void
 }

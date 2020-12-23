@@ -4,13 +4,14 @@ import React from "react";
 import Header from "../components/Header";
 import FloatingActionButton from "../components/FloatingActionButton";
 import {useThemeContext} from "../contexts/ThemeContext";
+import ColoredBackground from "../components/ColoredBackground";
 
 type Props = {
     headerTabs?: Tab[],
-    headerColor?: string | Gradient,
+    headerColor?: Color,
     title: string,
     fab?: {
-        onRight?: boolean,
+        position: "center" | "right"
         onPress: () => void
     }
     children?: React.ReactNode
@@ -18,16 +19,15 @@ type Props = {
 
 const Page = ({title, headerTabs = [], headerColor = 'white', fab, children}: Props) => {
     const theme = useThemeContext();
-    const containerWithBackgroundColor = [styles.container, {backgroundColor: theme.background}];
     return (
         <Tabs initialTabs={headerTabs}>
-            <View style={containerWithBackgroundColor}>
+            <ColoredBackground color={theme.background} styles={styles.container}>
                 <Header color={headerColor} title={title}/>
                 <View style={styles.content}>
                     {children}
                 </View>
-            </View>
-            {fab && <FloatingActionButton onPress={fab.onPress} onRight={fab.onRight}/>}
+            </ColoredBackground>
+            {fab && <FloatingActionButton onPress={fab.onPress} onRight={fab.position === "right"}/>}
         </Tabs>
     )
 }

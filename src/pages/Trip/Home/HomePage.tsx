@@ -1,34 +1,33 @@
 import React from "react";
 import Page from "../../Page";
 import {TripNavigationProps} from "../TripParamList";
-import {FlatList, StyleSheet, Text} from "react-native";
+import {FlatList, StyleSheet, Text, TouchableOpacity} from "react-native";
 import Center from "../../../components/Center/Center";
 import {useTripsContext} from "../../../contexts/TripContext";
 import TripCard from "./TripCard";
 
 const TripHomePage: React.FC<TripNavigationProps<"HomePage">> = ({navigation}) => {
-    const onFabPress = () => navigation.push("CreateNewTripPage");
     const trips = useTripsContext();
-
+    const onFabPress = () => navigation.push("CreateNewTripPage");
+    const Content = !trips.length
+        ? <Text>No trip yet :)</Text>
+        : <FlatList style={styles.list} data={trips} keyExtractor={it => it.id.toString()}
+                    renderItem={it => (
+                        <TouchableOpacity
+                            onLongPress={() => navigation.push("UpdateTripPage", {tripId: it.item.id})}>
+                            <TripCard trip={it.item}/>
+                        </TouchableOpacity>
+                    )}/>
     return (
-        <Page title={"Trip Planner"} fab={{onPress: onFabPress, onRight: true}}>
-            <Center styles={styles.root}>
-                {!trips.length && <Text>No trip yet :)</Text>}
-                {!!trips.length && <FlatList style={styles.list}
-                                            data={trips}
-                                             keyExtractor={i => i.id.toString()}
-                                             renderItem={it => <TripCard trip={it.item} />}
-                />}
+        <Page title={"Trip Planner"} fab={{onPress: onFabPress, position: "right"}}>
+            <Center>
+                {Content}
             </Center>
-
         </Page>
     )
 }
 
 const styles = StyleSheet.create({
-    root: {
-
-    },
     list: {
         padding: 16,
     }

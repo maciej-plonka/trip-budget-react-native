@@ -3,7 +3,8 @@ import {RouteProp} from "@react-navigation/native";
 
 export type TripParamList = {
     HomePage: undefined
-    CreateNewTripPage: undefined
+    CreateNewTripPage: undefined,
+    UpdateTripPage: { tripId: number }
 }
 
 export type TripNavigationProps<T extends keyof TripParamList> = {

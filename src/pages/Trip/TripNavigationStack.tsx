@@ -3,6 +3,7 @@ import {createStackNavigator} from "@react-navigation/stack";
 import HomePage from "./Home";
 import {TripParamList} from "./TripParamList"
 import CreateNewTripPage from "./Create";
+import UpdateTripPage from "./Update";
 
 const Stack = createStackNavigator<TripParamList>();
 
@@ -15,6 +16,7 @@ export default function TripNavigationStack() {
         <Stack.Navigator initialRouteName={"HomePage"} screenOptions={screenOptions}>
             <Stack.Screen name={"HomePage"} component={HomePage} />
             <Stack.Screen name={"CreateNewTripPage"} component={CreateNewTripPage}/>
+            <Stack.Screen name={"UpdateTripPage"} component={UpdateTripPage}/>
         </Stack.Navigator>
     )
 }

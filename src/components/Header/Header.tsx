@@ -6,20 +6,21 @@ import ColoredBackground from "../ColoredBackground";
 
 
 type Props = {
-    color: string | Gradient,
+    color: Color,
     title: string,
 }
 
+const isGradient = (color:Color) => typeof color !== 'string'
+
 const Header = ({color, title}: Props) => {
     const {tabs} = useTabContext()
-    const isGradient = typeof color !== 'string'
-    const height = (tabs && tabs.length) ? 124 : 82;
-    const titleColor = isGradient ? 'white' : 'black'
-    const backgroundStyle = [styles.container, StyleSheet.absoluteFill ,isGradient && styles.containerLeft];
-    const titleWrapperStyle = [styles.title, isGradient && styles.titleLeft];
+    const rootStyles = {height: (tabs && tabs.length) ? 124 : 82 }
+    const titleColor = isGradient(color) ? 'white' : 'black'
+    const backgroundStyle = [styles.container, StyleSheet.absoluteFill ,isGradient(color) && styles.containerLeft];
+    const titleWrapperStyle = [styles.title, isGradient(color) && styles.titleLeft];
     const titleTextStyle = [styles.titleText, {color: titleColor}];
     return (
-        <View style={{height}}>
+        <View style={rootStyles}>
             <ColoredBackground styles={backgroundStyle} color={color}>
                 <View style={titleWrapperStyle}>
                     <Text style={titleTextStyle}>{title}</Text>

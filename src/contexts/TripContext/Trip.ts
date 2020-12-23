@@ -1,5 +1,5 @@
 export type Trip = {
-    id:number,
+    id: number,
     name: string,
     startDate: Date,
     endDate: Date,
@@ -7,6 +7,14 @@ export type Trip = {
 }
 
 export type NewTrip = {
+    name: string,
+    startDate: Date,
+    endDate: Date,
+    totalBudget: number
+}
+
+export type UpdateTrip = {
+    id: number,
     name: string,
     startDate: Date,
     endDate: Date,

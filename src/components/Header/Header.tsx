@@ -1,8 +1,8 @@
 import React from "react";
 import {StyleSheet, Text, View} from "react-native";
-import HeaderBackground from "./HeaderBackground";
 import {useTabContext} from "../../contexts/TabContext";
 import HeaderTabs from "./HeaderTabs";
+import ColoredBackground from "../ColoredBackground";
 
 
 type Props = {
@@ -15,17 +15,17 @@ const Header = ({color, title}: Props) => {
     const isGradient = typeof color !== 'string'
     const height = (tabs && tabs.length) ? 124 : 82;
     const titleColor = isGradient ? 'white' : 'black'
-    const backgroundStyle = [styles.container, isGradient && styles.containerLeft];
+    const backgroundStyle = [styles.container, StyleSheet.absoluteFill ,isGradient && styles.containerLeft];
     const titleWrapperStyle = [styles.title, isGradient && styles.titleLeft];
     const titleTextStyle = [styles.titleText, {color: titleColor}];
     return (
         <View style={{height}}>
-            <HeaderBackground style={backgroundStyle} color={color}>
+            <ColoredBackground styles={backgroundStyle} color={color}>
                 <View style={titleWrapperStyle}>
                     <Text style={titleTextStyle}>{title}</Text>
                 </View>
                 <HeaderTabs color={titleColor}/>
-            </HeaderBackground>
+            </ColoredBackground>
         </View>
     )
 }

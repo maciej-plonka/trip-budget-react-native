@@ -1,8 +1,8 @@
 import React from "react";
 import {StyleSheet, TouchableOpacity} from "react-native";
-import {LinearGradient} from "expo-linear-gradient";
 import {useThemeContext} from "../../contexts/ThemeContext";
 import {MaterialCommunityIcons} from '@expo/vector-icons';
+import ColoredBackground from "../ColoredBackground";
 
 interface FloatingActionButtonProps {
     onPress: () => void,
@@ -10,13 +10,13 @@ interface FloatingActionButtonProps {
 }
 
 const FloatingActionButton = ({onPress, onRight}: FloatingActionButtonProps) => {
-    const {colors, start, end} = useThemeContext().colors.fab
+    const color = useThemeContext().colors.fab
     const offset = onRight ? styles.containerRight : styles.containerMiddle
     return (
         <TouchableOpacity style={[styles.container, offset]} onPress={onPress}>
-            <LinearGradient colors={colors} start={start} end={end} style={[StyleSheet.absoluteFill, styles.fab]} >
+            <ColoredBackground color={color} styles={[StyleSheet.absoluteFill, styles.fab]}>
                 <MaterialCommunityIcons name={"plus"} size={48} color={"white"}/>
-            </LinearGradient>
+            </ColoredBackground>
         </TouchableOpacity>
     )
 }

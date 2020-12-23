@@ -1,5 +1,6 @@
 import React from "react";
 import {MaterialCommunityIcons, MaterialIcons} from '@expo/vector-icons';
+
 type Props = {
     icon: ButtonIcon
 }

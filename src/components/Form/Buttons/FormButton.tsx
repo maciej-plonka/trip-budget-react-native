@@ -1,7 +1,7 @@
 import React from "react";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import FormButtonBackground from "./FormButtonBackground";
 import FormButtonIcon from "./FormButtonIcon";
+import ColoredBackground from "../../ColoredBackground";
 
 type Props = {
     icon: ButtonIcon,
@@ -14,10 +14,10 @@ const FormButton = ({color, icon, text, onClick}: Props) => {
     const textComponent = text != null ? <Text style={styles.text}>{text}</Text> : <View/>
     return (
         <TouchableOpacity onPress={() => onClick()}>
-            <FormButtonBackground style={styles.root} color={color}>
+            <ColoredBackground color={color} styles={styles.root}>
                 {icon && <FormButtonIcon icon={icon}/>}
                 {textComponent}
-            </FormButtonBackground>
+            </ColoredBackground>
         </TouchableOpacity>
     )
 }

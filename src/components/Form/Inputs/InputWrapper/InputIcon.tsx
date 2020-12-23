@@ -1,5 +1,5 @@
 import React from "react";
-import {MaterialCommunityIcons, FontAwesome5} from "@expo/vector-icons";
+import {FontAwesome5, MaterialCommunityIcons} from "@expo/vector-icons";
 import {StyleProp, StyleSheet, View, ViewStyle} from "react-native";
 
 type Props = {

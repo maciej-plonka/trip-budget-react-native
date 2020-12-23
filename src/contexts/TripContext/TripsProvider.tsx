@@ -1,6 +1,6 @@
 import React from "react"
 import {TripsContext} from "./TripsContext";
-import {Serializer, useAsyncStorageState} from "../../hooks/AsyncStorageState";
+import {useAsyncStorageState} from "../../hooks/AsyncStorageState";
 import {TripsDispatch, TripsDispatchContext} from "./TripsDispatchContext";
 import {NewTrip, Trip} from "./Trip";
 import TripSerializer from "./TripSerializer";

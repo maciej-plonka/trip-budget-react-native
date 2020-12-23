@@ -14,9 +14,14 @@ const formatDate = ({startDate, endDate}: Trip): string => {
     if (now.getTime() > startDate.getTime()) {
         return "Already started"
     }
-    return [startDate.getDate(), startDate.getMonth() + 1, startDate.getFullYear()]
-        .map(it => it < 10 ? "0" + it : "" + it)
-        .join(".")
+    const daysLeft = Math.floor((startDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+    if(daysLeft == 0)  {
+        return "Already started"
+    }
+    if(daysLeft == 1){
+        return "Starts tomorrow"
+    }
+    return `Starts in ${daysLeft} days...`
 }
 
 

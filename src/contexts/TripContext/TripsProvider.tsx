@@ -1,7 +1,6 @@
-import React, {useContext} from "react";
-import {createContext} from "react";
-import {TripAction, Trip, TripReducer, TripSerializer} from "../../domain/Trip";
-import {AsyncDispatch, useAsyncStorageReducer} from "../../hooks/AsyncStorageReducer";
+import React, {createContext, useContext} from "react";
+import {Trip, TripAction, useTripReducer} from "../../domain/Trip";
+import {AsyncDispatch} from "../../hooks/AsyncStorageReducer";
 
 const TripContext = createContext<Readonly<Trip[]>>([])
 export const useTripContext = () => useContext(TripContext);
@@ -12,7 +11,7 @@ type Props = {
     children?: React.ReactNode
 }
 export const TripsProvider = ({children}: Props) => {
-    const [value, dispatcher] = useAsyncStorageReducer<Trip[], TripAction>("trips", TripReducer, [], TripSerializer);
+    const [value, dispatcher] = useTripReducer();
     return (
         <TripContext.Provider value={value}>
             <TripDispatchContext.Provider value={dispatcher}>

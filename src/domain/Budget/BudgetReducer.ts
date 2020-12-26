@@ -1,5 +1,6 @@
-import {Reducer} from "../../hooks/AsyncStorageReducer";
+import {Reducer, useAsyncStorageReducer} from "../../hooks/AsyncStorageReducer";
 import {Budget} from "./Types";
+import BudgetSerializer from "./BudgetSerializer";
 
 type ReducerAction =
     { type: "create", newBudget: { tripId: number, value: Money } } |
@@ -24,4 +25,6 @@ const BudgetReducer: Reducer<Budget[], ReducerAction> = (state, action) => {
     return state
 }
 
-export default BudgetReducer;
+
+const useBudgetReducer = () => useAsyncStorageReducer("budget", BudgetReducer, [], BudgetSerializer);
+export default useBudgetReducer;

@@ -1,12 +1,13 @@
 import {NewTrip, UpdateTrip, Trip} from "./Types";
-import {Reducer} from "../../hooks/AsyncStorageReducer";
+import {Reducer, useAsyncStorageReducer} from "../../hooks/AsyncStorageReducer";
+import {TripSerializer} from "./index";
 
 export type TripAction =
     { type: "create", newTrip: NewTrip } |
     { type: "update", updateTrip: UpdateTrip }
 
 
-export const TripReducer: Reducer<Trip[], TripAction> = (state, action) => {
+const TripReducer: Reducer<Trip[], TripAction> = (state, action) => {
     switch (action.type) {
         case "create":
             const nextId = state.map(it => it.id).reduce((a, b) => a > b ? a : b, 0) + 1
@@ -20,3 +21,6 @@ export const TripReducer: Reducer<Trip[], TripAction> = (state, action) => {
             return state.map(it => it.id === targetTrip.id ? ({...targetTrip}) : ({...it}))
     }
 }
+
+
+export const useTripReducer = () => useAsyncStorageReducer("trips", TripReducer, [], TripSerializer);

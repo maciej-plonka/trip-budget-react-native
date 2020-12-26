@@ -1,14 +1,14 @@
 import React, {useState} from "react";
 import {TripNavigationProps} from "../TripParamList";
 import {UpdateTrip, useTripsContext, useTripsDispatchContext} from "../../../contexts/TripContext";
-import {StyleSheet} from "react-native";
+import {StyleSheet, View} from "react-native";
 import Page from "../../Page";
 import Center from "../../../components/Center/Center";
 import {FormButtonRow, FormCalendarInput, FormCard, FormTextInput, FormUpdateButton} from "../../../components/Form";
 
 const pageTitle = "Update trip"
 
-const buildUpdateTrip = (id:number, name: string, startDate: Date, endDate:Date, totalBudget: number): UpdateTrip => ({
+const buildUpdateTrip = (id: number, name: string, startDate: Date, endDate: Date, totalBudget: number): UpdateTrip => ({
     id,
     name,
     startDate,
@@ -16,12 +16,12 @@ const buildUpdateTrip = (id:number, name: string, startDate: Date, endDate:Date,
     totalBudget
 })
 
-const UpdateTripPage = ({navigation, route}: TripNavigationProps<"UpdateTripPage">) => {
+const UpdateTripPage: React.FC<TripNavigationProps<"UpdateTripPage">> = ({navigation, route}) => {
     const {tripId} = route.params
     const trip = useTripsContext().find(it => it.id === tripId)
     if (!trip) {
         navigation.goBack();
-        return;
+        return (<View/>);
     }
     const {updateTrip} = useTripsDispatchContext()
     const [name, setName] = useState(trip.name)

@@ -19,7 +19,7 @@ export const useAsyncStorageState = <T>(key: string, initialValue: T, serializer
             .then(json => json && serializer.fromJson(json))
             .then(item => item && setState(item))
             .catch(error => console.error(error));
-    }, [initialValue]);
+    }, []);
 
     const updateState = useCallback(async (newState: SetStateParam<T>) => {
         // @ts-ignore

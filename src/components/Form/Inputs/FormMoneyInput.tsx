@@ -3,7 +3,7 @@ import InputWrapper from "./InputWrapper";
 import {StyleSheet, TextInput} from "react-native";
 
 type Props = BaseInputProps<number> & {
-    currency?: string
+    currency?: Currency
 }
 const FormMoneyInput = (props: Props) => {
     const icon = props.icon || "money"

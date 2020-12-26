@@ -5,6 +5,7 @@ import {StyleSheet, View} from "react-native";
 import Page from "../../Page";
 import Center from "../../../components/Center/Center";
 import {FormButtonRow, FormCalendarInput, FormCard, FormTextInput, FormUpdateButton} from "../../../components/Form";
+import BudgetProgress from "../../../components/BudgetProgress";
 
 const pageTitle = "Update trip"
 
@@ -40,6 +41,8 @@ const UpdateTripPage: React.FC<TripNavigationProps<"UpdateTripPage">> = ({naviga
                     <FormTextInput icon={"name"} label={"Name"} value={name} onChanged={setName}/>
                     <FormCalendarInput label={"Start date"} value={startDate} onChanged={setStartDate}/>
                     <FormCalendarInput label={"End date"} value={endDate} onChanged={setEndDate}/>
+
+                    <BudgetProgress  label={"Budget"} maxValue={trip.totalBudget} currentValue={0}  spaceBelow/>
                     <FormButtonRow right>
                         <FormUpdateButton onClick={handleUpdate}/>
                     </FormButtonRow>

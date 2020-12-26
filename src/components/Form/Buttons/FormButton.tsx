@@ -14,7 +14,7 @@ const FormButton = ({color, icon, text, onClick}: Props) => {
     const textComponent = text != null ? <Text style={styles.text}>{text}</Text> : <View/>
     return (
         <TouchableOpacity onPress={() => onClick()}>
-            <ColoredBackground color={color} styles={styles.root}>
+            <ColoredBackground color={color} style={styles.root}>
                 {icon && <FormButtonIcon icon={icon}/>}
                 {textComponent}
             </ColoredBackground>

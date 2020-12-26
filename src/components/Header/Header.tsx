@@ -21,7 +21,7 @@ const Header = ({color, title}: Props) => {
     const titleTextStyle = [styles.titleText, {color: titleColor}];
     return (
         <View style={rootStyles}>
-            <ColoredBackground styles={backgroundStyle} color={color}>
+            <ColoredBackground style={backgroundStyle} color={color}>
                 <View style={titleWrapperStyle}>
                     <Text style={titleTextStyle}>{title}</Text>
                 </View>

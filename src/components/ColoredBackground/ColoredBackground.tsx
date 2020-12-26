@@ -4,21 +4,21 @@ import {LinearGradient} from "expo-linear-gradient";
 
 type Props = {
     color: Color,
-    styles?: StyleProp<ViewStyle>
+    style?: StyleProp<ViewStyle>
     children?: React.ReactNode
 }
-const ColoredBackground = ({color, styles, children}: Props) => {
+const ColoredBackground = ({color, style, children}: Props) => {
     if (typeof color === 'string') {
         const backgroundColor = {backgroundColor: color}
         return (
-            <View style={[backgroundColor, styles]}>
+            <View style={[backgroundColor, style]}>
                 {children}
             </View>
         )
     }
     const {colors, start, end} = color
     return (
-        <LinearGradient style={styles} colors={colors} start={start} end={end}>
+        <LinearGradient style={style} colors={colors} start={start} end={end}>
             {children}
         </LinearGradient>
     )

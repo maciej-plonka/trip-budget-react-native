@@ -21,7 +21,7 @@ const Page = ({title, headerTabs = [], headerColor = 'white', fab, children}: Pr
     const theme = useThemeContext();
     return (
         <Tabs initialTabs={headerTabs}>
-            <ColoredBackground color={theme.background} styles={styles.container}>
+            <ColoredBackground color={theme.background} style={styles.container}>
                 <Header color={headerColor} title={title}/>
                 <View style={styles.content}>
                     {children}

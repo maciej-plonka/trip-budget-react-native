@@ -14,7 +14,7 @@ const FloatingActionButton = ({onPress, onRight}: FloatingActionButtonProps) => 
     const offset = onRight ? styles.containerRight : styles.containerMiddle
     return (
         <TouchableOpacity style={[styles.container, offset]} onPress={onPress}>
-            <ColoredBackground color={color} styles={[StyleSheet.absoluteFill, styles.fab]}>
+            <ColoredBackground color={color} style={[StyleSheet.absoluteFill, styles.fab]}>
                 <MaterialCommunityIcons name={"plus"} size={48} color={"white"}/>
             </ColoredBackground>
         </TouchableOpacity>

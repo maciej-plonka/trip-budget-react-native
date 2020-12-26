@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     wrapper: {
         flexDirection: "row",
         alignItems: "flex-end",
-        marginBottom: 8
+        marginBottom: 16
     },
     label: {
         fontSize: 12

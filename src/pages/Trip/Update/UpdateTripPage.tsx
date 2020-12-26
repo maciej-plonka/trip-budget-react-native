@@ -1,11 +1,12 @@
 import React, {useState} from "react";
 import {TripNavigationProps} from "../TripParamList";
-import {UpdateTrip, useTripsContext, useTripsDispatchContext} from "../../../contexts/TripContext";
+import { useTripContext, useTripDispatchContext} from "../../../contexts/TripContext";
 import {StyleSheet, View} from "react-native";
 import Page from "../../Page";
 import Center from "../../../components/Center/Center";
 import {FormButtonRow, FormCalendarInput, FormCard, FormTextInput, FormUpdateButton} from "../../../components/Form";
 import BudgetProgress from "../../../components/BudgetProgress";
+import {UpdateTrip} from "../../../domain/Trip";
 
 const pageTitle = "Update trip"
 
@@ -19,19 +20,19 @@ const buildUpdateTrip = (id: number, name: string, startDate: Date, endDate: Dat
 
 const UpdateTripPage: React.FC<TripNavigationProps<"UpdateTripPage">> = ({navigation, route}) => {
     const {tripId} = route.params
-    const trip = useTripsContext().find(it => it.id === tripId)
+    const trip = useTripContext().find(it => it.id === tripId)
     if (!trip) {
         navigation.goBack();
         return (<View/>);
     }
-    const {updateTrip} = useTripsDispatchContext()
+    const dispatch = useTripDispatchContext();
     const [name, setName] = useState(trip.name)
     const [startDate, setStartDate] = useState<Date>(trip.startDate)
     const [endDate, setEndDate] = useState<Date>(trip.endDate)
 
     const handleUpdate = async () => {
-        const tripToUpdate = buildUpdateTrip(trip.id, name, startDate, endDate, trip.totalBudget);
-        await updateTrip(tripToUpdate);
+        const updateTrip = buildUpdateTrip(trip.id, name, startDate, endDate, trip.totalBudget);
+        await dispatch({type: "update", updateTrip})
         navigation.goBack();
     }
     return (
@@ -42,7 +43,7 @@ const UpdateTripPage: React.FC<TripNavigationProps<"UpdateTripPage">> = ({naviga
                     <FormCalendarInput label={"Start date"} value={startDate} onChanged={setStartDate}/>
                     <FormCalendarInput label={"End date"} value={endDate} onChanged={setEndDate}/>
 
-                    <BudgetProgress  label={"Budget"} maxValue={trip.totalBudget} currentValue={0}  spaceBelow/>
+                    <BudgetProgress label={"Budget"} maxValue={trip.totalBudget} currentValue={0} spaceBelow/>
                     <FormButtonRow right>
                         <FormUpdateButton onClick={handleUpdate}/>
                     </FormButtonRow>

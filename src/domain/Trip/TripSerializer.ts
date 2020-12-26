@@ -1,5 +1,5 @@
-import {Trip} from "./Trip";
-import {Serializer} from "../../hooks/AsyncStorageState";
+import {Serializer} from "../../hooks";
+import {Trip} from "./Types";
 
 type SerializedTrip = {
     id: number,

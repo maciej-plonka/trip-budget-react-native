@@ -1,15 +1,10 @@
 import {useCallback, useEffect, useState} from "react";
 import {useAsyncStorage} from "@react-native-async-storage/async-storage"
+import {Serializer} from "../Serializer";
 
-type Consumer<T> = (t: T) => void
-type SetStateParam<T> = T | Consumer<T>
+type StateUpdater<T> = (previous: Readonly<T>) => T
 
-type Result<T> = [Readonly<T>, (value: SetStateParam<T>) => Promise<void>]
-
-export type Serializer<T> = {
-    toJson(value: T): string,
-    fromJson(json: string): T
-}
+type Result<T> = [Readonly<T>, (value: StateUpdater<T>) => Promise<void>]
 
 export const useAsyncStorageState = <T>(key: string, initialValue: T, serializer: Serializer<T>): Result<T> => {
     const [state, setState] = useState<T>(initialValue)
@@ -21,12 +16,11 @@ export const useAsyncStorageState = <T>(key: string, initialValue: T, serializer
             .catch(error => console.error(error));
     }, []);
 
-    const updateState = useCallback(async (newState: SetStateParam<T>) => {
-        // @ts-ignore
-        const value = typeof newState === 'function' ? newState(state) : state
+    const updateState = useCallback(async (stateConsumer: StateUpdater<T>) => {
+        const value = stateConsumer(state)
         try {
-            value && await setItem(serializer.toJson(value))
-            value && setState(value)
+            await setItem(serializer.toJson(value))
+            setState(value)
         } catch (e) {
             console.error(e);
         }

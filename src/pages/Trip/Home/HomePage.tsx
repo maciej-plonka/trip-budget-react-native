@@ -1,14 +1,15 @@
-import React, {useCallback, useMemo} from "react";
+import React, {useCallback} from "react";
 import Page from "../../Page";
 import {TripNavigationProps} from "../TripParamList";
 import {FlatList, StyleSheet, Text, TouchableOpacity} from "react-native";
 import Center from "../../../components/Center/Center";
-import {Trip, useTripsContext} from "../../../contexts/TripContext";
+import { useTripContext} from "../../../contexts/TripContext";
 import TripCard from "./TripCard";
+import {Trip} from "../../../domain/Trip";
 
 const keyExtractor = ({id}: { id: number }) => id.toString()
 const TripHomePage: React.FC<TripNavigationProps<"HomePage">> = ({navigation}) => {
-    const trips = useTripsContext();
+    const trips = useTripContext()
     const onFabPress = useCallback(() => navigation.push("CreateNewTripPage"), []);
     const renderItem = useCallback(({item}: { item: Trip }) => (
         <TouchableOpacity onLongPress={() => navigation.push("UpdateTripPage", {tripId: item.id})}>

@@ -10,7 +10,7 @@ import {
     FormTextInput
 } from "../../../components/Form";
 import Center from "../../../components/Center/Center";
-import {useTripsDispatchContext} from "../../../contexts/TripContext";
+import {useTripDispatchContext} from "../../../contexts/TripContext";
 
 const dayLater = (date: Date): Date => {
     const newDate = new Date();
@@ -24,18 +24,16 @@ const CreateNewTripPage: React.FC<TripNavigationProps<"CreateNewTripPage">> = ({
     const [endDate, setEndDate] = useState<Date>(dayLater(startDate));
     const [totalBudget, setTotalBudget] = useState<number>(0)
 
-    const {addTrip} = useTripsDispatchContext();
+    const dispatch = useTripDispatchContext();
 
     const onSubmit = async () => {
-        const trip = {name, startDate, endDate, totalBudget}
+        const newTrip = {name, startDate, endDate, totalBudget}
         try {
-            await addTrip(trip)
+            await dispatch({type: "create", newTrip})
             navigation.goBack();
         }catch {
-            console.error(`Error while creating trip: ${JSON.stringify(trip)}`);
+            console.error(`Error while creating trip: ${JSON.stringify(newTrip)}`);
         }
-
-
     }
     return (
         <Page title={"Create trip"}>

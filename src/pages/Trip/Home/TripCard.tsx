@@ -1,6 +1,6 @@
 import React from "react";
 import {Image, StyleSheet, Text, View} from "react-native";
-import {Trip} from "../../../contexts/TripContext";
+import {Trip} from "../../../domain/Trip";
 
 type Props = {
     trip: Trip

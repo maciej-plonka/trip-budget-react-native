@@ -11,12 +11,12 @@ type Props = {
 }
 
 const FormButton = ({color, icon, text, onClick}: Props) => {
-    const textComponent = text != null ? <Text style={styles.text}>{text}</Text> : <View/>
+    const isFullWidth = !!icon && !!text
     return (
         <TouchableOpacity onPress={() => onClick()}>
-            <ColoredBackground color={color} style={styles.root}>
+            <ColoredBackground color={color} style={[styles.root, isFullWidth && styles.fullWidth]}>
                 {icon && <FormButtonIcon icon={icon}/>}
-                {textComponent}
+                {text && <Text style={styles.text}>{text}</Text> }
             </ColoredBackground>
         </TouchableOpacity>
     )
@@ -24,15 +24,21 @@ const FormButton = ({color, icon, text, onClick}: Props) => {
 
 const styles = StyleSheet.create({
     root: {
+        marginLeft: 8,
         flexDirection: "row",
         paddingVertical: 12,
-        paddingHorizontal: 16,
+        paddingHorizontal: 12,
         borderRadius: 24,
         justifyContent: "center",
         alignItems: "center"
     },
+    fullWidth: {
+        maxWidth: 120,
+    },
+
     text: {
-        color: "white"
-    }
+        color: "white",
+        marginLeft: 4
+    },
 });
 export default FormButton;

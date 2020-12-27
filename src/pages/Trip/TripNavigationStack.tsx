@@ -4,6 +4,7 @@ import HomePage from "./Home";
 import {TripParamList} from "./TripParamList"
 import CreateNewTripPage from "./Create";
 import UpdateTripPage from "./Update";
+import UpdateTripBudgetPage from "./UpdateTripBudget";
 
 const Stack = createStackNavigator<TripParamList>();
 
@@ -17,6 +18,7 @@ export default function TripNavigationStack() {
             <Stack.Screen name={"HomePage"} component={HomePage} />
             <Stack.Screen name={"CreateNewTripPage"} component={CreateNewTripPage}/>
             <Stack.Screen name={"UpdateTripPage"} component={UpdateTripPage}/>
+            <Stack.Screen name={"UpdateTripBudgetPage"} component={UpdateTripBudgetPage}/>
         </Stack.Navigator>
     )
 }

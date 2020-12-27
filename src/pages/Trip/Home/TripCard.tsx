@@ -1,6 +1,7 @@
 import React from "react";
 import {Image, StyleSheet, Text, View} from "react-native";
 import {Trip} from "../../../domain/Trip";
+import {isToday, differenceInDays, isBefore, format} from "date-fns";
 
 type Props = {
     trip: Trip
@@ -9,19 +10,19 @@ type Props = {
 const formatDate = ({startDate, endDate}: Trip): string => {
     const now = new Date();
     console.dir(startDate);
-    if (now.getTime() > endDate.getTime())
+    if (isBefore(endDate, now)) {
         return "Trip finished"
-    if (now.getTime() > startDate.getTime()) {
+    }
+    if (isBefore(startDate, now) || isToday(startDate)) {
         return "Already started"
     }
-    const daysLeft = Math.floor((startDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-    if(daysLeft == 0)  {
-        return "Already started"
+    const daysLeft = differenceInDays(startDate, now);
+    if (daysLeft > 30) {
+        return format(startDate, "MM.dd.yyyy")
     }
-    if(daysLeft == 1){
-        return "Starts tomorrow"
-    }
-    return `Starts in ${daysLeft} days...`
+    return daysLeft == 1
+        ? "Starts tomorrow"
+        : `Starts in ${daysLeft} days`
 }
 
 

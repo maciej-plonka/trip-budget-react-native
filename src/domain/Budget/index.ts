@@ -1,2 +1,2 @@
-export {default as useBudgetReducer} from "./BudgetReducer"
+export * from "./BudgetReducer"
 export * from "./Types"

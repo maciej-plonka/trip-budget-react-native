@@ -2,11 +2,11 @@ import {Reducer, useAsyncStorageReducer} from "../../hooks/AsyncStorageReducer";
 import {Budget} from "./Types";
 import BudgetSerializer from "./BudgetSerializer";
 
-type ReducerAction =
+export type BudgetAction =
     { type: "create", newBudget: { tripId: number, value: Money } } |
     { type: "update", budgetToUpdate: Budget }
 
-const BudgetReducer: Reducer<Budget[], ReducerAction> = (state, action) => {
+const BudgetReducer: Reducer<Budget[], BudgetAction> = (state, action) => {
     switch (action.type) {
         case "create": {
             const nextId = state.map(it => it.id).reduce((a, b) => a > b ? a : b, 0) + 1
@@ -26,5 +26,4 @@ const BudgetReducer: Reducer<Budget[], ReducerAction> = (state, action) => {
 }
 
 
-const useBudgetReducer = () => useAsyncStorageReducer("budget", BudgetReducer, [], BudgetSerializer);
-export default useBudgetReducer;
+export const useBudgetReducer = () => useAsyncStorageReducer("budgets", BudgetReducer, [], BudgetSerializer);

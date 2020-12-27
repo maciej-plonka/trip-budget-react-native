@@ -7,7 +7,7 @@ export type Budget = {
 
 export type BudgetCategory = {
     id: number,
-    name: number,
+    name: string,
     color?: Color,
     value: Money
 }

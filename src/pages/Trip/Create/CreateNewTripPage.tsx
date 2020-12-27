@@ -10,7 +10,8 @@ import {
     FormTextInput
 } from "../../../components/Form";
 import Center from "../../../components/Center/Center";
-import {useTripDispatchContext} from "../../../contexts/TripContext";
+import {useTripContext, useTripDispatchContext} from "../../../contexts/TripContext";
+import {useBudgetsDispatcherContext} from "../../../contexts/BudgetsContext";
 
 const dayLater = (date: Date): Date => {
     const newDate = new Date();
@@ -24,15 +25,19 @@ const CreateNewTripPage: React.FC<TripNavigationProps<"CreateNewTripPage">> = ({
     const [endDate, setEndDate] = useState<Date>(dayLater(startDate));
     const [totalBudget, setTotalBudget] = useState<number>(0)
 
-    const dispatch = useTripDispatchContext();
-
+    const tripDispatch = useTripDispatchContext();
+    const budgetDispatch = useBudgetsDispatcherContext()
+    const tripId = useTripContext().map(it => it.id).reduce((a, b) => a > b ? a : b, 0) + 1
     const onSubmit = async () => {
-        const newTrip = {name, startDate, endDate, totalBudget}
+        const newTrip = {id: tripId,name, startDate, endDate, totalBudget}
         try {
-            await dispatch({type: "create", newTrip})
+            await tripDispatch({type: "create", newTrip})
+            const budgetAsMoney = {amount: totalBudget, currency: "¥"} as Money
+            const newBudget = {tripId, value: budgetAsMoney};
+            await budgetDispatch({type: "create", newBudget})
             navigation.goBack();
-        }catch {
-            console.error(`Error while creating trip: ${JSON.stringify(newTrip)}`);
+        } catch(e) {
+            console.error(`Error while creating trip: ${JSON.stringify(newTrip)}`, e);
         }
     }
     return (

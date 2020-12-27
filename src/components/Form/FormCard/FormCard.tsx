@@ -1,14 +1,14 @@
 import React from "react";
-import {StyleSheet} from "react-native";
+import {StyleProp, StyleSheet, ViewStyle} from "react-native";
 import Card from "../../Card";
-
 type Props = {
-    children?: React.ReactNode
+    children?: React.ReactNode,
+    style?: StyleProp<ViewStyle>
 }
 
-const FormCard: React.FC<Props> = ({children}) => {
+const FormCard = ({children, style}: Props) => {
     return (
-        <Card style={styles.root}>
+        <Card style={[styles.root, style]}>
             {children}
         </Card>
     )
@@ -17,7 +17,6 @@ const FormCard: React.FC<Props> = ({children}) => {
 const styles = StyleSheet.create({
     root: {
         flexDirection: "column",
-        minHeight: 200,
         padding: 16,
         paddingHorizontal: 24,
     }

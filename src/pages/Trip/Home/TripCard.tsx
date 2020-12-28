@@ -1,7 +1,7 @@
 import React from "react";
 import {Image, StyleSheet, Text, View} from "react-native";
-import {Trip} from "../../../domain/Trip";
-import {isToday, differenceInDays, isBefore, format} from "date-fns";
+import {differenceInDays, format, isBefore, isToday} from "date-fns";
+import {Trip} from "../../../store/states";
 
 type Props = {
     trip: Trip

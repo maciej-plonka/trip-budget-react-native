@@ -3,19 +3,21 @@ import React from 'react';
 import Theme from "./src/contexts/ThemeContext";
 import {NavigationContainer} from "@react-navigation/native";
 import TripNavigationStack from "./src/pages/Trip";
-import {TripsProvider} from "./src/contexts/TripContext";
-import {BudgetsProvider} from "./src/contexts/BudgetsContext";
+import {Provider} from "react-redux";
+import {persistor, store} from "./src/store";
+import {PersistGate} from "redux-persist/integration/react";
 
 export default function App() {
     return (
         <Theme>
-            <TripsProvider>
-                <BudgetsProvider>
+            <Provider store={store}>
+                <PersistGate persistor={persistor} loading={null}>
                     <NavigationContainer>
-                    <TripNavigationStack/>
-                </NavigationContainer>
-                </BudgetsProvider>
-            </TripsProvider>
+                        <TripNavigationStack/>
+                    </NavigationContainer>
+                </PersistGate>
+
+            </Provider>
         </Theme>
     )
 }

@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {TripNavigationProps} from "../TripParamList";
-import {useTripContext, useTripDispatchContext} from "../../../contexts/TripContext";
 import {Alert, StyleSheet, ToastAndroid, View} from "react-native";
 import Page from "../../Page";
 import Center from "../../../components/Center/Center";
@@ -13,18 +12,12 @@ import {
     FormUpdateButton
 } from "../../../components/Form";
 import BudgetProgress from "../../../components/BudgetProgress";
-import {useBudgetByTripId} from "../../../contexts/BudgetsContext";
-import {Trip} from "../../../domain/Trip";
-import {Budget} from "../../../domain/Budget";
+import {useDispatch, useSelector} from "react-redux";
+import {selectBudgetByTripId, selectTripById} from "../../../store/selectors";
+import {deleteTrip, updateTrip} from "../../../store/actions";
+import {Budget, Trip} from "../../../store/states";
 
 const pageTitle = "Update trip"
-
-const buildUpdateTrip = (id: number, name: string, startDate: Date, endDate: Date): Trip => ({
-    id,
-    name,
-    startDate,
-    endDate,
-})
 
 const createDeleteAlert = (): Promise<boolean> => new Promise(resolve => {
     Alert.alert(
@@ -54,20 +47,20 @@ const calculateCurrentBudget = (budget: Budget) :Money => ({
 
 const UpdateTripPage: React.FC<TripNavigationProps<"UpdateTripPage">> = ({navigation, route}) => {
     const {tripId} = route.params
-    const trip = useTripContext().find(it => it.id === tripId)
+    const trip = useSelector(selectTripById(tripId))
     if (!trip) {
         navigation.goBack();
         return (<View/>);
     }
-    const dispatch = useTripDispatchContext();
-    const budget = useBudgetByTripId(trip.id)
+    const dispatch = useDispatch()
+    const budget = useSelector(selectBudgetByTripId(tripId))
     const [name, setName] = useState(trip.name)
     const [startDate, setStartDate] = useState<Date>(trip.startDate)
     const [endDate, setEndDate] = useState<Date>(trip.endDate)
 
     const handleUpdate = async () => {
-        const updateTrip = buildUpdateTrip(trip.id, name, startDate, endDate);
-        await dispatch({type: "update", updateTrip})
+        const tripToUpdate:Trip = {id: tripId, name, startDate, endDate}
+        dispatch(updateTrip(tripToUpdate))
         showMessage("Trip updated")
         navigation.goBack();
     }
@@ -77,7 +70,7 @@ const UpdateTripPage: React.FC<TripNavigationProps<"UpdateTripPage">> = ({naviga
         if(!shouldDelete){
             return;
         }
-        await dispatch({type: "delete", tripId: trip.id})
+        dispatch(deleteTrip(tripId))
         showMessage("Trip deleted")
     }
     const handleUpdateBudget =() => {

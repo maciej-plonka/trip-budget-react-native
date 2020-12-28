@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import {TripNavigationProps} from "../TripParamList";
 import {FlatList, Modal, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {useBudgetsContext, useBudgetsDispatcherContext} from "../../../contexts/BudgetsContext";
 import Page from "../../Page";
 import {
     FormAddButton,
@@ -12,10 +11,13 @@ import {
     FormTextInput,
     FormUpdateButton
 } from "../../../components/Form";
-import {Budget, BudgetCategory} from "../../../domain/Budget";
 import BudgetProgress from "../../../components/BudgetProgress";
 import Card from "../../../components/Card";
 import Center from "../../../components/Center/Center";
+import {useDispatch, useSelector} from "react-redux";
+import {selectBudgetByTripId} from "../../../store/selectors";
+import {updateBudget} from "../../../store/actions";
+import {Budget, BudgetCategory} from "../../../store/states";
 
 const lastId = (categories: BudgetCategory[]) => categories.map(it => it.id).reduce((a, b) => a > b ? a : b, 0)
 const createNewBudget = (id: number): BudgetCategory => ({
@@ -31,12 +33,12 @@ const calculateCurrentBudget = (categories: BudgetCategory[]) :Money => ({
 
 const formatMoney = ({amount, currency}: Money) => `${amount}${currency}`
 const UpdateTripBudgetPage = ({navigation, route}: TripNavigationProps<"UpdateTripBudgetPage">) => {
-    const budget = useBudgetsContext().find(it => it.tripId === route.params.tripId)
+    const budget = useSelector(selectBudgetByTripId(route.params.tripId))
     if (!budget) {
         navigation.goBack()
         return (<View/>)
     }
-    const dispatch = useBudgetsDispatcherContext()
+    const dispatch = useDispatch()
     const [totalBudget, setTotalBudget] = useState<number>(budget.value.amount)
     const [categories, setCategories] = useState<BudgetCategory[]>(budget.categories);
     const [selectedCategory, setSelectedCategory] = useState<BudgetCategory | null>(null)
@@ -65,13 +67,13 @@ const UpdateTripBudgetPage = ({navigation, route}: TripNavigationProps<"UpdateTr
         setSelectedCategory(category && JSON.parse(JSON.stringify(category)));
     }
 
-    const updateBudget = async () => {
+    const handleUpdateBudget = async () => {
         const budgetToUpdate: Budget = {
             ...budget,
             categories,
             value: {...budget.value, amount: totalBudget},
         }
-        await dispatch({type: "update", budgetToUpdate})
+        dispatch(updateBudget(budgetToUpdate))
         navigation.goBack()
     }
 
@@ -83,7 +85,7 @@ const UpdateTripBudgetPage = ({navigation, route}: TripNavigationProps<"UpdateTr
                     <FormMoneyInput label={"Budget"} value={totalBudget} onChanged={setTotalBudget}/>
                     <FormButtonRow right>
                         <FormAddButton onClick={addCategory}/>
-                        <FormUpdateButton onClick={updateBudget}/>
+                        <FormUpdateButton onClick={handleUpdateBudget}/>
                     </FormButtonRow>
                 </FormCard>
 

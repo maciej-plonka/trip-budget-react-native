@@ -11,3 +11,11 @@ export type BudgetCategory = {
     color?: Color,
     value: Money
 }
+
+
+export type BudgetState = {
+    budgets: Readonly<Budget[]>
+}
+export const initialBudgetState: BudgetState = {
+    budgets: []
+}

@@ -1,1 +1,1 @@
-type ButtonIcon = "confirm" | "delete" | "cart" | "add"
+type ButtonIcon = "confirm" | "delete" | "cart" | "add" | "configure"

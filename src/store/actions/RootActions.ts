@@ -1,5 +1,5 @@
-import {BudgetAction, createBudget} from "./BudgetActions";
-import {createTrip, TripAction} from "./TripActions";
+import {BudgetAction, createBudget, deleteBudgetByTripId} from "./BudgetActions";
+import {createTrip, deleteTrip, TripAction} from "./TripActions";
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "../reducers";
 import {Budget, Trip} from "../states";
@@ -33,4 +33,9 @@ export const createBudgetWithUniqueId = (data: { tripId: number, value: Money })
         categories: [],
     }
     dispatch(createBudget(budget))
+}
+
+export const deleteFullTrip = (tripId: number): RootThunkAction => (dispatch) => {
+    dispatch(deleteBudgetByTripId(tripId))
+    dispatch(deleteTrip(tripId))
 }

@@ -1,4 +1,3 @@
-import {BudgetState} from "../states";
 import {RootState} from "../reducers";
 
 export const selectBudgetByTripId = (tripId: number) => (state: RootState) => state.budgets.budgets.find(it => it.tripId === tripId)

@@ -1,6 +1,7 @@
 import React from "react";
 import {StyleProp, StyleSheet, ViewStyle} from "react-native";
 import Card from "../../Card";
+
 type Props = {
     children?: React.ReactNode,
     style?: StyleProp<ViewStyle>

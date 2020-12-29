@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {TripNavigationProps} from "../TripParamList";
 import {FlatList, Modal, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Page from "../../Page";
@@ -26,21 +26,20 @@ const createNewBudget = (id: number): BudgetCategory => ({
     value: {amount: 0, currency: "¥"}
 })
 
-const calculateCurrentBudget = (categories: BudgetCategory[]) :Money => ({
+const calculateCurrentBudget = (categories: BudgetCategory[]): Money => ({
     currency: categories[0]?.value.currency ?? "¥",
-    amount:  categories.map(it => it.value.amount).reduce((a, b) => a + b, 0)
+    amount: categories.map(it => it.value.amount).reduce((a, b) => a + b, 0)
 })
 
 const formatMoney = ({amount, currency}: Money) => `${amount}${currency}`
 const UpdateTripBudgetPage = ({navigation, route}: TripNavigationProps<"UpdateTripBudgetPage">) => {
     const budget = useSelector(selectBudgetByTripId(route.params.tripId))
-    if (!budget) {
-        navigation.goBack()
-        return (<View/>)
-    }
+    useEffect(() => {
+        !budget && navigation.goBack();
+    }, [budget])
     const dispatch = useDispatch()
-    const [totalBudget, setTotalBudget] = useState<number>(budget.value.amount)
-    const [categories, setCategories] = useState<BudgetCategory[]>(budget.categories);
+    const [totalBudget, setTotalBudget] = useState<number>(budget?.value?.amount ?? 0)
+    const [categories, setCategories] = useState<BudgetCategory[]>(budget?.categories ?? []);
     const [selectedCategory, setSelectedCategory] = useState<BudgetCategory | null>(null)
     const updateSelectedCategoryName = (name: string) => setSelectedCategory(previous => previous && ({
         ...previous,
@@ -68,10 +67,11 @@ const UpdateTripBudgetPage = ({navigation, route}: TripNavigationProps<"UpdateTr
     }
 
     const handleUpdateBudget = async () => {
+        if (!budget) return;
         const budgetToUpdate: Budget = {
             ...budget,
             categories,
-            value: {...budget.value, amount: totalBudget},
+            value: {currency: budget.value.currency, amount: totalBudget},
         }
         dispatch(updateBudget(budgetToUpdate))
         navigation.goBack()
@@ -80,7 +80,9 @@ const UpdateTripBudgetPage = ({navigation, route}: TripNavigationProps<"UpdateTr
     return (
         <Page title={"Update budget"}>
             <View style={styles.root}>
-                <BudgetProgress maxValue={budget.value} currentValue={calculateCurrentBudget(categories)}/>
+                {budget ? (
+                    <BudgetProgress maxValue={budget.value} currentValue={calculateCurrentBudget(categories)}/>
+                ) : (<View/>)}
                 <FormCard>
                     <FormMoneyInput label={"Budget"} value={totalBudget} onChanged={setTotalBudget}/>
                     <FormButtonRow right>
@@ -93,23 +95,22 @@ const UpdateTripBudgetPage = ({navigation, route}: TripNavigationProps<"UpdateTr
                     style={StyleSheet.absoluteFill}
                     animationType="slide"
                     visible={!!selectedCategory}>
-                    {!!selectedCategory
-                        ? (
-                            <Center styles={StyleSheet.absoluteFill}>
-                                <FormCard>
-                                    <FormTextInput label={"Name"} value={selectedCategory.name}
-                                                   onChanged={updateSelectedCategoryName}/>
-                                    <FormMoneyInput label={"Budget"} value={selectedCategory.value.amount}
-                                                    onChanged={updateSelectedCategoryAmount}/>
-                                    <FormButtonRow>
-                                        <FormDeleteButton onClick={() => deleteCategory(selectedCategory.id)}/>
-                                        <FormUpdateButton onClick={() => updateCategory(selectedCategory)}/>
-                                    </FormButtonRow>
-                                </FormCard>
-                            </Center>
-
-                        )
-                        : (<View/>)
+                    {!!selectedCategory ? (
+                        <Center styles={StyleSheet.absoluteFill}>
+                            <FormCard>
+                                <FormTextInput label={"Name"}
+                                               value={selectedCategory.name}
+                                               onChanged={updateSelectedCategoryName}/>
+                                <FormMoneyInput label={"Budget"}
+                                                value={selectedCategory.value.amount}
+                                                onChanged={updateSelectedCategoryAmount}/>
+                                <FormButtonRow>
+                                    <FormDeleteButton onClick={() => deleteCategory(selectedCategory.id)}/>
+                                    <FormUpdateButton onClick={() => updateCategory(selectedCategory)}/>
+                                </FormButtonRow>
+                            </FormCard>
+                        </Center>
+                    ) : (<View/>)
                     }
                 </Modal>
                 <FlatList style={styles.list} data={categories} keyExtractor={i => i.id.toString()}

@@ -1,5 +1,5 @@
-import {budgetReducer } from "./BudgetReducer"
-import {tripReducer } from "./TripReducer"
+import {budgetReducer} from "./BudgetReducer"
+import {tripReducer} from "./TripReducer"
 import {combineReducers} from "redux";
 
 export const rootReducer = combineReducers({

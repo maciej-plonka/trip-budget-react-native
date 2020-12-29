@@ -13,7 +13,7 @@ const TripHomePage: React.FC<TripNavigationProps<"HomePage">> = ({navigation}) =
     const trips = useSelector(selectAllTrips)
     const onFabPress = useCallback(() => navigation.push("CreateNewTripPage"), []);
     const renderItem = useCallback(({item}: { item: Trip }) => (
-        <TouchableOpacity onLongPress={() => navigation.push("UpdateTripPage", {tripId: item.id})}>
+        <TouchableOpacity onLongPress={() => navigation.push("TripDetailsPage", {tripId: item.id})}>
             <TripCard trip={item}/>
         </TouchableOpacity>
     ), []);

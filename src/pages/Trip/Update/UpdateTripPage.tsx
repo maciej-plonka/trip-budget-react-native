@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {TripNavigationProps} from "../TripParamList";
-import {Alert, StyleSheet, ToastAndroid, View} from "react-native";
+import {Alert, StyleSheet, ToastAndroid} from "react-native";
 import Page from "../../Page";
 import Center from "../../../components/Center/Center";
 import {
@@ -11,11 +11,11 @@ import {
     FormTextInput,
     FormUpdateButton
 } from "../../../components/Form";
-import BudgetProgress from "../../../components/BudgetProgress";
 import {useDispatch, useSelector} from "react-redux";
-import {selectBudgetByTripId, selectTripById} from "../../../store/selectors";
-import {deleteTrip, updateTrip} from "../../../store/actions";
-import {Budget, Trip} from "../../../store/states";
+import {selectTripById} from "../../../store/selectors";
+import {deleteFullTrip, updateTrip} from "../../../store/actions";
+import {Trip} from "../../../store/states";
+import {StackActions} from "@react-navigation/native";
 
 const pageTitle = "Update trip"
 
@@ -40,26 +40,22 @@ const showMessage = (message: string) => {
     );
 }
 
-const calculateCurrentBudget = (budget: Budget) :Money => ({
-    currency: budget.value.currency,
-    amount:  budget.categories.map(it => it.value.amount).reduce((a, b) => a + b, 0)
-})
-
-const UpdateTripPage: React.FC<TripNavigationProps<"UpdateTripPage">> = ({navigation, route}) => {
+const UpdateTripPage = ({navigation, route}: TripNavigationProps<"UpdateTripPage">) => {
     const {tripId} = route.params
     const trip = useSelector(selectTripById(tripId))
-    if (!trip) {
-        navigation.goBack();
-        return (<View/>);
-    }
+
+
     const dispatch = useDispatch()
-    const budget = useSelector(selectBudgetByTripId(tripId))
-    const [name, setName] = useState(trip.name)
-    const [startDate, setStartDate] = useState<Date>(trip.startDate)
-    const [endDate, setEndDate] = useState<Date>(trip.endDate)
+    const [name, setName] = useState(trip?.name ?? "")
+    const [startDate, setStartDate] = useState<Date>(trip?.startDate ?? new Date())
+    const [endDate, setEndDate] = useState<Date>(trip?.endDate ?? new Date())
+
+    useEffect(() => {
+        !trip && navigation.navigate("HomePage")
+    },[trip])
 
     const handleUpdate = async () => {
-        const tripToUpdate:Trip = {id: tripId, name, startDate, endDate}
+        const tripToUpdate: Trip = {id: tripId, name, startDate, endDate}
         dispatch(updateTrip(tripToUpdate))
         showMessage("Trip updated")
         navigation.goBack();
@@ -67,15 +63,13 @@ const UpdateTripPage: React.FC<TripNavigationProps<"UpdateTripPage">> = ({naviga
 
     const handleDelete = async () => {
         const shouldDelete = await createDeleteAlert();
-        if(!shouldDelete){
+        if (!shouldDelete) {
             return;
         }
-        dispatch(deleteTrip(tripId))
         showMessage("Trip deleted")
+        await dispatch(deleteFullTrip(tripId))
     }
-    const handleUpdateBudget =() => {
-        navigation.push("UpdateTripBudgetPage", { tripId: trip.id})
-    }
+
     return (
         <Page title={pageTitle}>
             <Center styles={styles.root}>
@@ -83,13 +77,6 @@ const UpdateTripPage: React.FC<TripNavigationProps<"UpdateTripPage">> = ({naviga
                     <FormTextInput icon={"name"} label={"Name"} value={name} onChanged={setName}/>
                     <FormCalendarInput label={"Start date"} value={startDate} onChanged={setStartDate}/>
                     <FormCalendarInput label={"End date"} value={endDate} onChanged={setEndDate}/>
-                    {budget && (
-                        <BudgetProgress label={"Budget"}
-                                        spaceBelow
-                                        onPress={handleUpdateBudget}
-                                        currentValue={calculateCurrentBudget(budget)}
-                                        maxValue={budget.value}/>
-                    )}
                     <FormButtonRow right>
                         <FormDeleteButton onClick={handleDelete}/>
                         <FormUpdateButton onClick={handleUpdate}/>

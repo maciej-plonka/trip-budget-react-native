@@ -4,7 +4,6 @@ export type Budget = {
     value: Money,
     categories: BudgetCategory[]
 }
-
 export type BudgetCategory = {
     id: number,
     name: string,

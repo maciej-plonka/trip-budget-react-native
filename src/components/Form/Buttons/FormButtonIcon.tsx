@@ -16,6 +16,8 @@ const FormButtonIcon = ({icon, style}: Props) => {
             return <MaterialCommunityIcons style={style} name="delete-outline" size={19} color="white" />
         case "add":
             return <MaterialCommunityIcons style={style} name={"plus"} size={19} color={"white"}/>
+        case "configure":
+            return <MaterialIcons style={style} name={"settings"} size={19} color={"white"}/>
     }
 }
 

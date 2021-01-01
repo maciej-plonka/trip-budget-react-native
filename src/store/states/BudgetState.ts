@@ -1,4 +1,5 @@
 import {Money} from "../../models/Money";
+import {Color} from "../../models/Colors";
 
 export type Budget = HasId & {
     tripId: number,

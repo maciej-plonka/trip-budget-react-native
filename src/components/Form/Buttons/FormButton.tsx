@@ -2,6 +2,7 @@ import React from "react";
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import FormButtonIcon from "./FormButtonIcon";
 import ColoredBackground from "../../ColoredBackground";
+import {Color} from "../../../models/Colors";
 
 type Props = {
     icon: ButtonIcon,

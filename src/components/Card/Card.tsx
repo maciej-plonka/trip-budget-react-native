@@ -1,6 +1,7 @@
 import React from "react";
 import {StyleProp, StyleSheet, ViewStyle} from "react-native";
 import ColoredBackground from "../ColoredBackground";
+import {Color} from "../../models/Colors";
 
 type Props = {
     rounded?: boolean,

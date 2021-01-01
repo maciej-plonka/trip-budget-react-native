@@ -1,4 +1,5 @@
 import React, {createContext, useContext} from "react";
+import {Gradient} from "../../models/Colors";
 
 const gradients = {
     green: {

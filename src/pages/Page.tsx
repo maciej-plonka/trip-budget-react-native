@@ -5,6 +5,7 @@ import Header from "../components/Header";
 import FloatingActionButton from "../components/FloatingActionButton";
 import {useThemeContext} from "../contexts/ThemeContext";
 import ColoredBackground from "../components/ColoredBackground";
+import {Color} from "../models/Colors";
 
 type Props = {
     headerTabs?: Tab[],

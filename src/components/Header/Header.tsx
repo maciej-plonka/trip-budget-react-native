@@ -3,6 +3,7 @@ import {StyleSheet, Text, View} from "react-native";
 import {useTabContext} from "../../contexts/TabContext";
 import HeaderTabs from "./HeaderTabs";
 import ColoredBackground from "../ColoredBackground";
+import {Color, isGradient} from "../../models/Colors";
 
 
 type Props = {
@@ -10,7 +11,6 @@ type Props = {
     title: string,
 }
 
-const isGradient = (color:Color) => typeof color !== 'string'
 
 const Header = ({color, title}: Props) => {
     const {tabs} = useTabContext()

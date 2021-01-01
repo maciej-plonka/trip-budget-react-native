@@ -2,11 +2,13 @@ import React from "react";
 import {FontAwesome5, MaterialCommunityIcons} from "@expo/vector-icons";
 import {StyleProp, StyleSheet, View, ViewStyle} from "react-native";
 
+export type InputIconName = "name" | "calendar" | "money"
+
 type Props = {
-    icon: IconName,
+    icon: InputIconName,
     styles?: StyleProp<ViewStyle>
 }
-const InputIcon = ({icon, styles}:Props) => {
+export const InputIcon = ({icon, styles}:Props) => {
     const style = [iconStyle.icon, styles]
     switch(icon) {
         case "name":
@@ -19,10 +21,8 @@ const InputIcon = ({icon, styles}:Props) => {
     return <View/>
 }
 
-
 const iconStyle = StyleSheet.create({
     icon: {
         color: '#D04545',
     },
 });
-export default InputIcon;

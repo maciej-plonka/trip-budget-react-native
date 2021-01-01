@@ -1,32 +1,42 @@
-import React from "react";
+import {availableCurrencies, Currency, Money} from "../../../models/Money";
+import React, {useCallback} from "react";
 import InputWrapper from "./InputWrapper";
-import {StyleSheet, TextInput} from "react-native";
+import {StyleSheet, Text, View} from "react-native"
+import {NumberInput, CurrencyPicker} from "./BaseInputs";
 
-type Props = BaseInputProps<number> & {
-    currency?: Currency
+
+type Props = BaseInputProps<Money> & {
+    label: string,
+    currencyEditable?: boolean
 }
-const FormMoneyInput = (props: Props) => {
-    const icon = props.icon || "money"
-    const currency = props.currency || "¥"
-    const onChange = (value: string) => {
-        const money = value.replace(currency, "");
-        const moneyValue = parseInt(money, 10)
-        if (isNaN(moneyValue)) return;
-        props.onChanged(moneyValue);
-    }
+export const FormMoneyInput = ({value, onChanged, ...props}: Props) => {
+    const handleAmountUpdate = useCallback((amount: number) => onChanged({...value, amount}), [value]);
+    const handleCurrencyUpdate = useCallback((currency: Currency) => onChanged({...value, currency}), [value]);
     return (
-        <InputWrapper {...props} icon={icon}>
-            <TextInput style={styles.input} value={props.value + currency} onChangeText={onChange} />
+        <InputWrapper {...props} icon={"money"}>
+            <View style={styles.inputs}>
+                <NumberInput style={styles.amount} value={value.amount} onChanged={handleAmountUpdate}/>
+                {props.currencyEditable
+                    ? (<CurrencyPicker style={styles.currency}  value={value.currency} onChanged={handleCurrencyUpdate}/>)
+                    : (<Text style={styles.currency}>{value.currency}</Text>)
+                }
+            </View>
+
         </InputWrapper>
+
     )
 }
 
+
 const styles = StyleSheet.create({
-    input: {
-        borderBottomColor: "gray",
-        borderBottomWidth: 1,
-        width: "100%"
+    inputs: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    amount: {
+        flex: 1,
+    },
+    currency: {
+        marginLeft: 4,
     }
 });
-
-export default FormMoneyInput;

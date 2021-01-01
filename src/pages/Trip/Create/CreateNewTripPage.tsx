@@ -12,6 +12,7 @@ import {
 import Center from "../../../components/Center/Center";
 import {createFullTrip} from "../../../store/actions";
 import {useDispatch} from "react-redux";
+import {Money} from "../../../models/Money";
 
 const dayLater = (date: Date): Date => {
     const newDate = new Date();
@@ -23,11 +24,11 @@ const CreateNewTripPage = ({navigation}: TripNavigationProps<"CreateNewTripPage"
     const [name, setName] = useState("New trip");
     const [startDate, setStartDate] = useState<Date>(new Date())
     const [endDate, setEndDate] = useState<Date>(dayLater(startDate));
-    const [totalBudget, setTotalBudget] = useState<number>(0)
+    const [totalBudget, setTotalBudget] = useState<Money>({amount: 0, currency: "¥"})
 
     const dispatch = useDispatch()
     const onSubmit = async () => {
-        const fullTrip = {name, startDate, endDate, value: {amount: totalBudget, currency: "¥"} as Money}
+        const fullTrip = {name, startDate, endDate, value: totalBudget}
         dispatch(createFullTrip(fullTrip))
         navigation.goBack();
     }
@@ -38,7 +39,7 @@ const CreateNewTripPage = ({navigation}: TripNavigationProps<"CreateNewTripPage"
                     <FormTextInput icon={"name"} label={"Name"} value={name} onChanged={setName}/>
                     <FormCalendarInput label={"Start date"} value={startDate} onChanged={setStartDate}/>
                     <FormCalendarInput label={"End date"} value={endDate} onChanged={setEndDate}/>
-                    <FormMoneyInput label={"Budget"} value={totalBudget} onChanged={setTotalBudget}/>
+                    <FormMoneyInput label={"Budget"} value={totalBudget} onChanged={setTotalBudget} currencyEditable/>
                     <FormButtonRow right>
                         <FormCreateButton onClick={onSubmit}/>
                     </FormButtonRow>

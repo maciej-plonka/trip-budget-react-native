@@ -2,24 +2,22 @@ import React, {useCallback, useState} from "react";
 import InputWrapper from "./InputWrapper";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
-
-const formatDate = (date: Date): string => [date.getDate(), date.getMonth() + 1, date.getFullYear()]
-    .map(v => v < 10 ? "0" + v : "" + v)
-    .join(".")
-
-const FormCalendarInput = (props: BaseInputProps<Date>) => {
+import {format} from "date-fns";
+type Props = BaseInputProps<Date> & {
+    label: string
+}
+export const FormCalendarInput = (props: Props) => {
     const [show, setShow] = useState<boolean>(false)
     const onDateChanged = useCallback((_: any, date: Date | undefined) => {
         date && props.onChanged(date)
         setShow(false);
     }, [])
 
-    const formattedDate = formatDate(props.value);
     return (
         <React.Fragment>
             <TouchableOpacity onPress={() => setShow(true)}>
                 <InputWrapper {...props} icon={"calendar"}>
-                    <Text style={styles.input}>{formattedDate}</Text>
+                    <Text style={styles.input}>{format(props.value, "dd.MM.yyyy")}</Text>
                 </InputWrapper>
             </TouchableOpacity>
             {show && <RNDateTimePicker value={props.value} mode={"date"} onChange={onDateChanged} />}
@@ -34,4 +32,3 @@ const styles = StyleSheet.create({
         width: "100%"
     },
 });
-export default FormCalendarInput;

@@ -1,1 +1,1 @@
-export {default} from "./TripDetailsPage"
+export * from "./TripDetailsPage"

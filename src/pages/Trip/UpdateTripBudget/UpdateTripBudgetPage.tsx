@@ -15,110 +15,69 @@ import BudgetProgress from "../../../components/BudgetProgress";
 import Card from "../../../components/Card";
 import Center from "../../../components/Center/Center";
 import {useDispatch, useSelector} from "react-redux";
-import {selectBudgetByTripId} from "../../../store/selectors";
-import {updateBudget} from "../../../store/actions";
+import {selectBudgetByTripId, selectBudgetCategoriesByBudgetId} from "../../../store/selectors";
+import {
+    createBudgetCategoryWithUniqueId,
+    deleteBudgetByTripId, deleteBudgetCategoryById,
+    updateBudget,
+    updateBudgetCategory
+} from "../../../store/actions";
 import {Budget, BudgetCategory} from "../../../store/states";
-
-const lastId = (categories: BudgetCategory[]) => categories.map(it => it.id).reduce((a, b) => a > b ? a : b, 0)
-const createNewBudget = (id: number): BudgetCategory => ({
-    id,
-    name: 'New category',
-    value: {amount: 0, currency: "¥"}
-})
-
-const calculateCurrentBudget = (categories: BudgetCategory[]): Money => ({
-    currency: categories[0]?.value.currency ?? "¥",
-    amount: categories.map(it => it.value.amount).reduce((a, b) => a + b, 0)
-})
+import {UpdateBudgetCard} from "./UpdateBudgetCard";
+import {SelectedCategoryModal} from "./SelectedCategoryModal";
+import {Money} from "../../../models/Money";
 
 const formatMoney = ({amount, currency}: Money) => `${amount}${currency}`
-const UpdateTripBudgetPage = ({navigation, route}: TripNavigationProps<"UpdateTripBudgetPage">) => {
-    const budget = useSelector(selectBudgetByTripId(route.params.tripId))
-    useEffect(() => {
-        !budget && navigation.goBack();
-    }, [budget])
-    const dispatch = useDispatch()
-    const [totalBudget, setTotalBudget] = useState<number>(budget?.value?.amount ?? 0)
-    const [categories, setCategories] = useState<BudgetCategory[]>(budget?.categories ?? []);
-    const [selectedCategory, setSelectedCategory] = useState<BudgetCategory | null>(null)
-    const updateSelectedCategoryName = (name: string) => setSelectedCategory(previous => previous && ({
-        ...previous,
-        name
-    }));
-    const updateSelectedCategoryAmount = (amount: number) => setSelectedCategory(previous => previous && ({
-        ...previous,
-        value: ({...previous.value, amount})
-    }));
 
-    const updateCategory = (category: BudgetCategory) => {
-        setCategories(previous => previous.map(it => it.id === category.id ? category : it));
-        selectCategory(null)
-    }
-    const addCategory = () => {
-        setCategories(previous => [...previous, createNewBudget(lastId(previous) + 1)])
-    }
-    const deleteCategory = (id: number) => {
-        setCategories(previous => previous.filter(it => it.id !== id))
-        selectCategory(null)
+
+const UpdateTripBudgetPage = ({navigation, route}: TripNavigationProps<"UpdateTripBudgetPage">) => {
+    const dispatch = useDispatch()
+    const budget = useSelector(selectBudgetByTripId(route.params.tripId))
+    const categories = budget ? useSelector(selectBudgetCategoriesByBudgetId(budget.id)) : [];
+    //new state
+    const [selectedCategory, setSelectedCategory] = useState<BudgetCategory | null>(null)
+
+    const handleCreateCategory = () => {
+        if (!budget) return;
+        const budgetCategory = {
+            budgetId: budget.id,
+            categoryBudget: {amount: 0, currency: budget.totalBudget.currency},
+            name: "New Category",
+        }
+        dispatch(createBudgetCategoryWithUniqueId(budgetCategory))
     }
 
     const selectCategory = (category: BudgetCategory | null) => {
         setSelectedCategory(category && JSON.parse(JSON.stringify(category)));
     }
 
-    const handleUpdateBudget = async () => {
-        if (!budget) return;
-        const budgetToUpdate: Budget = {
-            ...budget,
-            categories,
-            value: {currency: budget.value.currency, amount: totalBudget},
-        }
-        dispatch(updateBudget(budgetToUpdate))
-        navigation.goBack()
-    }
+    const handleOnSelectedCategoryChanged = () => selectCategory(null)
+
+    useEffect(() => {
+        !budget && navigation.goBack();
+    }, [budget])
 
     return (
         <Page title={"Update budget"}>
             <View style={styles.root}>
-                {budget ? (
-                    <BudgetProgress maxValue={budget.value} currentValue={calculateCurrentBudget(categories)}/>
-                ) : (<View/>)}
-                <FormCard>
-                    <FormMoneyInput label={"Budget"} value={totalBudget} onChanged={setTotalBudget}/>
-                    <FormButtonRow right>
-                        <FormAddButton onClick={addCategory}/>
-                        <FormUpdateButton onClick={handleUpdateBudget}/>
-                    </FormButtonRow>
-                </FormCard>
+                {budget ? (<BudgetProgress budget={budget}/>) : (<View/>)}
+                {budget
+                    ? (<UpdateBudgetCard onUpdate={navigation.goBack}
+                                         onCreateCategory={handleCreateCategory}
+                                         budget={budget}/>)
+                    : (<View/>)
+                }
+                {selectedCategory
+                    ? (<SelectedCategoryModal category={selectedCategory} onChanged={handleOnSelectedCategoryChanged}/>)
+                    : (<View/>)
+                }
 
-                <Modal
-                    style={StyleSheet.absoluteFill}
-                    animationType="slide"
-                    visible={!!selectedCategory}>
-                    {!!selectedCategory ? (
-                        <Center styles={StyleSheet.absoluteFill}>
-                            <FormCard>
-                                <FormTextInput label={"Name"}
-                                               value={selectedCategory.name}
-                                               onChanged={updateSelectedCategoryName}/>
-                                <FormMoneyInput label={"Budget"}
-                                                value={selectedCategory.value.amount}
-                                                onChanged={updateSelectedCategoryAmount}/>
-                                <FormButtonRow>
-                                    <FormDeleteButton onClick={() => deleteCategory(selectedCategory.id)}/>
-                                    <FormUpdateButton onClick={() => updateCategory(selectedCategory)}/>
-                                </FormButtonRow>
-                            </FormCard>
-                        </Center>
-                    ) : (<View/>)
-                    }
-                </Modal>
                 <FlatList style={styles.list} data={categories} keyExtractor={i => i.id.toString()}
                           renderItem={({item}) => (
                               <TouchableOpacity delayLongPress={200} onLongPress={() => selectCategory(item)}>
                                   <Card style={styles.category} rounded>
                                       <Text>{item.name}</Text>
-                                      <Text>{formatMoney(item.value)}</Text>
+                                      <Text>{formatMoney(item.categoryBudget)}</Text>
                                   </Card>
                               </TouchableOpacity>
                           )}/>

@@ -5,7 +5,7 @@ import {TripParamList} from "./TripParamList"
 import CreateNewTripPage from "./Create";
 import UpdateTripPage from "./Update";
 import UpdateTripBudgetPage from "./UpdateTripBudget";
-import TripDetailsPage from "./Details";
+import {TripDetailsPage} from "./Details";
 
 const Stack = createStackNavigator<TripParamList>();
 

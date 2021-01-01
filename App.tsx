@@ -11,7 +11,6 @@ enableScreens();
 
 
 export default function App() {
-
     return (
         <Theme>
             <Provider store={store}>

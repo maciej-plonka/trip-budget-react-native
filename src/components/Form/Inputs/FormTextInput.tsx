@@ -1,9 +1,13 @@
 import React from "react";
 import {StyleSheet, TextInput} from "react-native";
-import InputWrapper from "./InputWrapper";
+import InputWrapper, {InputIconName} from "./InputWrapper";
 
+type Props = BaseInputProps<string> & {
+    label: string,
+    icon?: InputIconName,
+}
 
-const FormTextInput: React.FC<BaseInputProps<string>> = (props) => {
+export const FormTextInput  = (props: Props) => {
     return (
         <InputWrapper {...props}>
             <TextInput style={styles.input} value={props.value} onChangeText={props.onChanged}/>
@@ -19,4 +23,3 @@ const styles = StyleSheet.create({
     },
 });
 
-export default FormTextInput;

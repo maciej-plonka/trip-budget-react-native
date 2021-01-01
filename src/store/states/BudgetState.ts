@@ -1,20 +1,39 @@
-export type Budget = {
-    id: number,
+import {Money} from "../../models/Money";
+
+export type Budget = HasId & {
     tripId: number,
-    value: Money,
-    categories: BudgetCategory[]
+    totalBudget: Money,
 }
-export type BudgetCategory = {
-    id: number,
+export type BudgetCategory = HasId & {
+    budgetId: number,
     name: string,
     color?: Color,
-    value: Money
+    categoryBudget: Money
 }
 
+export type BudgetExpense = HasId & {
+    budgetId: number,
+    categoryId?: number,
+    value: Money,
+    name: string,
+
+}
 
 export type BudgetState = {
-    budgets: Readonly<Budget[]>
+    budgets: Readonly<Budget[]>,
+    budgetCategories: Readonly<BudgetCategory[]>,
+    budgetExpenses: Readonly<BudgetExpense[]>
 }
 export const initialBudgetState: BudgetState = {
-    budgets: []
+    budgets: [],
+    budgetCategories: [],
+    budgetExpenses: []
 }
+
+
+export const sumCategoriesBudget = (categories: Readonly<BudgetCategory[]>): Money => categories.length
+    ? ({
+        currency: categories[0].categoryBudget.currency,
+        amount: categories.map(it => it.categoryBudget).map(it => it.amount).reduce((a, b) => a + b, 0)
+    })
+    : ({currency: "¥", amount: 0})

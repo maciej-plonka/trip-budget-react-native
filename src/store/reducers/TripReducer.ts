@@ -11,7 +11,7 @@ export const tripReducer = (state: TripState = initialTripState, action: TripAct
         case "update_trip":
             return {...state, trips: [...state.trips].map(it => it.id === action.trip.id ? serialize(action.trip) : it)}
         case "delete_trip":
-            return {...state, trips: state.trips.filter( it => it.id !== action.tripId)}
+            return {...state, trips: state.trips.filter(it => it.id !== action.tripId)}
     }
     return state;
 }

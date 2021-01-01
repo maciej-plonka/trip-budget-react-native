@@ -1,0 +1,3 @@
+type HasId = {
+    id: number
+}

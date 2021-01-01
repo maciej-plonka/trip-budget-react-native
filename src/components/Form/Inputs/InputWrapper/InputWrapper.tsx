@@ -1,11 +1,11 @@
 import React from "react";
 import {StyleSheet, Text, View} from "react-native";
-import InputIcon from "./InputIcon";
+import {InputIconName,InputIcon} from "./InputIcon";
 
 
 type Props = {
     label: string,
-    icon?: IconName,
+    icon?: InputIconName,
     children?: React.ReactNode
 }
 const InputWrapper = ({label, icon, children}: Props) => {

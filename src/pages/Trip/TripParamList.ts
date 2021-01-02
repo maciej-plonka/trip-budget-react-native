@@ -1,5 +1,6 @@
 import {StackNavigationProp} from "@react-navigation/stack";
-import {RouteProp} from "@react-navigation/native";
+import {RouteProp, CompositeNavigationProp} from "@react-navigation/native";
+import {RootParamList} from "../RootParamList";
 
 export type TripParamList = {
     HomePage: undefined
@@ -10,6 +11,9 @@ export type TripParamList = {
 }
 
 export type TripNavigationProps<T extends keyof TripParamList> = {
-    navigation: StackNavigationProp<TripParamList, T>
+    navigation: CompositeNavigationProp<
+        StackNavigationProp<TripParamList, T> ,
+        StackNavigationProp<RootParamList, "TripList">
+    >
     route: RouteProp<TripParamList, T>
 }

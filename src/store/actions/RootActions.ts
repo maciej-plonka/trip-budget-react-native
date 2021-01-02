@@ -4,6 +4,7 @@ import {ThunkAction} from "redux-thunk";
 import {RootState} from "../reducers";
 import {Budget, BudgetCategory, Trip} from "../states";
 import {Money} from "../../models/Money";
+import {createShoppingListItem, deleteShoppingListItemsByTripId, ShoppingListAction} from "./ShoppingListActions";
 
 
 type NewTrip = {
@@ -16,7 +17,7 @@ type NewBudget = {
 }
 type NewFullTrip = NewTrip & NewBudget
 
-type RootThunkAction = ThunkAction<void, RootState, void, TripAction | BudgetAction>
+type RootThunkAction = ThunkAction<void, RootState, void, TripAction | BudgetAction | ShoppingListAction>
 
 const lastId = <T extends HasId>(items: Readonly<T[]>) => items.map(it => it.id).reduce((a, b) => a > b ? a : b, 0);
 
@@ -39,7 +40,20 @@ export const createBudgetCategoryWithUniqueId = (data: { name: string, budgetId:
     dispatch(createBudgetCategory(budgetCategory))
 }
 
+export const createShoppingListItemWithUniqueId = (data: {
+    tripId: number,
+    budgetCategoryId?: number,
+    name: string,
+    description?: string,
+    targetValue: Money
+}): RootThunkAction => (dispatch, getState) => {
+    const newId = lastId(getState().shoppingList.items) + 1
+    const newItem = {...data, id: newId}
+    dispatch(createShoppingListItem(newItem));
+}
+
 export const deleteFullTrip = (tripId: number): RootThunkAction => (dispatch) => {
+    dispatch(deleteShoppingListItemsByTripId(tripId))
     dispatch(deleteBudgetByTripId(tripId))
     dispatch(deleteTrip(tripId))
 }

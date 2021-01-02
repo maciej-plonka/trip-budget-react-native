@@ -13,17 +13,26 @@ const TripHomePage: React.FC<TripNavigationProps<"HomePage">> = ({navigation}) =
     const trips = useSelector(selectAllTrips)
     const onFabPress = useCallback(() => navigation.push("CreateNewTripPage"), []);
     const renderItem = useCallback(({item}: { item: Trip }) => (
-        <TouchableOpacity onLongPress={() => navigation.push("TripDetailsPage", {tripId: item.id})}>
+        <TouchableOpacity
+            onPress={() => navigation.navigate("Modules", {
+                screen: "ShoppingList",
+                params: {
+                    screen: "HomePage",
+                    params: {tripId: item.id}
+                }
+            })}
+            onLongPress={() => navigation.push("TripDetailsPage", {tripId: item.id})}
+            delayLongPress={200}>
             <TripCard trip={item}/>
         </TouchableOpacity>
     ), []);
-    const Content = !trips.length
-        ? <Text>No trip yet :)</Text>
-        : <FlatList style={styles.list} data={trips} keyExtractor={keyExtractor} renderItem={renderItem}/>
     return (
         <Page title={"Trip Planner"} fab={{onPress: onFabPress, position: "right"}}>
             <Center>
-                {Content}
+                {trips.length
+                    ? (<FlatList style={styles.list} data={trips} keyExtractor={keyExtractor} renderItem={renderItem}/>)
+                    : (<Text>No trip yet :)</Text>)
+                }
             </Center>
         </Page>
     )

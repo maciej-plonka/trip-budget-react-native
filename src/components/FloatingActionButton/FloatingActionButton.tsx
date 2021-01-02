@@ -26,10 +26,12 @@ const styles = StyleSheet.create({
         bottom: 16,
         width: 62,
         height: 62,
+        zIndex: 100
     },
     containerMiddle: {
         left: "50%",
         transform: [{translateX: -31}],
+        bottom: -31,
     },
     containerRight: {
         right: 16,

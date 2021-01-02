@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
     },
     titleLeft: {
         justifyContent: "flex-end",
-        marginBottom: 16
+        marginBottom: 16,
+        marginLeft: 8
     },
     titleText: {
         fontWeight: "bold",

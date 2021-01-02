@@ -6,13 +6,14 @@ import FloatingActionButton from "../components/FloatingActionButton";
 import {useThemeContext} from "../contexts/ThemeContext";
 import ColoredBackground from "../components/ColoredBackground";
 import {Color} from "../models/Colors";
-
+type FabPosition = "center" | "right"
+const isRight = (position:FabPosition) => position === "right"
 type Props = {
     headerTabs?: Tab[],
     headerColor?: Color,
     title: string,
     fab?: {
-        position: "center" | "right"
+        position: FabPosition
         onPress: () => void
     }
     children?: React.ReactNode
@@ -28,7 +29,7 @@ const Page = ({title, headerTabs = [], headerColor = 'white', fab, children}: Pr
                     {children}
                 </View>
             </ColoredBackground>
-            {fab && <FloatingActionButton onPress={fab.onPress} onRight={fab.position === "right"}/>}
+            {fab && <FloatingActionButton onPress={fab.onPress} onRight={isRight(fab.position)}/>}
         </Tabs>
     )
 }

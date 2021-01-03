@@ -1,17 +1,11 @@
 import React, {useEffect} from "react";
 import {TripNavigationProps} from "../TripParamList";
-import {Image, StyleSheet, Text, View} from "react-native"
+import {StyleSheet, Text, View} from "react-native"
 import Page from "../../Page";
-import Card from "../../../components/Card";
 import {useSelector} from "react-redux";
-import {selectBudgetByTripId, selectBudgetCategoriesByBudgetId, selectTripById} from "../../../store/selectors";
+import {selectBudgetByTripId, selectTripById} from "../../../store/selectors";
 import BudgetProgress from "../../../components/BudgetProgress";
-import {Budget, BudgetCategory} from "../../../store/states";
-import {format} from "date-fns";
-import {FormButtonRow, FormConfigureButton} from "../../../components/Form";
-import {Money} from "../../../models/Money";
 import {TripDetailsCard} from "./TripDetailsCard";
-import {createNativeStackNavigator} from "react-native-screens/native-stack";
 
 export const TripDetailsPage = ({navigation, route}: TripNavigationProps<"TripDetailsPage">) => {
     const tripId = route.params.tripId;

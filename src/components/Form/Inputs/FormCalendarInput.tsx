@@ -3,6 +3,7 @@ import InputWrapper from "./InputWrapper";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import {format} from "date-fns";
+
 type Props = BaseInputProps<Date> & {
     label: string
 }

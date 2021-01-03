@@ -1,3 +1,6 @@
 export * from './FormTextInput'
+export * from './FormCategoryPicker'
 export * from './FormCalendarInput'
 export * from './FormMoneyInput'
+export * from './FormTextArea'
+export * from './FormImagePicker'

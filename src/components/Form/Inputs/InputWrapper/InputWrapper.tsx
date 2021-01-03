@@ -1,6 +1,6 @@
 import React from "react";
 import {StyleSheet, Text, View} from "react-native";
-import {InputIconName,InputIcon} from "./InputIcon";
+import {InputIcon, InputIconName} from "./InputIcon";
 
 
 type Props = {

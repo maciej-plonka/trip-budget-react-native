@@ -12,9 +12,9 @@ type Props = {
 export const BottomTabIcon = ({icon, color,size}: Props) => {
     switch(icon) {
         case "budget":
-            return <FontAwesome5 name="money-bill" color={color} size={size} />
+            return <FontAwesome5 name="money-bill-alt" color={color} size={size} />
         case "shopping_list":
-            return <MaterialCommunityIcons name="cart" color={color} size={size}  />
+            return <MaterialCommunityIcons name="cart-outline" color={color} size={size}  />
     }
 }
 

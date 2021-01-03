@@ -1,6 +1,6 @@
 import React from "react";
 import {Picker} from "@react-native-picker/picker";
-import {StyleProp, StyleSheet, Text, View, ViewStyle} from "react-native";
+import {StyleProp, StyleSheet, View, ViewStyle} from "react-native";
 import {availableCurrencies, Currency} from "../../../../models/Money";
 import {ItemValue} from "@react-native-picker/picker/typings/Picker";
 

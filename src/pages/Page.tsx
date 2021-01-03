@@ -6,14 +6,12 @@ import FloatingActionButton from "../components/FloatingActionButton";
 import {useThemeContext} from "../contexts/ThemeContext";
 import ColoredBackground from "../components/ColoredBackground";
 import {Color} from "../models/Colors";
-type FabPosition = "center" | "right"
-const isRight = (position:FabPosition) => position === "right"
+
 type Props = {
     headerTabs?: Tab[],
     headerColor?: Color,
     title: string,
     fab?: {
-        position: FabPosition
         onPress: () => void
     }
     children?: React.ReactNode
@@ -23,26 +21,14 @@ const Page = ({title, headerTabs = [], headerColor = 'white', fab, children}: Pr
     const theme = useThemeContext();
     return (
         <Tabs initialTabs={headerTabs}>
-            <ColoredBackground color={theme.background} style={styles.container}>
-                <Header color={headerColor} title={title}/>
-                <View style={styles.content}>
-                    {children}
-                </View>
+            <Header color={headerColor} title={title}/>
+            <ColoredBackground color={theme.background} style={{flex: 1}}>
+                {children}
             </ColoredBackground>
-            {fab && <FloatingActionButton onPress={fab.onPress} onRight={isRight(fab.position)}/>}
+            {fab && <FloatingActionButton onPress={fab.onPress}/>}
         </Tabs>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: "column",
-    },
-    content: {
-        flex: 1,
-    }
-});
 
 
 export default Page;

@@ -2,10 +2,11 @@ import {Money} from "../../models/Money";
 
 export type ShoppingListItem = HasId &{
     tripId: number,
+    imageId?:string,
     budgetCategoryId?: number,
     budgetExpenseId?: number
     name: string,
-    description?: string,
+    comments?: string,
     targetValue: Money,
     actualValue?: Money,
 }
@@ -13,8 +14,8 @@ export type ShoppingListItem = HasId &{
 export type NewShoppingListItem = HasId & {
     tripId: number,
     budgetCategoryId?: number,
+    imageId?:string,
     name: string,
-    description?: string,
     targetValue: Money
 }
 

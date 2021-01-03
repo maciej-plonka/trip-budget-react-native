@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import {TripNavigationProps} from "../TripParamList";
-import {Alert, StyleSheet, ToastAndroid} from "react-native";
+import {StyleSheet} from "react-native";
 import Page from "../../Page";
-import Center from "../../../components/Center/Center";
+import {Center} from "../../../components/Center";
 import {
     FormButtonRow,
     FormCalendarInput,
@@ -15,30 +15,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectTripById} from "../../../store/selectors";
 import {deleteFullTrip, updateTrip} from "../../../store/actions";
 import {Trip} from "../../../store/states";
-import {StackActions} from "@react-navigation/native";
-
-const pageTitle = "Update trip"
-
-const createDeleteAlert = (): Promise<boolean> => new Promise(resolve => {
-    Alert.alert(
-        "Caution!",
-        `Do you really want to delete the trip?`,
-        [
-            {text: "Yes", onPress: () => resolve(true), style: "destructive"},
-            {text: "No", onPress: () => resolve(false)}
-        ]
-    )
-})
-
-const showMessage = (message: string) => {
-    ToastAndroid.showWithGravityAndOffset(
-        message,
-        ToastAndroid.LONG,
-        ToastAndroid.BOTTOM,
-        0,
-        33
-    );
-}
+import {confirmMessageBox} from "../../../models/MessageBox";
+import {showToast} from "../../../models/Toast";
 
 const UpdateTripPage = ({navigation, route}: TripNavigationProps<"UpdateTripPage">) => {
     const {tripId} = route.params
@@ -57,21 +35,21 @@ const UpdateTripPage = ({navigation, route}: TripNavigationProps<"UpdateTripPage
     const handleUpdate = async () => {
         const tripToUpdate: Trip = {id: tripId, name, startDate, endDate}
         dispatch(updateTrip(tripToUpdate))
-        showMessage("Trip updated")
+        showToast("Trip updated")
         navigation.goBack();
     }
 
     const handleDelete = async () => {
-        const shouldDelete = await createDeleteAlert();
+        const shouldDelete = await confirmMessageBox({title: "Caution!", description: "Do you want to delete trip?"});
         if (!shouldDelete) {
             return;
         }
-        showMessage("Trip deleted")
+        showToast("Trip deleted")
         await dispatch(deleteFullTrip(tripId))
     }
 
     return (
-        <Page title={pageTitle}>
+        <Page title={"Update trip"}>
             <Center styles={styles.root}>
                 <FormCard>
                     <FormTextInput icon={"name"} label={"Name"} value={name} onChanged={setName}/>

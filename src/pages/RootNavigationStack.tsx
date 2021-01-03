@@ -5,7 +5,6 @@ import {ModulesBottomTabNavigator} from "./Modules";
 import {RootParamList} from "./RootParamList";
 
 
-
 const Stack = createStackNavigator<RootParamList>();
 
 const screenOptions = {

@@ -1,5 +1,5 @@
 import {StyleProp, StyleSheet, TextInput, ViewStyle} from "react-native";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 
 type Props = BaseInputProps<number> & {
     style?: StyleProp<ViewStyle>

@@ -1,5 +1,5 @@
 import {StackNavigationProp} from "@react-navigation/stack";
-import {RouteProp, CompositeNavigationProp} from "@react-navigation/native";
+import {CompositeNavigationProp, RouteProp} from "@react-navigation/native";
 import {RootParamList} from "../RootParamList";
 
 export type TripParamList = {

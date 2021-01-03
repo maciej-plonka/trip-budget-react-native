@@ -8,11 +8,13 @@ type Props = {
     children?: React.ReactNode
     style?: StyleProp<ViewStyle>,
     color?: Color
+    flat?: boolean
 }
-const Card = ({rounded, style, children, color = "white"}: Props) => {
+const Card = ({rounded, style, children, flat, color = "white"}: Props) => {
     const cardStyle = [
         styles.root,
         rounded && styles.rounded,
+        flat && styles.flat,
         style
     ];
     return (
@@ -26,6 +28,9 @@ const Card = ({rounded, style, children, color = "white"}: Props) => {
 const styles = StyleSheet.create({
     root: {
         elevation: 3,
+    },
+    flat: {
+        elevation: 0,
     },
     rounded: {
         borderRadius: 8,

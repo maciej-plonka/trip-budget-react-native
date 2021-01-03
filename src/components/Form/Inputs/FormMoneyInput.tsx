@@ -1,8 +1,8 @@
-import {availableCurrencies, Currency, Money} from "../../../models/Money";
+import {Currency, Money} from "../../../models/Money";
 import React, {useCallback} from "react";
 import InputWrapper from "./InputWrapper";
 import {StyleSheet, Text, View} from "react-native"
-import {NumberInput, CurrencyPicker} from "./BaseInputs";
+import {CurrencyPicker, NumberInput} from "./BaseInputs";
 
 
 type Props = BaseInputProps<Money> & {

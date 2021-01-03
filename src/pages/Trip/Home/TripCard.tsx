@@ -9,7 +9,6 @@ type Props = {
 
 const formatDate = ({startDate, endDate}: Trip): string => {
     const now = new Date();
-    console.dir(startDate);
     if (isBefore(endDate, now)) {
         return "Trip finished"
     }

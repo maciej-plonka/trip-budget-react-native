@@ -1,33 +1,16 @@
 import React, {useEffect, useState} from "react";
 import {TripNavigationProps} from "../TripParamList";
-import {FlatList, Modal, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Page from "../../Page";
-import {
-    FormAddButton,
-    FormButtonRow,
-    FormCard,
-    FormDeleteButton,
-    FormMoneyInput,
-    FormTextInput,
-    FormUpdateButton
-} from "../../../components/Form";
 import BudgetProgress from "../../../components/BudgetProgress";
 import Card from "../../../components/Card";
-import Center from "../../../components/Center/Center";
 import {useDispatch, useSelector} from "react-redux";
 import {selectBudgetByTripId, selectBudgetCategoriesByBudgetId} from "../../../store/selectors";
-import {
-    createBudgetCategoryWithUniqueId,
-    deleteBudgetByTripId, deleteBudgetCategoryById,
-    updateBudget,
-    updateBudgetCategory
-} from "../../../store/actions";
-import {Budget, BudgetCategory} from "../../../store/states";
+import {createBudgetCategoryWithUniqueId} from "../../../store/actions";
+import {BudgetCategory} from "../../../store/states";
 import {UpdateBudgetCard} from "./UpdateBudgetCard";
 import {SelectedCategoryModal} from "./SelectedCategoryModal";
-import {Money} from "../../../models/Money";
-
-const formatMoney = ({amount, currency}: Money) => `${amount}${currency}`
+import {formatMoney} from "../../../models/Money";
 
 
 const UpdateTripBudgetPage = ({navigation, route}: TripNavigationProps<"UpdateTripBudgetPage">) => {

@@ -6,14 +6,12 @@ import ColoredBackground from "../ColoredBackground";
 
 interface FloatingActionButtonProps {
     onPress: () => void,
-    onRight?:boolean
 }
 
-const FloatingActionButton = ({onPress, onRight}: FloatingActionButtonProps) => {
+const FloatingActionButton = ({onPress}: FloatingActionButtonProps) => {
     const color = useThemeContext().colors.fab
-    const offset = onRight ? styles.containerRight : styles.containerMiddle
     return (
-        <TouchableOpacity style={[styles.container, offset]} onPress={onPress}>
+        <TouchableOpacity style={styles.container} onPress={onPress}>
             <ColoredBackground color={color} style={[StyleSheet.absoluteFill, styles.fab]}>
                 <MaterialCommunityIcons name={"plus"} size={48} color={"white"}/>
             </ColoredBackground>
@@ -26,14 +24,6 @@ const styles = StyleSheet.create({
         bottom: 16,
         width: 62,
         height: 62,
-        zIndex: 100
-    },
-    containerMiddle: {
-        left: "50%",
-        transform: [{translateX: -31}],
-        bottom: -31,
-    },
-    containerRight: {
         right: 16,
     },
     fab: {

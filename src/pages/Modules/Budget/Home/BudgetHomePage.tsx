@@ -8,7 +8,7 @@ export const BudgetHomePage =({}: BudgetNavigationProps<"HomePage">) => {
     return (
         <Page title={"Trip budget"}
             headerColor={theme.colors.headers.budget}
-            fab={{position:"right" , onPress: () => {}}}>
+            fab={{onPress: () => {}}}>
         </Page>
     )
 }

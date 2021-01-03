@@ -44,7 +44,6 @@ export const createShoppingListItemWithUniqueId = (data: {
     tripId: number,
     budgetCategoryId?: number,
     name: string,
-    description?: string,
     targetValue: Money
 }): RootThunkAction => (dispatch, getState) => {
     const newId = lastId(getState().shoppingList.items) + 1

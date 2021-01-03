@@ -5,7 +5,7 @@ type Props = {
     children?: React.ReactNode
     styles?: StyleProp<ViewStyle>
 }
-const Center = ({children, styles}:Props) => (
+export const Center = ({children, styles}:Props) => (
     <View style={[centerStyles.center, styles]}>
         {children}
     </View>
@@ -18,4 +18,3 @@ const centerStyles = StyleSheet.create({
         alignContent: "center"
     }
 });
-export default Center;

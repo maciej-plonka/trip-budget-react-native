@@ -9,7 +9,7 @@ import {
     FormMoneyInput,
     FormTextInput
 } from "../../../components/Form";
-import Center from "../../../components/Center/Center";
+import {Center} from "../../../components/Center";
 import {createFullTrip} from "../../../store/actions";
 import {useDispatch} from "react-redux";
 import {Money} from "../../../models/Money";

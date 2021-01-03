@@ -1,6 +1,6 @@
 import {BudgetCategory} from "../../../../store/states";
-import {Modal, StyleSheet, View} from "react-native";
-import Center from "../../../../components/Center/Center";
+import {Modal, StyleSheet} from "react-native";
+import {Center} from "../../../../components/Center";
 import {
     FormButtonRow,
     FormCard,

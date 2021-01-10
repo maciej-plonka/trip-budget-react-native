@@ -6,7 +6,7 @@ import {Provider} from "react-redux";
 import {persistor, store} from "./src/store";
 import {PersistGate} from "redux-persist/integration/react";
 import {enableScreens} from "react-native-screens"
-import {RootNavigationStack} from "./src/pages";
+import {RootNavigation} from "./src/navigation";
 
 enableScreens();
 
@@ -17,7 +17,7 @@ export default function App() {
             <Provider store={store}>
                 <PersistGate persistor={persistor} loading={null}>
                     <NavigationContainer>
-                      <RootNavigationStack/>
+                      <RootNavigation/>
                     </NavigationContainer>
                 </PersistGate>
 

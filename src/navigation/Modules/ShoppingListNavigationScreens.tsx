@@ -11,7 +11,7 @@ const screenOptions = {
     headerShown: false
 };
 
-export const ShoppingListNavigation = ({}: ModulesNavigationProps<"ShoppingList">) => {
+export const ShoppingListNavigationScreens = ({}: ModulesNavigationProps<"ShoppingList">) => {
     return (
         <Stack.Navigator screenOptions={screenOptions}>
             <Stack.Screen name={"HomeScreen"} component={ShoppingListHomeScreen}/>

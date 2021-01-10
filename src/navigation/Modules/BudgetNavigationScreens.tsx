@@ -10,7 +10,7 @@ const screenOptions = {
     headerShown: false
 };
 
-export const BudgetNavigation = ({route}: ModulesNavigationProps<"Budget">) => {
+export const BudgetNavigationScreens = ({route}: ModulesNavigationProps<"Budget">) => {
     return (
         <Stack.Navigator initialRouteName={"HomeScreen"} screenOptions={screenOptions}>
             <Stack.Screen name={"HomeScreen"} component={BudgetHomeScreen}/>

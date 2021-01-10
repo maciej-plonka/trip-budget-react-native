@@ -7,7 +7,7 @@ export type ShoppingListParamList = {
     UpdateItemScreen: { itemId: number, tripId: number }
 }
 
-export type  ShoppingListNavigation<T extends keyof ShoppingListParamList> = StackNavigationProp<ShoppingListParamList, T>
+export type ShoppingListNavigation<T extends keyof ShoppingListParamList> = StackNavigationProp<ShoppingListParamList, T>
 
 export type ShoppingListNavigationProps<T extends keyof ShoppingListParamList> = {
     navigation: ShoppingListNavigation<T>

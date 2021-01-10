@@ -1,2 +1,2 @@
 export * from "./TripNavigationProps"
-export * from "./TripNavigation"
+export * from "./TripNavigationScreens"

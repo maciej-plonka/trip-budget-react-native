@@ -11,7 +11,7 @@ const screenOptions = {
 
 
 
-export const TripNavigation = () => {
+export const TripNavigationScreens = () => {
     return (
         <Stack.Navigator initialRouteName={"HomeScreen"} screenOptions={screenOptions}>
             <Stack.Screen name={"HomeScreen"} component={TripHomeScreen}/>

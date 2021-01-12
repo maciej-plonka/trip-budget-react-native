@@ -12,8 +12,8 @@ const screenOptions = {
 
 export const BudgetNavigationScreens = ({route}: ModulesNavigationProps<"Budget">) => {
     return (
-        <Stack.Navigator initialRouteName={"HomeScreen"} screenOptions={screenOptions}>
-            <Stack.Screen name={"HomeScreen"} component={BudgetHomeScreen}/>
+        <Stack.Navigator initialRouteName={"BudgetHomeScreen"} screenOptions={screenOptions}>
+            <Stack.Screen name={"BudgetHomeScreen"} component={BudgetHomeScreen}/>
         </Stack.Navigator>
     )
 }

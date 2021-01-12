@@ -1,3 +1,3 @@
 export * from "./Budget"
-export * from "./ShoppingList"
+export * from "./Wish"
 export * from "./Trip"

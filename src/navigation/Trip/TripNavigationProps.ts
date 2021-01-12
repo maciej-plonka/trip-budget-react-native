@@ -1,14 +1,14 @@
 import {CompositeNavigationProp, RouteProp} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {RootParamList} from "../RootNavigationProps";
-import {ShoppingListParamList} from "../Modules";
+import {WishParamList} from "../Modules";
 
 export type TripParamList = {
-    HomeScreen: undefined
-    CreateNewTripScreen: undefined,
+    TripHomeScreen: undefined
+    TripNewScreen: undefined,
     TripDetailsScreen: { tripId: number }
-    UpdateTripScreen: { tripId: number },
-    UpdateTripBudgetScreen: { tripId: number },
+    TripEditScreen: { tripId: number },
+    TripBudgetEditScreen: { tripId: number },
 }
 
 export type TripNavigation<T extends keyof TripParamList> = CompositeNavigationProp<StackNavigationProp<TripParamList, T>,

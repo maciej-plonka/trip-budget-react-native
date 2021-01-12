@@ -1,5 +1,5 @@
 import {createStackNavigator} from "@react-navigation/stack";
-import {CreateNewTripScreen, TripDetailsScreen, TripHomeScreen, UpdateTripBudgetScreen, UpdateTripScreen} from "../../screens";
+import {TripNewScreen, TripDetailsScreen, TripHomeScreen, TripBudgetEditScreen, TripEditScreen} from "../../screens";
 import React from "react";
 import {TripParamList} from "./TripNavigationProps";
 
@@ -13,12 +13,12 @@ const screenOptions = {
 
 export const TripNavigationScreens = () => {
     return (
-        <Stack.Navigator initialRouteName={"HomeScreen"} screenOptions={screenOptions}>
-            <Stack.Screen name={"HomeScreen"} component={TripHomeScreen}/>
+        <Stack.Navigator initialRouteName={"TripHomeScreen"} screenOptions={screenOptions}>
+            <Stack.Screen name={"TripHomeScreen"} component={TripHomeScreen}/>
             <Stack.Screen name={"TripDetailsScreen"} component={TripDetailsScreen}/>
-            <Stack.Screen name={"CreateNewTripScreen"} component={CreateNewTripScreen}/>
-            <Stack.Screen name={"UpdateTripScreen"} component={UpdateTripScreen}/>
-            <Stack.Screen name={"UpdateTripBudgetScreen"} component={UpdateTripBudgetScreen}/>
+            <Stack.Screen name={"TripNewScreen"} component={TripNewScreen}/>
+            <Stack.Screen name={"TripEditScreen"} component={TripEditScreen}/>
+            <Stack.Screen name={"TripBudgetEditScreen"} component={TripBudgetEditScreen}/>
         </Stack.Navigator>
     )
 }

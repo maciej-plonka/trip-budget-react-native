@@ -2,11 +2,11 @@ import {CompositeNavigationProp, NavigatorScreenParams, RouteProp} from "@react-
 import {BottomTabNavigationProp} from "@react-navigation/bottom-tabs";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {BudgetParamList, RootParamList} from "../index";
-import {ShoppingListParamList} from "./ShoppingListNavigationProps";
+import {WishParamList} from "./WishNavigationProps";
 
 export type ModulesParamList = {
     Budget: NavigatorScreenParams<BudgetParamList>
-    ShoppingList: NavigatorScreenParams<ShoppingListParamList>
+    Wish: NavigatorScreenParams<WishParamList>
 }
 
 export type ModulesNavigationProps<T extends keyof ModulesParamList> = {

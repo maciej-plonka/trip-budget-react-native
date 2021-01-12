@@ -35,7 +35,7 @@ interface Theme {
     colors: {
         headers: {
             budget: Gradient,
-            shoppingList: Gradient
+            wish: Gradient
         },
         fab: Gradient,
         primary: Gradient,
@@ -51,7 +51,7 @@ const theme: Theme = {
     colors: {
         headers: {
             budget: gradients.orange,
-            shoppingList: gradients.purple,
+            wish: gradients.purple,
         },
         fab: gradients.green,
         primary: gradients.green,

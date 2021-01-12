@@ -10,11 +10,11 @@ type ListItemProps = {
 }
 
 export const TripListItem = ({item}: ListItemProps) => {
-    const navigation = useNavigation<TripNavigation<"HomeScreen">>()
+    const navigation = useNavigation<TripNavigation<"TripHomeScreen">>()
     const navigateToTripModules = () => navigation.navigate("Modules", {
-        screen: "ShoppingList",
+        screen: "Wish",
         params: {
-            screen: "HomeScreen",
+            screen: "WishHomeScreen",
             params: {tripId: item.id}
         }
     });

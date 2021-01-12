@@ -10,10 +10,10 @@ import {TripListItem} from "./TripListItem";
 
 const keyExtractor = ({id}: { id: number }) => id.toString()
 
-export const TripHomeScreen = ({navigation}: TripNavigationProps<"HomeScreen">) => {
+export const TripHomeScreen = ({navigation}: TripNavigationProps<"TripHomeScreen">) => {
     const trips = useSelector(selectAllTrips)
     const navigateToNewTripScreen = () => {
-        navigation.push("CreateNewTripScreen")
+        navigation.push("TripNewScreen")
     }
 
     return (

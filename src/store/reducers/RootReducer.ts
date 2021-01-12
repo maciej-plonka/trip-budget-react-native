@@ -1,12 +1,12 @@
 import {budgetReducer} from "./BudgetReducer"
 import {tripReducer} from "./TripReducer"
 import {combineReducers} from "redux";
-import {shoppingListReducer} from "./ShoppingListReducer";
+import {wishReducer} from "./WishReducer";
 
 export const rootReducer = combineReducers({
     trip: tripReducer,
     budget: budgetReducer,
-    shoppingList: shoppingListReducer
+    wish: wishReducer
 })
 
 export type RootReducer = typeof rootReducer

@@ -12,10 +12,10 @@ export const TripDetailsScreen = ({navigation, route}: TripNavigationProps<"Trip
     const trip = useSelector(selectTripById(tripId))
     const budget = useSelector(selectBudgetByTripId(tripId))
     useEffect(() => {
-        !trip && navigation.navigate("HomeScreen")
+        !trip && navigation.navigate("TripHomeScreen")
     }, [trip])
-    const handleConfigureTrip = () => navigation.push("UpdateTripScreen", {tripId})
-    const handleConfigureBudget = () => navigation.push("UpdateTripBudgetScreen", {tripId});
+    const handleConfigureTrip = () => navigation.push("TripEditScreen", {tripId})
+    const handleConfigureBudget = () => navigation.push("TripBudgetEditScreen", {tripId});
     return (
         <Screen title={"Trip details"}>
             <View style={styles.root}>

@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {ModulesParamList} from "./ModulesNavigationProps";
 import {BottomTabIcon} from "./BottomTabIcon";
 import {BudgetNavigationScreens} from "./BudgetNavigationScreens";
-import {ShoppingListNavigationScreens} from "./ShoppingListNavigationScreens";
+import {WishNavigationScreens} from "./WishNavigationScreens";
 
 const Tab = createBottomTabNavigator<ModulesParamList>()
 
@@ -19,13 +19,13 @@ const screenOptions = {
 
 export const ModulesNavigationScreens = () => {
     return (
-        <Tab.Navigator initialRouteName={"ShoppingList"} tabBarOptions={tabBarOptions}   screenOptions={screenOptions}>
+        <Tab.Navigator initialRouteName={"Wish"} tabBarOptions={tabBarOptions} screenOptions={screenOptions}>
             <Tab.Screen name={"Budget"} options={{
                 tabBarLabel: "Budget", tabBarIcon: (props) => (<BottomTabIcon {...props} icon={"budget"}/>)
             }} component={BudgetNavigationScreens}/>
-            <Tab.Screen name={"ShoppingList"} options={{
-                tabBarLabel: "To buy", tabBarIcon: (props) => (<BottomTabIcon {...props} icon={"shopping_list"}/>)
-            }} component={ShoppingListNavigationScreens} />
+            <Tab.Screen name={"Wish"} options={{
+                tabBarLabel: "To buy", tabBarIcon: (props) => (<BottomTabIcon {...props} icon={"wish"}/>)
+            }} component={WishNavigationScreens} />
         </Tab.Navigator>
     );
 }

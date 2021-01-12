@@ -2,7 +2,7 @@ import {StackNavigationProp} from "@react-navigation/stack";
 import {RouteProp} from "@react-navigation/native";
 
 export type BudgetParamList = {
-    HomeScreen: { tripId: number }
+    BudgetHomeScreen: { tripId: number }
 }
 
 export type BudgetNavigationProps <T extends keyof BudgetParamList> = {

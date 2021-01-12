@@ -1,3 +1,3 @@
 export * from "./TripSelectors"
 export * from "./BudgetSelectors"
-export * from "./ShoppingListSelectors"
+export * from "./WishSelectors"

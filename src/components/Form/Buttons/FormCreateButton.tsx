@@ -9,7 +9,7 @@ const FormCreateButton = ({onClick}:Props) => {
     const theme = useThemeContext();
 
      return <FormButton icon={"confirm"}
-                        text={"Create"}
+                        text={"New"}
                         color={theme.colors.primary}
                         onClick={onClick}
      />

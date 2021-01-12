@@ -10,7 +10,6 @@ import {RootNavigationScreens} from "./src/navigation";
 
 enableScreens();
 
-
 export default function App() {
     return (
         <Theme>

@@ -5,7 +5,7 @@ import {selectBudgetByTripId, selectBudgetCategoriesByBudgetId} from "../../../s
 import {useState} from "react";
 import {createWishWithUniqueId} from "../../../store/actions";
 
-type CreateWish = {
+type WishNew = {
     imageId: string | undefined,
     setImageId(imageId: string | undefined): void
     categories: Readonly<BudgetCategory[]>
@@ -20,7 +20,7 @@ type CreateWish = {
     create(): void,
 }
 
-export const useNewWish = (tripId: number): CreateWish | undefined => {
+export const useWishNew = (tripId: number): WishNew | undefined => {
     const budget = useSelector(selectBudgetByTripId(tripId));
     if (!budget) {
         return undefined;

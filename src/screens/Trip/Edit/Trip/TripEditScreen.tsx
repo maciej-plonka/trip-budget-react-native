@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {StyleSheet} from "react-native";
+import React, {useEffect} from "react";
+import {StyleSheet, View} from "react-native";
 import {Center} from "../../../../components/Center";
 import {
     FormButtonRow,
@@ -9,31 +9,22 @@ import {
     FormTextInput,
     FormUpdateButton
 } from "../../../../components/Form";
-import {useDispatch, useSelector} from "react-redux";
-import {selectTripById} from "../../../../store/selectors";
-import {deleteFullTrip, updateTrip} from "../../../../store/actions";
-import {Trip} from "../../../../store/states";
 import {confirmMessageBox} from "../../../../models/MessageBox";
 import {showToast} from "../../../../models/Toast";
 import {TripNavigationProps} from "../../../../navigation";
 import {Screen} from "../../../../components/Screen";
+import {useTripEdit} from "./TripEditHook";
 
 export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEditScreen">) => {
-    const {tripId} = route.params
-    const trip = useSelector(selectTripById(tripId))
-
-    const dispatch = useDispatch()
-    const [name, setName] = useState(trip?.name ?? "")
-    const [startDate, setStartDate] = useState<Date>(trip?.startDate ?? new Date())
-    const [endDate, setEndDate] = useState<Date>(trip?.endDate ?? new Date())
-
+    const tripEdit = useTripEdit(route.params.tripId);
     useEffect(() => {
-        !trip && navigation.navigate("TripHomeScreen")
-    },[trip])
+        !tripEdit && navigation.navigate("TripHomeScreen")
+    },[tripEdit])
+    if(!tripEdit) return (<View/>)
+
 
     const handleUpdate = async () => {
-        const tripToUpdate: Trip = {id: tripId, name, startDate, endDate}
-        dispatch(updateTrip(tripToUpdate))
+        tripEdit.update();
         showToast("Trip updated")
         navigation.goBack();
     }
@@ -44,7 +35,7 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
             return;
         }
         showToast("Trip deleted")
-        await dispatch(deleteFullTrip(tripId))
+        tripEdit.remove();
     }
 
     return (
@@ -53,9 +44,9 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
             <Screen.Content>
                 <Center styles={styles.root}>
                     <FormCard>
-                        <FormTextInput icon={"name"} label={"Name"} value={name} onChanged={setName}/>
-                        <FormCalendarInput label={"Start date"} value={startDate} onChanged={setStartDate}/>
-                        <FormCalendarInput label={"End date"} value={endDate} onChanged={setEndDate}/>
+                        <FormTextInput icon={"name"} label={"Name"} value={tripEdit.name} onChanged={tripEdit.setName}/>
+                        <FormCalendarInput label={"Start date"} value={tripEdit.startDate} onChanged={tripEdit.setStartDate}/>
+                        <FormCalendarInput label={"End date"} value={tripEdit.endDate} onChanged={tripEdit.setEndDate}/>
                         <FormButtonRow right>
                             <FormDeleteButton onClick={handleDelete}/>
                             <FormUpdateButton onClick={handleUpdate}/>

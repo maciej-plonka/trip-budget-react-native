@@ -4,7 +4,7 @@ import {addDays, startOfDay} from "date-fns";
 import {useDispatch} from "react-redux";
 import {createFullTrip} from "../../../store/actions";
 
-type NewTrip = {
+type TripNew = {
     name: string,
     setName(name: string): void,
     startDate: Date,
@@ -16,7 +16,7 @@ type NewTrip = {
     create(): void,
 }
 
-export const useNewTrip = (): NewTrip => {
+export const useTripNew = (): TripNew => {
     const [name, setName] = useState("New trip");
     const [startDate, setStartDate] = useState<Date>(startOfDay(new Date()))
     const [endDate, setEndDate] = useState<Date>(addDays(startDate, 1));

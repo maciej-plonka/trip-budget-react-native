@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectBudgetCategoriesByTripId, selectWishById} from "../../../store/selectors";
 import {deleteWishById, updateWish} from "../../../store/actions/WishActions";
 
-type UpdateWish = {
+type WishEdit = {
     imageId: string | undefined,
     setImageId(imageId: string | undefined): void
     categories: Readonly<BudgetCategory[]>
@@ -21,7 +21,7 @@ type UpdateWish = {
     delete(): void,
 }
 
-export const useUpdateWish = (itemId: number): UpdateWish | undefined => {
+export const useWishEdit = (itemId: number): WishEdit | undefined => {
     const item = useSelector(selectWishById(itemId))
     if (!item) {
         return undefined

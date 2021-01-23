@@ -11,14 +11,14 @@ import {
     FormMoneyInput,
     FormTextInput
 } from "../../../components/Form";
-import {useNewWish} from "./NewWishHook";
+import {useWishNew} from "./WishNewHook";
 import {ScrollView, View} from "react-native";
 import {showToast} from "../../../models/Toast";
 import {Screen} from "../../../components/Screen";
 
 export const WishNewScreen = ({route, navigation}: WishNavigationProps<"WishNewScreen">) => {
     const theme = useThemeContext();
-    const item = useNewWish(route.params.tripId)
+    const item = useWishNew(route.params.tripId)
     useEffect(() => {
         !item && navigation.goBack()
     }, [item])

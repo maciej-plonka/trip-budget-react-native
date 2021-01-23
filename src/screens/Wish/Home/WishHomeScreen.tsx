@@ -3,10 +3,11 @@ import {useThemeContext} from "../../../contexts/ThemeContext";
 import {WishNavigation, WishNavigationProps} from "../../../navigation";
 import {FlatList, StyleSheet, TouchableOpacity, View} from "react-native";
 import {ItemCard} from "./ItemCard";
-import {useWishesByTripId} from "./WishHook";
 import {Wish} from "../../../store/states";
 import {useNavigation} from "@react-navigation/native";
 import {Screen} from "../../../components/Screen";
+import {useSelector} from "react-redux";
+import {selectAllWishesByTripId} from "../../../store/selectors";
 
 type Props = {
     item: Wish
@@ -26,7 +27,7 @@ export const FlatListItem = ({item}: Props) => {
 
 export const WishHomeScreen = ({navigation, route}: WishNavigationProps<"WishHomeScreen">) => {
     const tripId = route.params.tripId;
-    const wishes = useWishesByTripId(tripId)
+    const wishes =  useSelector(selectAllWishesByTripId(tripId))
     const color = useThemeContext().colors.headers.wish
     const navigateToCreateScreen = () =>  navigation.push("WishNewScreen", {tripId})
     return (

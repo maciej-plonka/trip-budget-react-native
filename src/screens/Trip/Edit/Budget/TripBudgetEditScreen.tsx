@@ -1,73 +1,54 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import BudgetProgress from "../../../../components/BudgetProgress";
 import Card from "../../../../components/Card";
-import {useDispatch, useSelector} from "react-redux";
-import {selectBudgetByTripId, selectBudgetCategoriesByBudgetId} from "../../../../store/selectors";
-import {createBudgetCategoryWithUniqueId} from "../../../../store/actions";
-import {BudgetCategory} from "../../../../store/states";
-import {BudgetEditCard} from "./BudgetEditCard";
+import {Budget, sumCategoriesBudget} from "../../../../store/states";
 import {SelectedCategoryModal} from "./SelectedCategoryModal";
 import {formatMoney} from "../../../../models/Money";
 import {TripNavigationProps} from "../../../../navigation";
 import {Screen} from "../../../../components/Screen";
-
+import {Progress} from "../../../../components/BudgetProgress/Progress";
+import {FormAddButton, FormButtonRow, FormCard, FormMoneyInput, FormUpdateButton} from "../../../../components/Form";
+import {useTripBudgetEdit} from "./TripBudgetEditHook";
 
 export const TripBudgetEditScreen = ({navigation, route}: TripNavigationProps<"TripBudgetEditScreen">) => {
-    const dispatch = useDispatch()
-    const budget = useSelector(selectBudgetByTripId(route.params.tripId))
-    const categories = budget ? useSelector(selectBudgetCategoriesByBudgetId(budget.id)) : [];
-    //new state
-    const [selectedCategory, setSelectedCategory] = useState<BudgetCategory | null>(null)
-
-    const handleCreateCategory = () => {
-        if (!budget) return;
-        const budgetCategory = {
-            budgetId: budget.id,
-            categoryBudget: {amount: 0, currency: budget.totalBudget.currency},
-            name: "New Category",
-        }
-        dispatch(createBudgetCategoryWithUniqueId(budgetCategory))
-    }
-
-    const selectCategory = (category: BudgetCategory | null) => {
-        setSelectedCategory(category && JSON.parse(JSON.stringify(category)));
-    }
-
-    const handleOnSelectedCategoryChanged = () => selectCategory(null)
-
+    const budget = useTripBudgetEdit(route.params.tripId);
     useEffect(() => {
         !budget && navigation.goBack();
     }, [budget])
 
+    if (!budget) return (<View/>)
+
+    const handleCreateCategory = () => budget.addCategory('New category')
+    const handleOnSelectedCategoryChanged = () => budget.selectCategory(null)
     return (
         <Screen>
             <Screen.Header title={"Edit budget"}/>
             <Screen.Content>
                 <View style={styles.root}>
-                    {budget ? (<BudgetProgress budget={budget}/>) : (<View/>)}
-                    {budget
-                        ? (<BudgetEditCard onUpdate={navigation.goBack}
-                                           onCreateCategory={handleCreateCategory}
-                                           budget={budget}/>)
-                        : (<View/>)
-                    }
-                    {selectedCategory
-                        ? (<SelectedCategoryModal category={selectedCategory}
-                                                  onChanged={handleOnSelectedCategoryChanged}/>)
-                        : (<View/>)
-                    }
+                    <Progress maxValue={budget.totalBudget} currentValue={sumCategoriesBudget(budget.categories)}/>
+                    <FormCard>
+                        <FormMoneyInput label={"Budget"} value={budget.totalBudget} onChanged={budget.setTotalBudget}/>
+                        <FormButtonRow right>
+                            <FormAddButton onClick={handleCreateCategory}/>
+                            <FormUpdateButton onClick={budget.update}/>
+                        </FormButtonRow>
+                    </FormCard>
 
-                    <FlatList style={styles.list} data={categories} keyExtractor={i => i.id.toString()}
+
+                    <FlatList style={styles.list} data={budget.categories} keyExtractor={i => i.id.toString()}
                               renderItem={({item}) => (
-                                  <TouchableOpacity delayLongPress={200} onLongPress={() => selectCategory(item)}>
+                                  <TouchableOpacity delayLongPress={200}
+                                                    onLongPress={() => budget.selectCategory(item)}>
                                       <Card style={styles.category} rounded>
                                           <Text>{item.name}</Text>
                                           <Text>{formatMoney(item.categoryBudget)}</Text>
                                       </Card>
                                   </TouchableOpacity>
                               )}/>
-
+                    {!!budget.selectedCategory && (
+                        <SelectedCategoryModal category={budget.selectedCategory}
+                                               onChanged={handleOnSelectedCategoryChanged}/>)
+                    }
 
                 </View>
             </Screen.Content>

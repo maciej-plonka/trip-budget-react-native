@@ -9,13 +9,13 @@ import {
 } from "../../../components/Form";
 import {Center} from "../../../components/Center";
 import {TripNavigationProps} from "../../../navigation";
-import {useNewTrip} from "./NewTripHook";
+import {useTripNew} from "./TripNewHook";
 import {Screen} from "../../../components/Screen";
 
 export const TripNewScreen = ({navigation}: TripNavigationProps<"TripNewScreen">) => {
-    const trip = useNewTrip()
+    const tripNew = useTripNew()
     const onSubmit = () => {
-        trip.create();
+        tripNew.create();
         navigation.goBack();
     }
     return (
@@ -24,10 +24,10 @@ export const TripNewScreen = ({navigation}: TripNavigationProps<"TripNewScreen">
             <Screen.Content>
                 <Center styles={{padding: 16}}>
                     <FormCard>
-                        <FormTextInput icon={"name"} label={"Name"} value={trip.name} onChanged={trip.setName}/>
-                        <FormCalendarInput label={"Start date"} value={trip.startDate} onChanged={trip.setStartDate}/>
-                        <FormCalendarInput label={"End date"} value={trip.endDate} onChanged={trip.setEndDate}/>
-                        <FormMoneyInput label={"Budget"} value={trip.totalBudget} onChanged={trip.setTotalBudget}
+                        <FormTextInput icon={"name"} label={"Name"} value={tripNew.name} onChanged={tripNew.setName}/>
+                        <FormCalendarInput label={"Start date"} value={tripNew.startDate} onChanged={tripNew.setStartDate}/>
+                        <FormCalendarInput label={"End date"} value={tripNew.endDate} onChanged={tripNew.setEndDate}/>
+                        <FormMoneyInput label={"Budget"} value={tripNew.totalBudget} onChanged={tripNew.setTotalBudget}
                                         currencyEditable/>
                         <FormButtonRow right>
                             <FormCreateButton onClick={onSubmit}/>

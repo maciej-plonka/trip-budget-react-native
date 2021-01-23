@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {Screen} from "../../../Screen";
 import BudgetProgress from "../../../../components/BudgetProgress";
 import Card from "../../../../components/Card";
 import {useDispatch, useSelector} from "react-redux";
@@ -11,6 +10,7 @@ import {BudgetEditCard} from "./BudgetEditCard";
 import {SelectedCategoryModal} from "./SelectedCategoryModal";
 import {formatMoney} from "../../../../models/Money";
 import {TripNavigationProps} from "../../../../navigation";
+import {Screen} from "../../../../components/Screen";
 
 
 export const TripBudgetEditScreen = ({navigation, route}: TripNavigationProps<"TripBudgetEditScreen">) => {
@@ -41,34 +41,37 @@ export const TripBudgetEditScreen = ({navigation, route}: TripNavigationProps<"T
     }, [budget])
 
     return (
-        <Screen title={"Edit budget"}>
-            <View style={styles.root}>
-                {budget ? (<BudgetProgress budget={budget}/>) : (<View/>)}
-                {budget
-                    ? (<BudgetEditCard onUpdate={navigation.goBack}
-                                       onCreateCategory={handleCreateCategory}
-                                       budget={budget}/>)
-                    : (<View/>)
-                }
-                {selectedCategory
-                    ? (<SelectedCategoryModal category={selectedCategory} onChanged={handleOnSelectedCategoryChanged}/>)
-                    : (<View/>)
-                }
+        <Screen>
+            <Screen.Header title={"Edit budget"}/>
+            <Screen.Content>
+                <View style={styles.root}>
+                    {budget ? (<BudgetProgress budget={budget}/>) : (<View/>)}
+                    {budget
+                        ? (<BudgetEditCard onUpdate={navigation.goBack}
+                                           onCreateCategory={handleCreateCategory}
+                                           budget={budget}/>)
+                        : (<View/>)
+                    }
+                    {selectedCategory
+                        ? (<SelectedCategoryModal category={selectedCategory}
+                                                  onChanged={handleOnSelectedCategoryChanged}/>)
+                        : (<View/>)
+                    }
 
-                <FlatList style={styles.list} data={categories} keyExtractor={i => i.id.toString()}
-                          renderItem={({item}) => (
-                              <TouchableOpacity delayLongPress={200} onLongPress={() => selectCategory(item)}>
-                                  <Card style={styles.category} rounded>
-                                      <Text>{item.name}</Text>
-                                      <Text>{formatMoney(item.categoryBudget)}</Text>
-                                  </Card>
-                              </TouchableOpacity>
-                          )}/>
+                    <FlatList style={styles.list} data={categories} keyExtractor={i => i.id.toString()}
+                              renderItem={({item}) => (
+                                  <TouchableOpacity delayLongPress={200} onLongPress={() => selectCategory(item)}>
+                                      <Card style={styles.category} rounded>
+                                          <Text>{item.name}</Text>
+                                          <Text>{formatMoney(item.categoryBudget)}</Text>
+                                      </Card>
+                                  </TouchableOpacity>
+                              )}/>
 
 
-            </View>
+                </View>
+            </Screen.Content>
         </Screen>
-
     )
 };
 

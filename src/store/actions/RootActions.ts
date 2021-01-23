@@ -2,9 +2,10 @@ import {BudgetAction, createBudget, createBudgetCategory, deleteBudgetByTripId} 
 import {createTrip, deleteTrip, TripAction} from "./TripActions";
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "../reducers";
-import {Budget, BudgetCategory, Trip} from "../states";
+import {Budget, BudgetCategory} from "../states";
 import {Money} from "../../models/Money";
 import {createWish, deleteWishByTripId, WishAction} from "./WishActions";
+import {HasId} from "../BaseTypes";
 
 type RootThunkAction = ThunkAction<void, RootState, void, TripAction | BudgetAction | WishAction>
 

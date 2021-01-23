@@ -1,4 +1,5 @@
 import {endOfDay, isAfter, isBefore, startOfDay} from "date-fns"
+import {HasId} from "../BaseTypes";
 
 export type Trip = HasId & {
     name: string,

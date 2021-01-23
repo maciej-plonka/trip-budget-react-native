@@ -1,11 +1,11 @@
 import React, {useEffect} from "react";
-import {StyleSheet, Text, View} from "react-native"
-import {Screen} from "../../Screen";
+import {StyleSheet, View} from "react-native"
 import {useSelector} from "react-redux";
 import {selectBudgetByTripId, selectTripById} from "../../../store/selectors";
 import BudgetProgress from "../../../components/BudgetProgress";
 import {TripDetailsCard} from "./TripDetailsCard";
 import {TripNavigationProps} from "../../../navigation";
+import {Screen} from "../../../components/Screen";
 
 export const TripDetailsScreen = ({navigation, route}: TripNavigationProps<"TripDetailsScreen">) => {
     const tripId = route.params.tripId;
@@ -17,16 +17,14 @@ export const TripDetailsScreen = ({navigation, route}: TripNavigationProps<"Trip
     const handleConfigureTrip = () => navigation.push("TripEditScreen", {tripId})
     const handleConfigureBudget = () => navigation.push("TripBudgetEditScreen", {tripId});
     return (
-        <Screen title={"Trip details"}>
-            <View style={styles.root}>
-                {trip
-                    ? (<TripDetailsCard trip={trip} onConfigure={handleConfigureTrip}/>)
-                    : (<Text>Trip not found</Text>)}
-                {budget
-                    ? (<BudgetProgress budget={budget} onPress={handleConfigureBudget}/>)
-                    : (<Text>No budget for this trip</Text>)
-                }
-            </View>
+        <Screen>
+            <Screen.Header title={"Trip details"} />
+            <Screen.Content>
+                <View style={styles.root}>
+                    {!!trip && (<TripDetailsCard trip={trip} onConfigure={handleConfigureTrip}/>)}
+                    {!!budget && (<BudgetProgress budget={budget} onPress={handleConfigureBudget}/>)}
+                </View>
+            </Screen.Content>
         </Screen>
     )
 }

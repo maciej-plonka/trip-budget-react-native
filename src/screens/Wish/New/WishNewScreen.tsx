@@ -1,5 +1,4 @@
 import {WishNavigationProps} from "../../../navigation";
-import {Screen} from "../../Screen";
 import {useThemeContext} from "../../../contexts/ThemeContext";
 import React, {useEffect} from "react";
 import {Center} from "../../../components/Center";
@@ -15,6 +14,7 @@ import {
 import {useNewWish} from "./NewWishHook";
 import {ScrollView, View} from "react-native";
 import {showToast} from "../../../models/Toast";
+import {Screen} from "../../../components/Screen";
 
 export const WishNewScreen = ({route, navigation}: WishNavigationProps<"WishNewScreen">) => {
     const theme = useThemeContext();
@@ -30,20 +30,23 @@ export const WishNewScreen = ({route, navigation}: WishNavigationProps<"WishNewS
         navigation.goBack()
     }
     return (
-        <Screen title={"New item"} headerColor={theme.colors.headers.wish}>
-            <ScrollView>
-                <Center styles={{padding: 16}}>
-                    <FormCard avatar={<FormImagePicker value={item.imageId} onChanged={item.setImageId}/>}>
-                        <FormCategoryPicker label={"Category"} value={item.category} onChanged={item.setCategory}
-                                            values={item.categories}/>
-                        <FormMoneyInput label={"Value"} value={item.targetValue} onChanged={item.setTargetValue}/>
-                        <FormTextInput label={"Name"} value={item.name} onChanged={item.setName} icon={"name"}/>
-                        <FormButtonRow right>
-                            <FormCreateButton onClick={handleCreateItem}/>
-                        </FormButtonRow>
-                    </FormCard>
-                </Center>
-            </ScrollView>
+        <Screen>
+            <Screen.Header title={"New item"} color={theme.colors.headers.wish}/>
+            <Screen.Content>
+                <ScrollView>
+                    <Center styles={{padding: 16}}>
+                        <FormCard avatar={<FormImagePicker value={item.imageId} onChanged={item.setImageId}/>}>
+                            <FormCategoryPicker label={"Category"} value={item.category} onChanged={item.setCategory}
+                                                values={item.categories}/>
+                            <FormMoneyInput label={"Value"} value={item.targetValue} onChanged={item.setTargetValue}/>
+                            <FormTextInput label={"Name"} value={item.name} onChanged={item.setName} icon={"name"}/>
+                            <FormButtonRow right>
+                                <FormCreateButton onClick={handleCreateItem}/>
+                            </FormButtonRow>
+                        </FormCard>
+                    </Center>
+                </ScrollView>
+            </Screen.Content>
         </Screen>
     )
 }

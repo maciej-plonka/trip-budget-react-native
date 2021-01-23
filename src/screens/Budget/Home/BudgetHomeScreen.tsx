@@ -1,14 +1,17 @@
 import React from "react";
 import {BudgetNavigationProps} from "../../../navigation";
-import {Screen} from "../../Screen";
 import {useThemeContext} from "../../../contexts/ThemeContext";
+import {Screen} from "../../../components/Screen";
 
 export const BudgetHomeScreen =({}: BudgetNavigationProps<"BudgetHomeScreen">) => {
-    const theme = useThemeContext()
+    const color = useThemeContext().colors.headers.budget
     return (
-        <Screen title={"Trip budget"}
-                headerColor={theme.colors.headers.budget}
-                fab={{onPress: () => {}}}>
+        <Screen>
+            <Screen.Header title={"Trip budget"} color={color}/>
+            <Screen.Content>
+
+            </Screen.Content>
+            <Screen.Fab onClick={() => {}}/>
         </Screen>
     )
 }

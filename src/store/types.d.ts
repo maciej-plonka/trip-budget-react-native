@@ -1,3 +1,0 @@
-type HasId = {
-    id: number
-}

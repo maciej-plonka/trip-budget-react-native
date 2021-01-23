@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {StyleSheet} from "react-native";
-import {Screen} from "../../../Screen";
 import {Center} from "../../../../components/Center";
 import {
     FormButtonRow,
@@ -17,6 +16,7 @@ import {Trip} from "../../../../store/states";
 import {confirmMessageBox} from "../../../../models/MessageBox";
 import {showToast} from "../../../../models/Toast";
 import {TripNavigationProps} from "../../../../navigation";
+import {Screen} from "../../../../components/Screen";
 
 export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEditScreen">) => {
     const {tripId} = route.params
@@ -48,18 +48,21 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
     }
 
     return (
-        <Screen title={"Edit trip"}>
-            <Center styles={styles.root}>
-                <FormCard>
-                    <FormTextInput icon={"name"} label={"Name"} value={name} onChanged={setName}/>
-                    <FormCalendarInput label={"Start date"} value={startDate} onChanged={setStartDate}/>
-                    <FormCalendarInput label={"End date"} value={endDate} onChanged={setEndDate}/>
-                    <FormButtonRow right>
-                        <FormDeleteButton onClick={handleDelete}/>
-                        <FormUpdateButton onClick={handleUpdate}/>
-                    </FormButtonRow>
-                </FormCard>
-            </Center>
+        <Screen>
+            <Screen.Header title={"Edit trip"}/>
+            <Screen.Content>
+                <Center styles={styles.root}>
+                    <FormCard>
+                        <FormTextInput icon={"name"} label={"Name"} value={name} onChanged={setName}/>
+                        <FormCalendarInput label={"Start date"} value={startDate} onChanged={setStartDate}/>
+                        <FormCalendarInput label={"End date"} value={endDate} onChanged={setEndDate}/>
+                        <FormButtonRow right>
+                            <FormDeleteButton onClick={handleDelete}/>
+                            <FormUpdateButton onClick={handleUpdate}/>
+                        </FormButtonRow>
+                    </FormCard>
+                </Center>
+            </Screen.Content>
         </Screen>
     )
 }

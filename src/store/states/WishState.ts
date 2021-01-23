@@ -1,4 +1,5 @@
 import {Money} from "../../models/Money";
+import {HasId} from "../BaseTypes";
 
 export type Wish = HasId &{
     tripId: number,

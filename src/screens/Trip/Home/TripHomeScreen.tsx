@@ -1,29 +1,26 @@
 import React from "react";
-import {Screen} from "../../Screen";
 import {FlatList, StyleSheet} from "react-native";
-import {Center} from "../../../components/Center";
 import {useSelector} from "react-redux";
 import {selectAllTrips} from "../../../store/selectors";
 import {TripNavigationProps} from "../../../navigation";
 import {TripListItem} from "./TripListItem";
-
+import {Screen} from "../../../components/Screen";
 
 const keyExtractor = ({id}: { id: number }) => id.toString()
 
 export const TripHomeScreen = ({navigation}: TripNavigationProps<"TripHomeScreen">) => {
     const trips = useSelector(selectAllTrips)
-    const navigateToNewTripScreen = () => {
-        navigation.push("TripNewScreen")
-    }
-
+    const navigateToNewTripScreen = () => navigation.push("TripNewScreen")
     return (
-        <Screen title={"Trip Planner"} fab={{onPress: navigateToNewTripScreen}}>
-            <Center>
+        <Screen>
+            <Screen.Header title={"Trip Home"} />
+            <Screen.Content>
                 <FlatList style={styles.list}
                           data={trips}
                           keyExtractor={keyExtractor}
                           renderItem={item => (<TripListItem {...item}/>)}/>
-            </Center>
+            </Screen.Content>
+            <Screen.Fab onClick={navigateToNewTripScreen}/>
         </Screen>
     )
 }

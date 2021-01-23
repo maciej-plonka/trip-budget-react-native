@@ -1,5 +1,6 @@
 import {BudgetState, initialBudgetState} from "../states";
 import {BudgetAction} from "../actions";
+import {HasId} from "../BaseTypes";
 
 const updateItem = <T extends HasId>(collection: Readonly<T[]>, newV: T): Readonly<T[]> => {
     return collection.map(it => it.id === newV.id ? newV : it)

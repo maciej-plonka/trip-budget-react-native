@@ -6,7 +6,7 @@ import {SelectedCategoryModal} from "./SelectedCategoryModal";
 import {formatMoney} from "../../../../models/Money";
 import {TripNavigationProps} from "../../../../navigation";
 import {Screen} from "../../../../components/Screen";
-import {Progress} from "../../../../components/BudgetProgress/Progress";
+import {Progress} from "../../../../components/BudgetProgress";
 import {FormAddButton, FormButtonRow, FormCard, FormMoneyInput, FormUpdateButton} from "../../../../components/Form";
 import {useTripBudgetEdit} from "./TripBudgetEditHook";
 

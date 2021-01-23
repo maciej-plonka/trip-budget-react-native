@@ -1,1 +1,2 @@
-export {default} from "./BudgetProgress"
+export * from "./BudgetProgress"
+export * from "./Progress"

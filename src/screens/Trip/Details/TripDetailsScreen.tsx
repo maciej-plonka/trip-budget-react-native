@@ -2,10 +2,10 @@ import React, {useEffect} from "react";
 import {StyleSheet, View} from "react-native"
 import {useSelector} from "react-redux";
 import {selectBudgetByTripId, selectTripById} from "../../../store/selectors";
-import BudgetProgress from "../../../components/BudgetProgress";
 import {TripDetailsCard} from "./TripDetailsCard";
 import {TripNavigationProps} from "../../../navigation";
 import {Screen} from "../../../components/Screen";
+import {BudgetProgress} from "../../../components/BudgetProgress";
 
 export const TripDetailsScreen = ({navigation, route}: TripNavigationProps<"TripDetailsScreen">) => {
     const tripId = route.params.tripId;

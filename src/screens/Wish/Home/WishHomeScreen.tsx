@@ -6,8 +6,7 @@ import {ItemCard} from "./ItemCard";
 import {Wish} from "../../../store/states";
 import {useNavigation} from "@react-navigation/native";
 import {Screen} from "../../../components/Screen";
-import {useSelector} from "react-redux";
-import {selectAllWishesByTripId} from "../../../store/selectors";
+import {useWishHome} from "./WishHomeHook";
 
 type Props = {
     item: Wish
@@ -27,15 +26,21 @@ export const FlatListItem = ({item}: Props) => {
 
 export const WishHomeScreen = ({navigation, route}: WishNavigationProps<"WishHomeScreen">) => {
     const tripId = route.params.tripId;
-    const wishes =  useSelector(selectAllWishesByTripId(tripId))
     const color = useThemeContext().colors.headers.wish
+    const wishHome = useWishHome(tripId)
+
     const navigateToCreateScreen = () =>  navigation.push("WishNewScreen", {tripId})
+
     return (
         <Screen>
-            <Screen.Header title={"Wishes"} color={color}/>
+            <Screen.Header title={"Wishes"} color={color} onTabChanged={wishHome.selectTab} >
+                {wishHome.tabs.map((item, index) => (
+                    <Screen.Header.Tab key={item.id} title={item.title} id={item.id} initial={index === 0}/>
+                ))}
+            </Screen.Header>
             <Screen.Content>
                 <View style={{padding: 16}}>
-                    <FlatList data={wishes} keyExtractor={it => it.id.toString()}
+                    <FlatList data={wishHome.wishes} keyExtractor={it => it.id.toString()}
                               renderItem={item => <FlatListItem {...item}/>}/>
                 </View>
             </Screen.Content>

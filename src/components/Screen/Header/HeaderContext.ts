@@ -1,12 +1,19 @@
-import React from "react";
+import React, {useContext} from "react";
+import {Color} from "../../../models/Colors";
 type HeaderCtxType = {
-    currentTab: string | null,
+    isActive(tab: string):boolean
+    color: Color,
     selectTab: (tab: string) => void
 }
 
 const initialCtxValue: HeaderCtxType = {
-    currentTab: null,
+    isActive(tab: string): boolean {
+        return false
+    },
+    color: "white",
     selectTab(tab: string): void {
     }
 }
 export const HeaderCtx = React.createContext<HeaderCtxType>(initialCtxValue)
+
+export const useHeaderCtx = () => useContext(HeaderCtx)

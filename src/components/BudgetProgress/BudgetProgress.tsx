@@ -10,7 +10,7 @@ type Props = {
     onPress?: () => void
 }
 
-const BudgetProgress = ({budget, label = "Budget", onPress}: Props) => {
+export const BudgetProgress = ({budget, label = "Budget", onPress}: Props) => {
     const categories = useSelector(selectBudgetCategoriesByBudgetId(budget.id))
     return (
         <Progress label={label}
@@ -21,4 +21,3 @@ const BudgetProgress = ({budget, label = "Budget", onPress}: Props) => {
         />
     )
 }
-export default BudgetProgress;

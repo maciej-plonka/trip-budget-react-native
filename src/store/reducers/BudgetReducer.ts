@@ -26,7 +26,6 @@ export const budgetReducer = (state: BudgetState = initialBudgetState, action: B
                 ? deleteBudgetById(state, budgetToDelete.id)
                 : state
         }
-
         case "delete_budget_category_by_id":
             return {
                 ...state,
@@ -37,6 +36,8 @@ export const budgetReducer = (state: BudgetState = initialBudgetState, action: B
             return {...state, budgetCategories: [...state.budgetCategories, action.category]}
         case "update_budget_category":
             return {...state, budgetCategories: updateItem(state.budgetCategories, action.category)}
+        case "create_budget_expense":
+            return {...state, budgetExpenses: [...state.budgetExpenses, action.expense]}
     }
-    return state;
+    throw new Error('Unsupported budget operation')
 }

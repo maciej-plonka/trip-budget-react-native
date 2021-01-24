@@ -1,4 +1,4 @@
-import {Wish} from "../../../store/states";
+import {isBought, Wish} from "../../../store/states";
 import {useSelector} from "react-redux";
 import {selectAllWishesByTripId} from "../../../store/selectors";
 import {useState} from "react";
@@ -12,6 +12,16 @@ const tabs: Readonly<Tab[]> = [
     {id: "to buy", title: "To buy"},
 ]
 
+const filterWishesByCurrentTab = (wishes: Readonly<Wish[]>, tab: Tab | undefined) => {
+    if (!tab || tab.id === "all")
+        return wishes;
+    switch (tab.id) {
+        case "bought":
+            return wishes.filter(it => isBought(it))
+        case "to buy":
+            return wishes.filter(it => !isBought(it))
+    }
+}
 
 type WishHome = {
     wishes: Readonly<Wish[]>,
@@ -19,25 +29,10 @@ type WishHome = {
     selectTab(tabId: string | null): void
 }
 
-const filterWishesByCurrentTab = (wishes: Readonly<Wish[]>, tab: Tab | undefined) => {
-    if (!tab || tab.id === "all")
-        return wishes;
-    switch (tab.id) {
-        case "bought":
-            return wishes.filter(it => !!it.budgetExpenseId)
-        case "to buy":
-            return wishes.filter(it => !it.budgetExpenseId)
-    }
-}
-
 export const useWishHome = (tripId: number): WishHome => {
-    const wishes = useSelector(selectAllWishesByTripId(tripId))
+    const allWishes = useSelector(selectAllWishesByTripId(tripId))
     const [tab, setTab] = useState<Tab | undefined>()
-
+    const wishes = filterWishesByCurrentTab(allWishes, tab);
     const selectTab = (tabId: string | null) => setTab(tabs.find(it => it.id === tabId))
-    return {
-        wishes: filterWishesByCurrentTab(wishes, tab),
-        tabs: tabs,
-        selectTab,
-    }
+    return { tabs, wishes , selectTab}
 }

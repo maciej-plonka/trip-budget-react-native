@@ -1,11 +1,18 @@
-import {BudgetAction, createBudget, createBudgetCategory, deleteBudgetByTripId} from "./BudgetActions";
+import {
+    BudgetAction,
+    createBudget,
+    createBudgetCategory,
+    createBudgetExpense,
+    deleteBudgetByTripId
+} from "./BudgetActions";
 import {createTrip, deleteTrip, TripAction} from "./TripActions";
 import {ThunkAction} from "redux-thunk";
 import {RootState} from "../reducers";
-import {Budget, BudgetCategory} from "../states";
+import {Budget, BudgetCategory, Wish} from "../states";
 import {Money} from "../../models/Money";
-import {createWish, deleteWishByTripId, WishAction} from "./WishActions";
+import {createWish, deleteWishByTripId, updateWish, WishAction} from "./WishActions";
 import {HasId} from "../BaseTypes";
+import {findBy} from "../../utils/Collections";
 
 type RootThunkAction = ThunkAction<void, RootState, void, TripAction | BudgetAction | WishAction>
 
@@ -50,4 +57,16 @@ export const deleteFullTrip = (tripId: number): RootThunkAction => (dispatch) =>
     dispatch(deleteWishByTripId(tripId))
     dispatch(deleteBudgetByTripId(tripId))
     dispatch(deleteTrip(tripId))
+}
+
+
+export const buyWish = (wish: Wish): RootThunkAction => (dispatch, getState) =>  {
+    const budgetExpenseId = lastId(getState().budget.budgetExpenses) + 1
+    const budget = findBy(getState().budget.budgets,"tripId", wish.tripId);
+    if(!budget) {
+        return;
+    }
+    const expense = {...wish,budgetId: budget.id, id: budgetExpenseId, categoryId: wish.budgetCategoryId, value: wish.actualValue ?? wish.targetValue};
+    dispatch(createBudgetExpense(expense))
+    dispatch(updateWish({...wish, budgetExpenseId}))
 }

@@ -4,7 +4,6 @@ import {useThemeContext} from "../../../contexts/ThemeContext";
 import {Center} from "../../../components/Center";
 import {
     FormButtonRow,
-    FormBuyButton,
     FormCard,
     FormCategoryPicker,
     FormDeleteButton,
@@ -24,9 +23,8 @@ export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEdi
     const color = useThemeContext().colors.headers.wish
     const wishEdit = useWishEdit(route.params.itemId)
     useEffect(() => {
-        !wishEdit && navigation.goBack()
+        !wishEdit && navigation.navigate("WishHomeScreen", {...route.params})
     }, [wishEdit])
-
     if (!wishEdit) return (<View/>)
 
     const handleDelete = async () => {
@@ -35,7 +33,8 @@ export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEdi
         if (!shouldDelete) {
             return;
         }
-        wishEdit.delete()
+        wishEdit.remove()
+        navigation.popToTop()
         showToast("Item deleted")
     }
     const handleUpdate = () => {
@@ -44,25 +43,31 @@ export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEdi
         navigation.goBack()
     }
 
-    const handleBuy = () => {
-    }
-
+    const avatar = <FormImagePicker value={wishEdit.imageId} onChanged={wishEdit.setImageId}/>;
     return (
         <Screen>
             <Screen.Header title={"Edit wish"} color={color} />
             <Screen.Content>
                 <ScrollView>
                     <Center styles={{padding: 16}}>
-                        <FormCard avatar={<FormImagePicker value={wishEdit.imageId} onChanged={wishEdit.setImageId}/>}>
-                            <FormCategoryPicker label={"Category"} value={wishEdit.category} onChanged={wishEdit.setCategory}
+                        <FormCard avatar={avatar}>
+                            <FormCategoryPicker label={"Category"}
+                                                value={wishEdit.category}
+                                                onChanged={wishEdit.setCategory}
                                                 values={wishEdit.categories}/>
-                            <FormMoneyInput label={"Value"} value={wishEdit.targetValue} onChanged={wishEdit.setTargetValue}/>
-                            <FormTextInput label={"Name"} value={wishEdit.name} onChanged={wishEdit.setName} icon={"name"}/>
-                            <FormTextArea label={"Comments"} value={wishEdit.comments} onChanged={wishEdit.setComments}
+                            <FormMoneyInput label={"Value"}
+                                            value={wishEdit.targetValue}
+                                            onChanged={wishEdit.setTargetValue}/>
+                            <FormTextInput label={"Name"}
+                                           value={wishEdit.name}
+                                           onChanged={wishEdit.setName}
+                                           icon={"name"}/>
+                            <FormTextArea label={"Comments"}
+                                          value={wishEdit.comments}
+                                          onChanged={wishEdit.setComments}
                                           icon={"name"}/>
-                            <FormButtonRow center>
+                            <FormButtonRow right>
                                 <FormDeleteButton onClick={handleDelete}/>
-                                <FormBuyButton onClick={handleBuy}/>
                                 <FormUpdateButton onClick={handleUpdate}/>
                             </FormButtonRow>
                         </FormCard>

@@ -1,5 +1,5 @@
 import {Action} from "redux"
-import {Budget, BudgetCategory} from "../states";
+import {Budget, BudgetCategory, BudgetExpense} from "../states";
 
 export type BudgetAction =
     (Action<"create_budget"> & { budget: Budget }) |
@@ -7,7 +7,8 @@ export type BudgetAction =
     (Action<"delete_budget_by_trip_id"> & { tripId: number }) |
     (Action<"create_budget_category"> & { category: BudgetCategory }) |
     (Action<"update_budget_category"> & { category: BudgetCategory }) |
-    (Action<"delete_budget_category_by_id"> & { id: number })
+    (Action<"delete_budget_category_by_id"> & { id: number }) |
+    (Action<"create_budget_expense">) & {expense: BudgetExpense}
 
 export const createBudget = (budget: Budget): BudgetAction => ({type: "create_budget", budget})
 
@@ -22,3 +23,4 @@ export const updateBudgetCategory = (category: BudgetCategory): BudgetAction => 
     category
 })
 export const deleteBudgetCategoryById = (id: number):BudgetAction => ({type: "delete_budget_category_by_id", id})
+export const createBudgetExpense = (expense: BudgetExpense) :BudgetAction => ({type: "create_budget_expense", expense})

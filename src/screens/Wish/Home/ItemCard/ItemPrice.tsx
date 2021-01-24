@@ -31,9 +31,7 @@ const PriceWithExpense = ({item, expense}: Props & { expense: BudgetExpense }) =
 
 export const ItemPrice = ({item}: Props) => {
     const expense = item.budgetExpenseId && useSelector(selectBudgetExpenseById(item.budgetExpenseId))
-    return !expense
-        ? (<OnlyPrice item={item}/>)
-        : (<PriceWithExpense item={item} expense={expense}/>)
+    return expense ? (<PriceWithExpense item={item} expense={expense}/>) : (<OnlyPrice item={item}/>)
 }
 
 const styles = StyleSheet.create({

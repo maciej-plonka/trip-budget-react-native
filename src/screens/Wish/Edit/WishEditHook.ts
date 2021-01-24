@@ -18,41 +18,45 @@ type WishEdit = {
     comments: string
     setComments(comments: string): void
     update(): void,
-    delete(): void,
+    remove(): void,
 }
+
 
 export const useWishEdit = (itemId: number): WishEdit | undefined => {
     const item = useSelector(selectWishById(itemId))
+    const dispatch = useDispatch()
     if (!item) {
         return undefined
     }
-    const categories = useSelector(selectBudgetCategoriesByTripId(item.tripId))
+    const categories: Readonly<BudgetCategory[]> = useSelector(selectBudgetCategoriesByTripId(item.tripId))
     const currentCategory = categories.find(it => it.id === item.budgetCategoryId)
     const [imageId, setImageId] = useState<string | undefined>(undefined);
     const [category, setCategory] = useState<BudgetCategory | undefined>(currentCategory);
     const [targetValue, setTargetValue] = useState<Money>(item.targetValue)
-    const [name, setName] = useState<string>(item.name )
+    const [name, setName] = useState<string>(item.name)
     const [comments, setComments] = useState<string>(item.comments)
-    const dispatch = useDispatch()
+
+    const update = () => {
+        const toUpdate: Wish = {
+            ...item,
+            imageId,
+            targetValue,
+            name,
+            comments,
+            budgetCategoryId: category?.id
+        }
+        dispatch(updateWish(toUpdate))
+    }
+
+    const remove = () => setTimeout(() => dispatch(deleteWishById(itemId)), 1000);
+
     return {
         imageId, setImageId,
         categories, category, setCategory,
         targetValue, setTargetValue,
         name, setName,
         comments, setComments,
-        update() {
-            const toUpdate: Wish = {
-                ...item,
-                imageId,
-                targetValue,
-                name,
-                comments,
-                budgetCategoryId: category?.id
-            }
-            dispatch(updateWish(toUpdate))
-        },
-        delete() {
-            dispatch(deleteWishById(itemId))
-        }
+        update,
+        remove
     }
 }

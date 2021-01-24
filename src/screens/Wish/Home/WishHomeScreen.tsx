@@ -1,28 +1,10 @@
 import React from "react";
 import {useThemeContext} from "../../../contexts/ThemeContext";
-import {WishNavigation, WishNavigationProps} from "../../../navigation";
-import {FlatList, StyleSheet, TouchableOpacity, View} from "react-native";
-import {ItemCard} from "./ItemCard";
-import {Wish} from "../../../store/states";
-import {useNavigation} from "@react-navigation/native";
+import {WishNavigationProps} from "../../../navigation";
+import {View} from "react-native";
 import {Screen} from "../../../components/Screen";
 import {useWishHome} from "./WishHomeHook";
-
-type Props = {
-    item: Wish
-}
-export const FlatListItem = ({item}: Props) => {
-    const navigation = useNavigation<WishNavigation<"WishHomeScreen">>()
-    const navigateToEditScreen = () => {
-        const navigationOptions = {tripId: item.tripId, itemId: item.id}
-        navigation.push("WishEditScreen", navigationOptions)
-    }
-    return (
-        <TouchableOpacity style={styles.item} delayLongPress={200} onLongPress={navigateToEditScreen}>
-            <ItemCard item={item}/>
-        </TouchableOpacity>
-    )
-}
+import {WishHomeList} from "./WishHomeList";
 
 export const WishHomeScreen = ({navigation, route}: WishNavigationProps<"WishHomeScreen">) => {
     const tripId = route.params.tripId;
@@ -40,17 +22,10 @@ export const WishHomeScreen = ({navigation, route}: WishNavigationProps<"WishHom
             </Screen.Header>
             <Screen.Content>
                 <View style={{padding: 16}}>
-                    <FlatList data={wishHome.wishes} keyExtractor={it => it.id.toString()}
-                              renderItem={item => <FlatListItem {...item}/>}/>
+                   <WishHomeList wishes={wishHome.wishes} />
                 </View>
             </Screen.Content>
             <Screen.Fab onClick={navigateToCreateScreen}/>
         </Screen>
     )
 }
-
-const styles = StyleSheet.create({
-    item: {
-        marginVertical: 8,
-    }
-});

@@ -13,6 +13,6 @@ export const tripReducer = (state: TripState = initialTripState, action: TripAct
         case "delete_trip":
             return {...state, trips: state.trips.filter(it => it.id !== action.tripId)}
     }
-    return state;
+    throw new Error('Unsupported trip operation')
 }
 

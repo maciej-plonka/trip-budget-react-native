@@ -4,7 +4,9 @@ import {RouteProp} from "@react-navigation/native";
 export type WishParamList = {
     WishHomeScreen: { tripId: number },
     WishNewScreen: { tripId: number },
-    WishEditScreen: { itemId: number, tripId: number }
+    WishEditScreen: { itemId: number, tripId: number },
+    WishDetailsScreen: {itemId: number, tripId: number}
+    WishBuyScreen: {itemId: number, tripId: number}
 }
 
 export type WishNavigation<T extends keyof WishParamList> = StackNavigationProp<WishParamList, T>

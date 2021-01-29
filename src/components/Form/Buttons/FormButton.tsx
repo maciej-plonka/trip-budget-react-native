@@ -1,7 +1,7 @@
 import React from "react";
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import FormButtonIcon from "./FormButtonIcon";
-import ColoredBackground from "../../ColoredBackground";
+import {ColoredBackground} from "../../ColoredBackground";
 import {Color} from "../../../models/Colors";
 
 type Props = {
@@ -17,7 +17,7 @@ const FormButton = ({color, icon, text, onClick}: Props) => {
         <TouchableOpacity onPress={() => onClick()}>
             <ColoredBackground color={color} style={[styles.root, isFullWidth && styles.fullWidth]}>
                 {icon && <FormButtonIcon icon={icon}/>}
-                {text && <Text style={styles.text}>{text}</Text> }
+                {text && <Text style={styles.categoryText}>{text}</Text> }
             </ColoredBackground>
         </TouchableOpacity>
     )
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         maxWidth: 120,
     },
 
-    text: {
+    categoryText: {
         color: "white",
         marginLeft: 4
     },

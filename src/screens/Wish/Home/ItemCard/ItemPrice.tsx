@@ -19,7 +19,7 @@ const PriceWithExpense = ({item, expense}: Props & { expense: BudgetExpense }) =
         return (<OnlyPrice item={item}/>)
     }
     const paidMore = isMore(expense.value, item.targetValue)
-    const newValueStyle = [paidMore && styles.worsePrice, !paidMore && styles.previousPrice]
+    const newValueStyle = paidMore ? styles.worsePrice : styles.betterPrice
     const previousValueStyle = [styles.previousPrice]
     return (
         <View style={styles.root}>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     root: {
         flexDirection: "column",
         padding: 8,
-        alignItems: "flex-start",
+        alignItems: "flex-end",
         justifyContent: "center"
     },
     price: {
@@ -51,6 +51,8 @@ const styles = StyleSheet.create({
         color: "#EF7297"
     },
     previousPrice: {
-        color: "#B5B5B5"
+        fontSize: 12,
+        color: "#B5B5B5",
+        textDecorationLine: "line-through"
     }
 });

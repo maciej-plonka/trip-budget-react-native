@@ -9,7 +9,6 @@ export type Wish = HasId &{
     name: string,
     comments: string,
     targetValue: Money,
-    actualValue?: Money,
 }
 
 export type NewWish = HasId & {

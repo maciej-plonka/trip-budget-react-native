@@ -3,7 +3,7 @@ import {createStackNavigator} from "@react-navigation/stack";
 import React from "react";
 import {ModulesNavigationProps} from "./ModulesNavigationProps";
 import {WishParamList} from "./WishNavigationProps";
-import {WishNewScreen, WishHomeScreen, WishEditScreen, WishDetailsScreen} from "../../screens";
+import {WishDetailsScreen, WishEditScreen, WishHomeScreen, WishNewScreen} from "../../screens";
 import {WishBuyScreen} from "../../screens/Wish/Buy";
 
 const Stack = createStackNavigator<WishParamList>();

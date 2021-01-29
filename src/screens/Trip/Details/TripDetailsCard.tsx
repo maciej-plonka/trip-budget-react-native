@@ -1,8 +1,7 @@
 import {Trip} from "../../../store/states";
 import {Image, StyleSheet, Text, View} from "react-native";
 import {format} from "date-fns";
-import {FormButtonRow, FormConfigureButton} from "../../../components/Form";
-import Card from "../../../components/Card";
+import {Card, FormButtonRow, FormConfigureButton} from "../../../components";
 import React from "react";
 
 type Props = {

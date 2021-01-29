@@ -1,7 +1,7 @@
 import {StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle} from "react-native";
 import React from "react";
 import {showToast} from "../../../models/Toast";
-import {FileImage} from "../../Image/FileImage";
+import {FileImage} from "../../FileImage";
 import {launchImageLibraryAsync} from "expo-image-picker";
 import {
     addAssetsToAlbumAsync,

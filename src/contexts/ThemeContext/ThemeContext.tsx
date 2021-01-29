@@ -30,23 +30,7 @@ const gradients = {
     } as Gradient,
 }
 
-interface Theme {
-    background: string,
-    colors: {
-        headers: {
-            budget: Gradient,
-            wish: Gradient
-        },
-        fab: Gradient,
-        primary: Gradient,
-        secondary: Gradient,
-        remove: Gradient
-
-    }
-
-}
-
-const theme: Theme = {
+const theme = {
     background: "#EEF1F5",
     colors: {
         headers: {
@@ -60,17 +44,15 @@ const theme: Theme = {
     }
 }
 
-const ThemeContext = createContext<Theme>(theme)
+const ThemeContext = createContext(theme)
 export const useThemeContext = () => useContext(ThemeContext)
 
 interface Props {
     children?: React.ReactNode
 }
 
-const Theme = ({children}: Props) => (
+export const Theme = ({children}: Props) => (
     <ThemeContext.Provider value={theme}>
         {children}
     </ThemeContext.Provider>
 );
-
-export default Theme;

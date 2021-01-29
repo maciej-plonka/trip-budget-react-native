@@ -4,3 +4,7 @@ export const findBy = <Type, Key extends keyof Type, Value extends Type[Key]>(co
 export const filterBy = <Type, Key extends keyof Type, Value extends Type[Key]>(collection: Readonly<Type[]>, key: Key, value: Value): Readonly<Type[]> => {
     return collection.filter(it => it[key] as Value === value);
 };
+
+export const existsBy = <Type, Key extends keyof Type, Value extends Type[Key]>(collection: Readonly<Type[]>, key: Key, value: Value): boolean => {
+    return collection.some(it => it[key] as Value === value);
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import {BudgetNavigationProps} from "../../../navigation";
 import {useThemeContext} from "../../../contexts/ThemeContext";
-import {Screen} from "../../../components/Screen";
+import {Screen} from "../../../components";
 
 export const BudgetHomeScreen =({}: BudgetNavigationProps<"BudgetHomeScreen">) => {
     const color = useThemeContext().colors.headers.budget

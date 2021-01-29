@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import {selectAllTrips} from "../../../store/selectors";
 import {TripNavigationProps} from "../../../navigation";
 import {TripListItem} from "./TripListItem";
-import {Screen} from "../../../components/Screen";
+import {Screen} from "../../../components";
 
 const keyExtractor = ({id}: { id: number }) => id.toString()
 

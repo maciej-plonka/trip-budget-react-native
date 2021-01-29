@@ -1,6 +1,6 @@
 import InputWrapper, {InputIconName} from "./InputWrapper";
 import React from "react";
-import {StyleSheet, TextInput, View} from "react-native";
+import {StyleSheet, TextInput} from "react-native";
 
 type Props = BaseInputProps<string> & {
     label: string,

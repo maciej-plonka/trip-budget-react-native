@@ -1,9 +1,9 @@
 import React, {FC, ReactElement, useEffect, useState} from "react";
 import {HeaderCtx} from "./HeaderContext";
 import {HeaderTab, HeaderTabProps} from "./HeaderTab";
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, View} from "react-native";
 import {Color, isGradient} from "../../../models/Colors";
-import ColoredBackground from "../../ColoredBackground";
+import {ColoredBackground} from "../../ColoredBackground";
 import {HeaderTitle} from "./HeaderTitle";
 
 export type HeaderProps = {
@@ -19,9 +19,8 @@ interface IComposition {
 
 
 
-const backgroundStyles = (backgroundColor: Color, hasTabs: boolean = false) => [
+const backgroundStyles = (backgroundColor: Color) => [
     styles.container,
-    {height: hasTabs ? 124 : 82},
     isGradient(backgroundColor) && styles.containerLeft
 ]
 
@@ -43,7 +42,7 @@ export const Header: FC<HeaderProps> & IComposition = ({children, onTabChanged, 
     const hasTabs = !!children
     return (
         <HeaderCtx.Provider value={{...selectedTab, color}}>
-            <ColoredBackground style={backgroundStyles(color, hasTabs)} color={color}>
+            <ColoredBackground style={backgroundStyles(color)} color={color}>
                 <HeaderTitle title={title} color={color} />
                 {hasTabs && (
                     <View style={styles.childrenList}>
@@ -67,7 +66,6 @@ const styles = StyleSheet.create({
         alignItems: "flex-start"
     },
     childrenList: {
-        height: 24,
         display: "flex",
         flexDirection: "row"
     },

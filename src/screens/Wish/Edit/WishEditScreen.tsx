@@ -1,8 +1,8 @@
 import {WishNavigationProps} from "../../../navigation";
 import React, {useEffect} from "react";
 import {useThemeContext} from "../../../contexts/ThemeContext";
-import {Center} from "../../../components/Center";
 import {
+    Center,
     FormButtonRow,
     FormCard,
     FormCategoryPicker,
@@ -11,13 +11,13 @@ import {
     FormMoneyInput,
     FormTextArea,
     FormTextInput,
-    FormUpdateButton
-} from "../../../components/Form";
+    FormUpdateButton,
+    Screen
+} from "../../../components";
 import {confirmMessageBox} from "../../../models/MessageBox";
 import {showToast} from "../../../models/Toast";
 import {ScrollView, View} from "react-native";
 import {useWishEdit} from "./WishEditHook";
-import {Screen} from "../../../components/Screen";
 
 export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEditScreen">) => {
     const color = useThemeContext().colors.headers.wish

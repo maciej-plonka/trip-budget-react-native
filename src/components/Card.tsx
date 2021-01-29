@@ -1,7 +1,7 @@
 import React from "react";
 import {StyleProp, StyleSheet, ViewStyle} from "react-native";
-import ColoredBackground from "../ColoredBackground";
-import {Color} from "../../models/Colors";
+import {ColoredBackground} from "./ColoredBackground";
+import {Color} from "../models/Colors";
 
 type Props = {
     rounded?: boolean,
@@ -10,7 +10,7 @@ type Props = {
     color?: Color
     flat?: boolean
 }
-const Card = ({rounded, style, children, flat, color = "white"}: Props) => {
+export const  Card = ({rounded, style, children, flat, color = "white"}: Props) => {
     const cardStyle = [
         styles.root,
         rounded && styles.rounded,
@@ -36,4 +36,3 @@ const styles = StyleSheet.create({
         borderRadius: 8,
     }
 });
-export default Card;

@@ -1,17 +1,26 @@
 import React, {useEffect} from "react";
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import Card from "../../../../components/Card";
+import {FlatList, StyleSheet, Text, View} from "react-native";
+import {
+    Card,
+    FormAddButton,
+    FormButtonRow,
+    FormCard,
+    FormConfigureButton,
+    FormMoneyInput,
+    FormUpdateButton,
+    MoneyLinearProgressBar,
+    Screen
+} from "../../../../components";
 import {Budget, sumCategoriesBudget} from "../../../../store/states";
 import {SelectedCategoryModal} from "./SelectedCategoryModal";
 import {formatMoney} from "../../../../models/Money";
 import {TripNavigationProps} from "../../../../navigation";
-import {Screen} from "../../../../components/Screen";
-import {Progress} from "../../../../components/BudgetProgress";
-import {FormAddButton, FormButtonRow, FormCard, FormMoneyInput, FormUpdateButton} from "../../../../components/Form";
 import {useTripBudgetEdit} from "./TripBudgetEditHook";
+import {useThemeContext} from "../../../../contexts/ThemeContext";
 
 export const TripBudgetEditScreen = ({navigation, route}: TripNavigationProps<"TripBudgetEditScreen">) => {
     const budget = useTripBudgetEdit(route.params.tripId);
+    const theme = useThemeContext()
     useEffect(() => {
         !budget && navigation.goBack();
     }, [budget])
@@ -25,7 +34,9 @@ export const TripBudgetEditScreen = ({navigation, route}: TripNavigationProps<"T
             <Screen.Header title={"Edit budget"}/>
             <Screen.Content>
                 <View style={styles.root}>
-                    <Progress maxValue={budget.totalBudget} currentValue={sumCategoriesBudget(budget.categories)}/>
+                    <Card style={{padding: 16, marginBottom: 8}}>
+                        <MoneyLinearProgressBar color={theme.colors.primary} max={budget.totalBudget} current={sumCategoriesBudget(budget.categories)}/>
+                    </Card>
                     <FormCard>
                         <FormMoneyInput label={"Budget"} value={budget.totalBudget} onChanged={budget.setTotalBudget}/>
                         <FormButtonRow right>
@@ -37,19 +48,19 @@ export const TripBudgetEditScreen = ({navigation, route}: TripNavigationProps<"T
 
                     <FlatList style={styles.list} data={budget.categories} keyExtractor={i => i.id.toString()}
                               renderItem={({item}) => (
-                                  <TouchableOpacity delayLongPress={200}
-                                                    onLongPress={() => budget.selectCategory(item)}>
-                                      <Card style={styles.category} rounded>
+                                  <Card style={styles.category} rounded>
+                                      <View style={styles.categoryText}>
                                           <Text>{item.name}</Text>
                                           <Text>{formatMoney(item.categoryBudget)}</Text>
-                                      </Card>
-                                  </TouchableOpacity>
+                                      </View>
+
+                                      <FormConfigureButton onClick={() => budget.selectCategory(item)} />
+                                  </Card>
                               )}/>
                     {!!budget.selectedCategory && (
                         <SelectedCategoryModal category={budget.selectedCategory}
                                                onChanged={handleOnSelectedCategoryChanged}/>)
                     }
-
                 </View>
             </Screen.Content>
         </Screen>
@@ -66,8 +77,13 @@ const styles = StyleSheet.create({
         marginVertical: 4,
     },
     category: {
+        flexDirection: "row",
+        justifyContent: "space-between",
         padding: 16,
         marginTop: 4,
         marginBottom: 4,
+    },
+    categoryText: {
+        flexDirection: "column"
     }
 });

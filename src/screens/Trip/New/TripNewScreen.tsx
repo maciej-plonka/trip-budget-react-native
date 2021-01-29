@@ -1,16 +1,16 @@
 import React from "react";
 import {
+    Center,
     FormButtonRow,
     FormCalendarInput,
     FormCard,
     FormCreateButton,
     FormMoneyInput,
-    FormTextInput
-} from "../../../components/Form";
-import {Center} from "../../../components/Center";
+    FormTextInput,
+    Screen
+} from "../../../components";
 import {TripNavigationProps} from "../../../navigation";
 import {useTripNew} from "./TripNewHook";
-import {Screen} from "../../../components/Screen";
 
 export const TripNewScreen = ({navigation}: TripNavigationProps<"TripNewScreen">) => {
     const tripNew = useTripNew()

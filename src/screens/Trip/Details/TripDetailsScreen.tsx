@@ -4,8 +4,7 @@ import {useSelector} from "react-redux";
 import {selectBudgetByTripId, selectTripById} from "../../../store/selectors";
 import {TripDetailsCard} from "./TripDetailsCard";
 import {TripNavigationProps} from "../../../navigation";
-import {Screen} from "../../../components/Screen";
-import {BudgetProgress} from "../../../components/BudgetProgress";
+import {BudgetProgress, Screen} from "../../../components";
 
 export const TripDetailsScreen = ({navigation, route}: TripNavigationProps<"TripDetailsScreen">) => {
     const tripId = route.params.tripId;

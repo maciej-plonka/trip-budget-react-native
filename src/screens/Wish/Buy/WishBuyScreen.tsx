@@ -1,16 +1,17 @@
 import {WishNavigationProps} from "../../../navigation";
-import {Screen} from "../../../components/Screen";
-import {useThemeContext} from "../../../contexts/ThemeContext";
-import React, {useEffect, useState} from "react";
-import {Center} from "../../../components/Center";
 import {
+    Center,
     FormButtonRow,
     FormBuyButton,
-    FormCard, FormCategoryPicker,
+    FormCard,
+    FormCategoryPicker,
     FormMoneyInput,
     FormTextArea,
-    FormTextInput
-} from "../../../components/Form";
+    FormTextInput,
+    Screen
+} from "../../../components";
+import {useThemeContext} from "../../../contexts/ThemeContext";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {selectBudgetCategoriesByTripId, selectWishById} from "../../../store/selectors";
 import {Money} from "../../../models/Money";

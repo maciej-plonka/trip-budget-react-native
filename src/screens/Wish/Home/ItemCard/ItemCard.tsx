@@ -1,4 +1,4 @@
-import Card from "../../../../components/Card";
+import {Card} from "../../../../components";
 import React from "react";
 import {Wish} from "../../../../store/states";
 import {StyleSheet} from "react-native";

@@ -12,22 +12,18 @@ export type HeaderTabProps = {
 
 const textStyle = (color: Color, selected: boolean) => [
     styles.tabText,
-    selected && {color: isGradient(color) ? "white" : "black"}
+    selected && {color: isGradient(color) ? "white" : "black"},
 ]
 
-const tabStyle = (color: Color, selected: boolean) => [
-    styles.tab,
-    selected && {borderBottomColor: isGradient(color) ? "white" : "black"}
-]
 
-export const HeaderTab: FC<HeaderTabProps> = ({title,initial,  id = title}) => {
+export const HeaderTab: FC<HeaderTabProps> = ({title, initial, id = title}) => {
     const {isActive, selectTab, color} = useHeaderCtx()
     useEffect(() => {
         initial && selectTab(id)
     }, [initial])
     const selected = isActive(id)
     return (
-        <TouchableOpacity style={tabStyle(color, selected)} onPress={() => selectTab(id)}>
+        <TouchableOpacity style={styles.tab} onPress={() => selectTab(id)}>
             <Text style={textStyle(color, selected)}>{title}</Text>
         </TouchableOpacity>
 
@@ -40,11 +36,11 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         justifyContent: "flex-start",
-        borderBottomColor: "rgba(0,0,0,0.1)",
-        borderBottomWidth: 1,
+        paddingVertical: 8,
     },
+
     tabText: {
-        color: "rgba(0,0,0,0.3)",
+        color: "rgba(0,0,0,0.5)",
         width: "100%",
         textAlign: "center"
 

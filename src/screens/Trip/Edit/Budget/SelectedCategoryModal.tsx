@@ -1,14 +1,14 @@
 import {BudgetCategory} from "../../../../store/states";
 import {Modal, StyleSheet} from "react-native";
-import {Center} from "../../../../components/Center";
 import {
+    Center,
     FormButtonRow,
     FormCard,
     FormDeleteButton,
     FormMoneyInput,
     FormTextInput,
     FormUpdateButton
-} from "../../../../components/Form";
+} from "../../../../components";
 import React, {useState} from "react";
 import {useDispatch} from "react-redux";
 import {deleteBudgetCategoryById, updateBudgetCategory} from "../../../../store/actions";

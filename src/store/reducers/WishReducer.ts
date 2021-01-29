@@ -13,5 +13,5 @@ export const wishReducer = (state: WishState = initialWishState, action: WishAct
             return {...state, wishes: state.wishes.filter(it => it.id !== action.id)}
 
     }
-    throw new Error('Unsupported wish operation')
+    return state;
 }

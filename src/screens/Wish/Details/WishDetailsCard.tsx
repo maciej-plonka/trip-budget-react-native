@@ -1,8 +1,6 @@
 import React from "react";
-import Card from "../../../components/Card";
+import {Card, FormButtonRow, FormBuyButton, FormConfigureButton} from "../../../components";
 import {Image, StyleSheet, Text, View} from "react-native";
-import {format} from "date-fns";
-import {FormButtonRow, FormBuyButton, FormConfigureButton} from "../../../components/Form";
 import {isBought, Wish} from "../../../store/states";
 import {useNavigation} from "@react-navigation/native";
 import {WishNavigation} from "../../../navigation";

@@ -1,20 +1,20 @@
 import {WishNavigationProps} from "../../../navigation";
 import {useThemeContext} from "../../../contexts/ThemeContext";
 import React, {useEffect} from "react";
-import {Center} from "../../../components/Center";
 import {
+    Center,
     FormButtonRow,
     FormCard,
     FormCategoryPicker,
     FormCreateButton,
     FormImagePicker,
     FormMoneyInput,
-    FormTextInput
-} from "../../../components/Form";
+    FormTextInput,
+    Screen
+} from "../../../components";
 import {useWishNew} from "./WishNewHook";
 import {ScrollView, View} from "react-native";
 import {showToast} from "../../../models/Toast";
-import {Screen} from "../../../components/Screen";
 
 export const WishNewScreen = ({route, navigation}: WishNavigationProps<"WishNewScreen">) => {
     const theme = useThemeContext();

@@ -1,7 +1,7 @@
 import {isBought, Wish} from "../../../../../store/states";
 import {StyleSheet} from "react-native";
 import React from "react";
-import ColoredBackground from "../../../../../components/ColoredBackground";
+import {ColoredBackground} from "../../../../../components";
 import {useThemeContext} from "../../../../../contexts/ThemeContext";
 import {ItemButtonIcon} from "./ItemButtonIcon";
 

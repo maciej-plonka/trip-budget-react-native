@@ -1,7 +1,7 @@
 import React, {FC} from "react";
 import {useThemeContext} from "../../contexts/ThemeContext";
 import {StyleSheet, TouchableOpacity} from "react-native";
-import ColoredBackground from "../ColoredBackground";
+import {ColoredBackground} from "../ColoredBackground";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 
 export type FABProps = {

@@ -60,13 +60,19 @@ export const deleteFullTrip = (tripId: number): RootThunkAction => (dispatch) =>
 }
 
 
-export const buyWish = (wish: Wish): RootThunkAction => (dispatch, getState) =>  {
+export const buyWish = (wish: Wish & {actualValue: Money}): RootThunkAction => (dispatch, getState) => {
     const budgetExpenseId = lastId(getState().budget.budgetExpenses) + 1
-    const budget = findBy(getState().budget.budgets,"tripId", wish.tripId);
-    if(!budget) {
+    const budget = findBy(getState().budget.budgets, "tripId", wish.tripId);
+    if (!budget) {
         return;
     }
-    const expense = {...wish,budgetId: budget.id, id: budgetExpenseId, categoryId: wish.budgetCategoryId, value: wish.actualValue ?? wish.targetValue};
+    const expense = {
+        ...wish,
+        budgetId: budget.id,
+        id: budgetExpenseId,
+        categoryId: wish.budgetCategoryId,
+        value: wish.actualValue ?? wish.targetValue
+    };
     dispatch(createBudgetExpense(expense))
     dispatch(updateWish({...wish, budgetExpenseId}))
 }

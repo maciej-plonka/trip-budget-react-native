@@ -1,7 +1,6 @@
 import {CompositeNavigationProp, RouteProp} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
 import {RootParamList} from "../RootNavigationProps";
-import {WishParamList} from "../Modules";
 
 export type TripParamList = {
     TripHomeScreen: undefined

@@ -1,11 +1,10 @@
 import React, {useEffect} from "react";
 import {WishNavigationProps} from "../../../navigation";
-import {Screen} from "../../../components/Screen";
+import {Center, Screen} from "../../../components";
 import {useThemeContext} from "../../../contexts/ThemeContext";
 import {useSelector} from "react-redux";
 import {selectWishById} from "../../../store/selectors";
 import {View} from "react-native";
-import {Center} from "../../../components/Center";
 import {WishDetailsCard} from "./WishDetailsCard";
 
 export const WishDetailsScreen = ({route, navigation}: WishNavigationProps<"WishDetailsScreen">) => {

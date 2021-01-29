@@ -1,14 +1,14 @@
 import React from "react";
 import {StyleProp, View, ViewStyle} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
-import {Color, isGradient} from "../../models/Colors";
+import {Color, isGradient} from "../models/Colors";
 
 type Props = {
     color: Color,
     style?: StyleProp<ViewStyle>
     children?: React.ReactNode
 }
-const ColoredBackground = ({color, style, children}: Props) => {
+export const ColoredBackground = ({color, style, children}: Props) => {
     if (!isGradient(color)) {
         const backgroundColor = {backgroundColor: color}
         return (
@@ -25,5 +25,3 @@ const ColoredBackground = ({color, style, children}: Props) => {
     )
 
 }
-
-export default ColoredBackground;

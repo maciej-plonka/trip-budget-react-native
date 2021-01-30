@@ -1,7 +1,6 @@
 import {Wish} from "../../../../store/states";
 import {useNavigation} from "@react-navigation/native";
 import {WishNavigation} from "../../../../navigation";
-import {StyleSheet, TouchableOpacity} from "react-native";
 import {ItemCard} from "../ItemCard";
 import React from "react";
 
@@ -12,11 +11,7 @@ type Props = {
 export const WishHomeListItem = ({wish}: Props) => {
     const navigation = useNavigation<WishNavigation<"WishHomeScreen">>()
     const navigateToEditScreen = () => navigation.push("WishDetailsScreen", {tripId: wish.tripId, itemId: wish.id})
-    return (
-        <TouchableOpacity  delayLongPress={200} onLongPress={navigateToEditScreen}>
-            <ItemCard item={wish}/>
-        </TouchableOpacity>
-    )
+    return ( <ItemCard item={wish} onClick={navigateToEditScreen} />)
 }
 
 

@@ -31,20 +31,19 @@ const useSelectedTab = (initialValue: string | null = null, onTabChanged?: (v: s
         onTabChanged && onTabChanged(selectedTab)
     }, [selectedTab])
 
-    return {
-        isActive:(tab: string) => selectedTab === tab ,
-        selectTab: (tab: string | null) => setSelectedTab(tab)
-    }
+    const isActive = (tab: string) => selectedTab === tab
+    const selectTab = (tab: string | null) => setSelectedTab(tab)
+
+    return {isActive, selectTab }
 }
 
 export const Header: FC<HeaderProps> & IComposition = ({children, onTabChanged, color = "white", title}) => {
     const selectedTab = useSelectedTab(null, onTabChanged)
-    const hasTabs = !!children
     return (
         <HeaderCtx.Provider value={{...selectedTab, color}}>
             <ColoredBackground style={backgroundStyles(color)} color={color}>
                 <HeaderTitle title={title} color={color} />
-                {hasTabs && (
+                {children && (
                     <View style={styles.childrenList}>
                         {children}
                     </View>
@@ -61,7 +60,6 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
     },
-
     containerLeft: {
         alignItems: "flex-start"
     },
@@ -69,5 +67,4 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row"
     },
-
 })

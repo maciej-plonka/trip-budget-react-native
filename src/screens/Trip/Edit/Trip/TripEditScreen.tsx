@@ -30,7 +30,7 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
     }
 
     const handleDelete = async () => {
-        const shouldDelete = await confirmMessageBox({title: "Caution!", description: "Do you want to delete trip?"});
+        const shouldDelete = await confirmMessageBox({title: "Caution!", cardDescription: "Do you want to delete trip?"});
         if (!shouldDelete) {
             return;
         }

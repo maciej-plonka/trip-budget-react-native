@@ -1,23 +1,23 @@
 import React from "react";
 import {Image, StyleSheet, Text, View} from "react-native";
-import {differenceInDays, format, isBefore, isToday} from "date-fns";
-import {Trip} from "../../../store/states";
+import {format} from "date-fns";
+import {daysUntil, hasEnded, hasStarted, isActive, Trip} from "../../../../store/states";
+import {TripCardActions} from "./TripCardActions";
 
 type Props = {
     trip: Trip
 }
 
-const formatDate = ({startDate, endDate}: Trip): string => {
-    const now = new Date();
-    if (isBefore(endDate, now)) {
+const formatDate = (trip: Trip): string => {
+    if (isActive(trip)) {
+        return "Active"
+    }
+    if (hasEnded(trip)) {
         return "Trip finished"
     }
-    if (isBefore(startDate, now) || isToday(startDate)) {
-        return "Already started"
-    }
-    const daysLeft = differenceInDays(startDate, now);
+    const daysLeft = daysUntil(trip);
     if (daysLeft > 30) {
-        return format(startDate, "MM.dd.yyyy")
+        return format(trip.startDate, "MM.dd.yyyy")
     }
     return daysLeft == 1
         ? "Starts tomorrow"
@@ -29,11 +29,16 @@ const TripCard = ({trip}: Props) => {
     return (
         <View style={styles.card}>
             <Image source={{uri: "http://unsplash.it/365/176"}} style={styles.image}/>
-            <View style={styles.description}>
-                <Text style={styles.title}>{trip.name}</Text>
-                <View style={{flex: 1}}/>
-                <Text style={styles.date}>{formatDate(trip)}</Text>
+            <View style={styles.cardBody}>
+                <View style={styles.cardDescription}>
+                    <Text style={styles.title}>{trip.name}</Text>
+                    <Text style={styles.date}>{formatDate(trip)}</Text>
+                </View>
+                <View style={styles.cardNavigation}>
+                    <TripCardActions trip={trip}/>
+                </View>
             </View>
+
 
         </View>
     )
@@ -57,24 +62,32 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 8,
     },
 
-    description: {
+    cardBody: {
         width: "100%",
         height: 60,
         paddingVertical: 10,
         paddingHorizontal: 14,
-        flexDirection: "column"
+        flexDirection: "row",
+        alignItems: "stretch"
+    },
+
+    cardDescription: {
+        flexDirection: "column",
+        justifyContent: "space-between",
+        flex: 1,
     },
     title: {
         alignSelf: "flex-start",
         fontSize: 16,
         fontWeight: "bold"
     },
-
     date: {
-        alignSelf: "flex-end",
         fontSize: 12,
         color: "#B5B5B5"
-    }
+    },
+    cardNavigation: {},
+
+
 })
 
 export default TripCard

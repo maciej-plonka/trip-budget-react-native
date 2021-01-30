@@ -28,7 +28,7 @@ export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEdi
     if (!wishEdit) return (<View/>)
 
     const handleDelete = async () => {
-        const messageBoxOptions = {title: "Caution!", description: "Do you want to delete item?"};
+        const messageBoxOptions = {title: "Caution!", cardDescription: "Do you want to delete item?"};
         const shouldDelete = await confirmMessageBox(messageBoxOptions)
         if (!shouldDelete) {
             return;

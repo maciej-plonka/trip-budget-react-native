@@ -12,7 +12,7 @@ export const TripDetailsCard = ({trip, onConfigure}: Props) => {
     return (
         <Card style={styles.detailsCard}>
             <Image source={{uri: "http://unsplash.it/365/176"}} style={styles.image}/>
-            <View style={styles.description}>
+            <View style={styles.cardDescription}>
                 <Text style={styles.title}>{trip.name}</Text>
                 <View style={styles.dates}>
                     <Text style={styles.date}>{format(trip.startDate, "dd.MM.yyyy")}</Text>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         resizeMode: "cover",
     },
 
-    description: {
+    cardDescription: {
         width: "100%",
         paddingVertical: 10,
         paddingHorizontal: 14,

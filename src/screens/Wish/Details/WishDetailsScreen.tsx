@@ -5,7 +5,7 @@ import {useThemeContext} from "../../../contexts/ThemeContext";
 import {useSelector} from "react-redux";
 import {selectWishById} from "../../../store/selectors";
 import {View} from "react-native";
-import {WishDetailsCard} from "./WishDetailsCard";
+import {WishDetailsCard} from "./Card";
 
 export const WishDetailsScreen = ({route, navigation}: WishNavigationProps<"WishDetailsScreen">) => {
     const color = useThemeContext().colors.headers.wish

@@ -1,8 +1,10 @@
 import React from "react";
-import {FormButtonRow, FormBuyButton, FormConfigureButton} from "../../../../components";
+import {Button, FormButtonRow, Icon, Space, TextWhite} from "../../../../components";
 import {useNavigation} from "@react-navigation/native";
 import {WishNavigation} from "../../../../navigation";
 import {Wish} from "../../../../store/states";
+import {StyleSheet} from "react-native";
+
 type Props = {
     wish: Wish
 }
@@ -13,8 +15,21 @@ export const WishDetailsCardNavigation = ({wish} :Props) => {
     const onBuy = () => navigation.navigate("WishBuyScreen", navigationParams)
     return (
         <FormButtonRow right>
-            <FormBuyButton onClick={onBuy}/>
-            <FormConfigureButton onClick={onConfigure}/>
+            <Button style={styles.button} onClick={onBuy} color={"secondary"} >
+                <Icon iconType={"cart"} size={16} />
+                <TextWhite>Buy</TextWhite>
+            </Button>
+            <Space size={8} />
+            <Button style={styles.button} onClick={onConfigure} color={"primary"} >
+                <Icon iconType={"configure"} size={16} />
+                <TextWhite>Edit</TextWhite>
+            </Button>
         </FormButtonRow>
     )
 }
+
+const styles = StyleSheet.create({
+    button: {
+        paddingHorizontal: 16
+    }
+});

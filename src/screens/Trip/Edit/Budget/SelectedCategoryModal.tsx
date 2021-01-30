@@ -1,13 +1,15 @@
 import {BudgetCategory} from "../../../../store/states";
 import {Modal, StyleSheet} from "react-native";
 import {
+    Button,
     Center,
     FormButtonRow,
     FormCard,
-    FormDeleteButton,
     FormMoneyInput,
     FormTextInput,
-    FormUpdateButton
+    Icon,
+    Space,
+    TextWhite
 } from "../../../../components";
 import React, {useState} from "react";
 import {useDispatch} from "react-redux";
@@ -46,9 +48,15 @@ export const SelectedCategoryModal = ({category, onChanged}: Props) => {
                 <FormCard>
                     <FormTextInput label={"Name"} value={name} onChanged={setName}/>
                     <FormMoneyInput label={"Budget"} value={categoryBudget} onChanged={setCategoryBudget}/>
-                    <FormButtonRow>
-                        <FormDeleteButton onClick={handleDeleteCategory}/>
-                        <FormUpdateButton onClick={handleUpdateCategory}/>
+                    <FormButtonRow right>
+                        <Button onClick={handleDeleteCategory} color={"error"}>
+                            <Icon iconType={"delete"} size={19} />
+                        </Button>
+                        <Space size={8} />
+                        <Button onClick={handleUpdateCategory} color={"primary"}>
+                            <Icon iconType={"confirm"} size={19} />
+                            <TextWhite>Edit</TextWhite>
+                        </Button>
                     </FormButtonRow>
                 </FormCard>
             </Center>

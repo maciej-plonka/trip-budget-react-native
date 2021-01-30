@@ -1,14 +1,16 @@
-import React, {FC, ReactElement, useEffect, useState} from "react";
-import {HeaderCtx} from "./HeaderContext";
+import React, {FC, ReactElement} from "react";
+import {HeaderProvider} from "./HeaderContext";
 import {HeaderTab, HeaderTabProps} from "./HeaderTab";
 import {StyleSheet, View} from "react-native";
 import {Color, isGradient} from "../../../models/Colors";
 import {ColoredBackground} from "../../ColoredBackground";
 import {HeaderTitle} from "./HeaderTitle";
+import {HeaderColor, useHeaderColor} from "../../../contexts/ThemeContext";
+import {useSelectedTab} from "./HeaderHook";
 
 export type HeaderProps = {
     children?: Array<ReactElement<HeaderTabProps>> | ReactElement<HeaderTabProps>,
-    color?: Color,
+    color?: HeaderColor,
     title: string,
     onTabChanged?: (tab: string | null) => void
 }
@@ -18,38 +20,26 @@ interface IComposition {
 }
 
 
-
 const backgroundStyles = (backgroundColor: Color) => [
     styles.container,
     isGradient(backgroundColor) && styles.containerLeft
 ]
 
-const useSelectedTab = (initialValue: string | null = null, onTabChanged?: (v: string | null) => void) => {
-    const [selectedTab, setSelectedTab] = useState<string | null>(null)
 
-    useEffect(() => {
-        onTabChanged && onTabChanged(selectedTab)
-    }, [selectedTab])
-
-    const isActive = (tab: string) => selectedTab === tab
-    const selectTab = (tab: string | null) => setSelectedTab(tab)
-
-    return {isActive, selectTab }
-}
-
-export const Header: FC<HeaderProps> & IComposition = ({children, onTabChanged, color = "white", title}) => {
+export const Header: FC<HeaderProps> & IComposition = ({children, onTabChanged, color = "trip", title}) => {
+    const headerColor = useHeaderColor(color)
     const selectedTab = useSelectedTab(null, onTabChanged)
     return (
-        <HeaderCtx.Provider value={{...selectedTab, color}}>
-            <ColoredBackground style={backgroundStyles(color)} color={color}>
-                <HeaderTitle title={title} color={color} />
+        <HeaderProvider value={{...selectedTab, color: headerColor}}>
+            <ColoredBackground style={backgroundStyles(headerColor)} color={headerColor}>
+                <HeaderTitle title={title} color={headerColor}/>
                 {children && (
                     <View style={styles.childrenList}>
                         {children}
                     </View>
                 )}
             </ColoredBackground>
-        </HeaderCtx.Provider>
+        </HeaderProvider>
     )
 }
 

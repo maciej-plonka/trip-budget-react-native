@@ -1,13 +1,15 @@
 import React from "react";
 import {
+    Button,
     Center,
     FormButtonRow,
     FormCalendarInput,
     FormCard,
-    FormCreateButton,
     FormMoneyInput,
     FormTextInput,
-    Screen
+    Icon,
+    Screen,
+    TextWhite
 } from "../../../components";
 import {TripNavigationProps} from "../../../navigation";
 import {useTripNew} from "./TripNewHook";
@@ -30,7 +32,10 @@ export const TripNewScreen = ({navigation}: TripNavigationProps<"TripNewScreen">
                         <FormMoneyInput label={"Budget"} value={tripNew.totalBudget} onChanged={tripNew.setTotalBudget}
                                         currencyEditable/>
                         <FormButtonRow right>
-                            <FormCreateButton onClick={onSubmit}/>
+                            <Button onClick={onSubmit} color={"primary"}>
+                                <Icon iconType={"confirm"} size={19} />
+                                <TextWhite>Create</TextWhite>
+                            </Button>
                         </FormButtonRow>
                     </FormCard>
                 </Center>

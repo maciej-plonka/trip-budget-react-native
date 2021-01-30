@@ -1,18 +1,19 @@
 import {WishNavigationProps} from "../../../navigation";
 import React, {useEffect} from "react";
-import {useThemeContext} from "../../../contexts/ThemeContext";
 import {
+    Button,
     Center,
     FormButtonRow,
     FormCard,
     FormCategoryPicker,
-    FormDeleteButton,
     FormImagePicker,
     FormMoneyInput,
     FormTextArea,
     FormTextInput,
-    FormUpdateButton,
-    Screen
+    Icon,
+    Screen,
+    Space,
+    TextWhite
 } from "../../../components";
 import {confirmMessageBox} from "../../../models/MessageBox";
 import {showToast} from "../../../models/Toast";
@@ -20,7 +21,6 @@ import {ScrollView, View} from "react-native";
 import {useWishEdit} from "./WishEditHook";
 
 export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEditScreen">) => {
-    const color = useThemeContext().colors.headers.wish
     const wishEdit = useWishEdit(route.params.itemId)
     useEffect(() => {
         !wishEdit && navigation.navigate("WishHomeScreen", {...route.params})
@@ -46,7 +46,7 @@ export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEdi
     const avatar = <FormImagePicker value={wishEdit.imageId} onChanged={wishEdit.setImageId}/>;
     return (
         <Screen>
-            <Screen.Header title={"Edit wish"} color={color} />
+            <Screen.Header title={"Edit wish"} color={"wish"} />
             <Screen.Content>
                 <ScrollView>
                     <Center styles={{padding: 16}}>
@@ -67,8 +67,14 @@ export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEdi
                                           onChanged={wishEdit.setComments}
                                           icon={"name"}/>
                             <FormButtonRow right>
-                                <FormDeleteButton onClick={handleDelete}/>
-                                <FormUpdateButton onClick={handleUpdate}/>
+                                <Button onClick={handleDelete} color={"error"}>
+                                    <Icon iconType={"delete"} size={19} />
+                                </Button>
+                                <Space size={8} />
+                                <Button onClick={handleUpdate} color={"primary"}>
+                                    <Icon iconType={"confirm"} size={19} />
+                                    <TextWhite>Edit</TextWhite>
+                                </Button>
                             </FormButtonRow>
                         </FormCard>
                     </Center>

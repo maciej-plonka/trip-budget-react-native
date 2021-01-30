@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from "react";
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
-import {useHeaderCtx} from "./HeaderContext";
+import {useHeader} from "./HeaderContext";
 import {Color, isGradient} from "../../../models/Colors";
 
 export type HeaderTabProps = {
@@ -17,7 +17,7 @@ const textStyle = (color: Color, selected: boolean) => [
 
 
 export const HeaderTab: FC<HeaderTabProps> = ({title, initial, id = title}) => {
-    const {isActive, selectTab, color} = useHeaderCtx()
+    const {isActive, selectTab, color} = useHeader()
     useEffect(() => {
         initial && selectTab(id)
     }, [initial])

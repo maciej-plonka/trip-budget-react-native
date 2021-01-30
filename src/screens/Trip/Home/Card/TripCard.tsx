@@ -1,7 +1,7 @@
 import React from "react";
 import {Image, StyleSheet, Text, View} from "react-native";
 import {format} from "date-fns";
-import {daysUntil, hasEnded, hasStarted, isActive, Trip} from "../../../../store/states";
+import {daysUntil, hasEnded, isActive, Trip} from "../../../../store/states";
 import {TripCardActions} from "./TripCardActions";
 
 type Props = {
@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         elevation: 4,
         backgroundColor: 'white',
-        marginBottom: 24,
     },
 
     image: {

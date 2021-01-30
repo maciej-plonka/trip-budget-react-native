@@ -1,7 +1,7 @@
 import {Trip} from "../../../store/states";
 import {Image, StyleSheet, Text, View} from "react-native";
 import {format} from "date-fns";
-import {Card, FormButtonRow, FormConfigureButton} from "../../../components";
+import {Button, Card, FormButtonRow, Icon} from "../../../components";
 import React from "react";
 
 type Props = {
@@ -19,7 +19,9 @@ export const TripDetailsCard = ({trip, onConfigure}: Props) => {
                     <Text style={styles.date}>{format(trip.endDate, "dd.MM.yyyy")}</Text>
                 </View>
                 <FormButtonRow right>
-                    <FormConfigureButton onClick={onConfigure}/>
+                    <Button onClick={onConfigure} color={"primary"} >
+                        <Icon iconType={"configure"} size={19} />
+                    </Button>
                 </FormButtonRow>
             </View>
 
@@ -59,5 +61,5 @@ const styles = StyleSheet.create({
     date: {
         fontSize: 12,
         color: "#B5B5B5"
-    }
+    },
 })

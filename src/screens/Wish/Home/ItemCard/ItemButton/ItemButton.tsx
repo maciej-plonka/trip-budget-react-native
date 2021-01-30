@@ -2,7 +2,7 @@ import {isBought, Wish} from "../../../../../store/states";
 import {StyleSheet, TouchableOpacity} from "react-native";
 import React from "react";
 import {ColoredBackground} from "../../../../../components";
-import {useThemeContext} from "../../../../../contexts/ThemeContext";
+import {usePrimaryColor, useSecondaryColor} from "../../../../../contexts/ThemeContext";
 import {ItemButtonIcon} from "./ItemButtonIcon";
 
 type Props = {
@@ -12,11 +12,14 @@ type Props = {
 
 const getIcon = (item: Wish) => isBought(item) ? "bought" : "configure"
 
+const useWishColor  = (item: Wish) => {
+    const primary = usePrimaryColor()
+    const secondary = useSecondaryColor()
+    return isBought(item) ? primary : secondary;
+}
 
 export const ItemButton = ({item, onClick}: Props) => {
-    const theme = useThemeContext()
-    const bought = isBought(item)
-    const color = bought ? theme.colors.primary : theme.colors.secondary
+    const color = useWishColor(item)
     return (
         <TouchableOpacity style={styles.root}  onPress={onClick}>
             <ColoredBackground style={styles.icon} color={color}>

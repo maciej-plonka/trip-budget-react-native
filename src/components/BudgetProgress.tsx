@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import {selectBudgetCategoriesByBudgetId} from "../store/selectors";
 import {Card} from "./Card";
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
-import {useThemeContext} from "../contexts/ThemeContext";
+import {usePrimaryColor} from "../contexts/ThemeContext";
 import {MoneyLinearProgressBar} from "./Progress";
 
 type Props = {
@@ -15,13 +15,13 @@ type Props = {
 
 export const BudgetProgress = ({budget, label = "Budget", onPress}: Props) => {
     const categories = useSelector(selectBudgetCategoriesByBudgetId(budget.id))
-    const theme = useThemeContext()
+    const color = usePrimaryColor()
     const currentlySpent = sumCategoriesBudget(categories)
     return (
         <TouchableOpacity onLongPress={onPress} delayLongPress={200}>
             <Card style={styles.root}>
-                {!!label?.length && <Text style={styles.label}>{label}</Text>}
-               <MoneyLinearProgressBar color={theme.colors.primary} current={currentlySpent} max={budget.totalBudget} />
+                {label && <Text style={styles.label}>{label}</Text>}
+               <MoneyLinearProgressBar color={color} current={currentlySpent} max={budget.totalBudget} />
             </Card>
         </TouchableOpacity>
     )

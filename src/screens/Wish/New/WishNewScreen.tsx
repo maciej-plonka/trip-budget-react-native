@@ -1,23 +1,23 @@
 import {WishNavigationProps} from "../../../navigation";
-import {useThemeContext} from "../../../contexts/ThemeContext";
 import React, {useEffect} from "react";
 import {
+    Button,
     Center,
     FormButtonRow,
     FormCard,
     FormCategoryPicker,
-    FormCreateButton,
     FormImagePicker,
     FormMoneyInput,
     FormTextInput,
-    Screen
+    Icon,
+    Screen,
+    TextWhite
 } from "../../../components";
 import {useWishNew} from "./WishNewHook";
 import {ScrollView, View} from "react-native";
 import {showToast} from "../../../models/Toast";
 
 export const WishNewScreen = ({route, navigation}: WishNavigationProps<"WishNewScreen">) => {
-    const theme = useThemeContext();
     const item = useWishNew(route.params.tripId)
     useEffect(() => {
         !item && navigation.goBack()
@@ -31,7 +31,7 @@ export const WishNewScreen = ({route, navigation}: WishNavigationProps<"WishNewS
     }
     return (
         <Screen>
-            <Screen.Header title={"New item"} color={theme.colors.headers.wish}/>
+            <Screen.Header title={"New item"} color={"wish"}/>
             <Screen.Content>
                 <ScrollView>
                     <Center styles={{padding: 16}}>
@@ -41,7 +41,10 @@ export const WishNewScreen = ({route, navigation}: WishNavigationProps<"WishNewS
                             <FormMoneyInput label={"Value"} value={item.targetValue} onChanged={item.setTargetValue}/>
                             <FormTextInput label={"Name"} value={item.name} onChanged={item.setName} icon={"name"}/>
                             <FormButtonRow right>
-                                <FormCreateButton onClick={handleCreateItem}/>
+                                <Button onClick={handleCreateItem} color={"primary"}>
+                                    <Icon iconType={"confirm"} size={19} />
+                                    <TextWhite>Create</TextWhite>
+                                </Button>
                             </FormButtonRow>
                         </FormCard>
                     </Center>

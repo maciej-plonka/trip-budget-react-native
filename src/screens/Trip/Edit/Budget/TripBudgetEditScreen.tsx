@@ -1,26 +1,28 @@
 import React, {useEffect} from "react";
 import {FlatList, StyleSheet, Text, View} from "react-native";
 import {
+    Button,
     Card,
-    FormAddButton,
     FormButtonRow,
     FormCard,
-    FormConfigureButton,
     FormMoneyInput,
-    FormUpdateButton,
+    Icon,
     MoneyLinearProgressBar,
-    Screen
+    Screen,
+    Space,
+    TextWhite
 } from "../../../../components";
 import {Budget, sumCategoriesBudget} from "../../../../store/states";
 import {SelectedCategoryModal} from "./SelectedCategoryModal";
 import {formatMoney} from "../../../../models/Money";
 import {TripNavigationProps} from "../../../../navigation";
 import {useTripBudgetEdit} from "./TripBudgetEditHook";
-import {useThemeContext} from "../../../../contexts/ThemeContext";
+import {usePrimaryColor} from "../../../../contexts/ThemeContext";
+import {showToast} from "../../../../models/Toast";
 
 export const TripBudgetEditScreen = ({navigation, route}: TripNavigationProps<"TripBudgetEditScreen">) => {
     const budget = useTripBudgetEdit(route.params.tripId);
-    const theme = useThemeContext()
+    const primaryColor = usePrimaryColor()
     useEffect(() => {
         !budget && navigation.goBack();
     }, [budget])
@@ -29,19 +31,30 @@ export const TripBudgetEditScreen = ({navigation, route}: TripNavigationProps<"T
 
     const handleCreateCategory = () => budget.addCategory('New category')
     const handleOnSelectedCategoryChanged = () => budget.selectCategory(null)
+    const handleUpdateBudget = () => {
+        budget.update()
+        showToast("Budget updated")
+        navigation.goBack()
+    }
     return (
         <Screen>
             <Screen.Header title={"Edit budget"}/>
             <Screen.Content>
                 <View style={styles.root}>
                     <Card style={{padding: 16, marginBottom: 8}}>
-                        <MoneyLinearProgressBar color={theme.colors.primary} max={budget.totalBudget} current={sumCategoriesBudget(budget.categories)}/>
+                        <MoneyLinearProgressBar color={primaryColor} max={budget.totalBudget} current={sumCategoriesBudget(budget.categories)}/>
                     </Card>
                     <FormCard>
                         <FormMoneyInput label={"Budget"} value={budget.totalBudget} onChanged={budget.setTotalBudget}/>
                         <FormButtonRow right>
-                            <FormAddButton onClick={handleCreateCategory}/>
-                            <FormUpdateButton onClick={budget.update}/>
+                            <Button onClick={handleCreateCategory} color={"primary"} >
+                                <Icon iconType={"plus"} size={19} />
+                            </Button>
+                            <Space size={8} />
+                            <Button onClick={handleUpdateBudget} color={"primary"} >
+                                <Icon iconType={"confirm"} size={19} />
+                                <TextWhite>Confirm</TextWhite>
+                            </Button>
                         </FormButtonRow>
                     </FormCard>
 
@@ -53,8 +66,9 @@ export const TripBudgetEditScreen = ({navigation, route}: TripNavigationProps<"T
                                           <Text>{item.name}</Text>
                                           <Text>{formatMoney(item.categoryBudget)}</Text>
                                       </View>
-
-                                      <FormConfigureButton onClick={() => budget.selectCategory(item)} />
+                                      <Button onClick={() => budget.selectCategory(item)} color={"primary"} >
+                                          <Icon iconType={"configure"} size={19} />
+                                      </Button>
                                   </Card>
                               )}/>
                     {!!budget.selectedCategory && (

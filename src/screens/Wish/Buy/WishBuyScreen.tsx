@@ -1,22 +1,23 @@
 import {WishNavigationProps} from "../../../navigation";
 import {
+    Button,
     Center,
     FormButtonRow,
-    FormBuyButton,
     FormCard,
     FormCategoryPicker,
     FormMoneyInput,
     FormTextArea,
     FormTextInput,
-    Screen
+    Icon,
+    Screen,
+    TextWhite
 } from "../../../components";
-import {useThemeContext} from "../../../contexts/ThemeContext";
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {selectBudgetCategoriesByTripId, selectWishById} from "../../../store/selectors";
 import {Money} from "../../../models/Money";
 import {BudgetCategory} from "../../../store/states";
-import {View} from "react-native";
+import {StyleSheet, View} from "react-native";
 import {buyWish} from "../../../store/actions";
 import {showToast} from "../../../models/Toast";
 
@@ -68,7 +69,6 @@ const useWishBuy = (itemId: number): WishBuy | undefined => {
 }
 
 export const WishBuyScreen = ({route, navigation}:WishNavigationProps<"WishBuyScreen">) => {
-    const color = useThemeContext().colors.headers.wish;
     const wishBuy = useWishBuy(route.params.itemId)
     useEffect(() => {
         !wishBuy && navigation.navigate("WishHomeScreen", {...route.params})
@@ -84,9 +84,9 @@ export const WishBuyScreen = ({route, navigation}:WishNavigationProps<"WishBuySc
     }
     return (
         <Screen>
-            <Screen.Header title={"Wish buy"} color={color} />
+            <Screen.Header title={"Wish buy"} color={"wish"} />
             <Screen.Content>
-                <Center styles={{padding: 16}}>
+                <Center styles={styles.root}>
                     <FormCard>
                         <FormTextInput value={wishBuy.name} onChanged={wishBuy.setName} label={"Name"} icon={"name"}/>
                         <FormMoneyInput value={wishBuy.targetValue} onChanged={wishBuy.setTargetValue} label={"Target value"} />
@@ -94,7 +94,10 @@ export const WishBuyScreen = ({route, navigation}:WishNavigationProps<"WishBuySc
                         <FormCategoryPicker value={wishBuy.category} onChanged={wishBuy.setCategory} values={wishBuy.categories} label={"Category"} />
                         <FormTextArea value={wishBuy.comments} onChanged={wishBuy.setComments} label={"Comments"} />
                         <FormButtonRow right>
-                            <FormBuyButton onClick={onBuy} />
+                            <Button style={styles.button} onClick={onBuy} color={"secondary"} >
+                                <Icon iconType={"cart"} size={16} />
+                                <TextWhite>Buy</TextWhite>
+                            </Button>
                         </FormButtonRow>
                     </FormCard>
                 </Center>
@@ -102,3 +105,13 @@ export const WishBuyScreen = ({route, navigation}:WishNavigationProps<"WishBuySc
         </Screen>
     )
 }
+
+
+const styles = StyleSheet.create({
+    root: {
+        padding: 16,
+    },
+    button: {
+        paddingHorizontal: 16
+    }
+});

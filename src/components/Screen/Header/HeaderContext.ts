@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import {createContext, useContext} from "react";
 import {Color} from "../../../models/Colors";
 
 type HeaderCtxType = {
@@ -7,14 +7,14 @@ type HeaderCtxType = {
     selectTab: (tab: string) => void
 }
 
-const initialCtxValue: HeaderCtxType = {
-    isActive(tab: string): boolean {
-        return false
-    },
-    color: "white",
-    selectTab(tab: string): void {
-    }
-}
-export const HeaderCtx = React.createContext<HeaderCtxType>(initialCtxValue)
+const HeaderContext = createContext<HeaderCtxType | null>(null)
 
-export const useHeaderCtx = () => useContext(HeaderCtx)
+export const HeaderProvider = HeaderContext.Provider
+
+export const useHeader = (): HeaderCtxType => {
+    const ctx = useContext(HeaderContext)
+    if(!ctx){
+        throw new Error("useHeaderCtx should be used under Header component")
+    }
+    return ctx;
+}

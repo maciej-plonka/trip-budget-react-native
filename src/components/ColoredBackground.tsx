@@ -8,11 +8,13 @@ type Props = {
     style?: StyleProp<ViewStyle>
     children?: React.ReactNode
 }
+
+const plainBackgroundColor = (backgroundColor: string) => ({backgroundColor})
+
 export const ColoredBackground = ({color, style, children}: Props) => {
     if (!isGradient(color)) {
-        const backgroundColor = {backgroundColor: color}
         return (
-            <View style={[backgroundColor, style]}>
+            <View style={[plainBackgroundColor(color), style]}>
                 {children}
             </View>
         )

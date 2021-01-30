@@ -1,20 +1,27 @@
-import {useNavigation} from "@react-navigation/native";
-import {TripNavigation} from "../../../navigation/Trip";
-import {TouchableOpacity, View} from "react-native";
+import {StyleSheet, View} from "react-native";
 import TripCard from "./Card/TripCard";
 import React from "react";
 import {Trip} from "../../../store/states";
+import {Space} from "../../../components";
 
 type ListItemProps = {
     item: Trip | null
 }
 
-const EmptyListItem = () => {
+const EmptyListItem = () =>( <Space size={80} direction={"vertical"}/> )
+
+
+export const TripListItem = ({item}: ListItemProps) => {
     return (
-        <View style={{height: 80}}/>
+        <View style={styles.item}>
+            {item ? (<TripCard trip={item}/>) : (<EmptyListItem/>)}
+        </View>
     )
 }
 
-export const TripListItem = ({item}: ListItemProps) => {
-    return item ? (<TripCard trip={item}/>) : (<EmptyListItem/>)
-}
+
+const styles = StyleSheet.create({
+    item: {
+        marginBottom: 16
+    }
+});

@@ -1,4 +1,4 @@
-import {Budget, BudgetCategory, isBought, Wish} from "../../../store/states";
+import {BudgetCategory, isBought, Wish} from "../../../store/states";
 import {useSelector} from "react-redux";
 import {selectAllWishesByTripId, selectBudgetCategoriesByTripId} from "../../../store/selectors";
 import {useState} from "react";

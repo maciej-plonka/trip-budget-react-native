@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import React from 'react';
-import {Theme} from "./src/contexts/ThemeContext";
+import {ThemedApplication} from "./src/contexts/ThemeContext";
 import {NavigationContainer} from "@react-navigation/native";
 import {Provider} from "react-redux";
 import {persistor, store} from "./src/store";
@@ -12,16 +12,15 @@ enableScreens();
 
 export default function App() {
     return (
-        <Theme>
-            <Provider store={store}>
-                <PersistGate persistor={persistor} loading={null}>
+        <Provider store={store}>
+            <PersistGate persistor={persistor} loading={null}>
+                <ThemedApplication>
                     <NavigationContainer>
-                      <RootNavigationScreens/>
+                        <RootNavigationScreens/>
                     </NavigationContainer>
-                </PersistGate>
-
-            </Provider>
-        </Theme>
+                </ThemedApplication>
+            </PersistGate>
+        </Provider>
     )
 }
 

@@ -1,13 +1,13 @@
 import React, {useEffect} from "react";
-import {StyleSheet, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 import {
+    Button,
     Center,
     FormButtonRow,
     FormCalendarInput,
     FormCard,
-    FormDeleteButton,
     FormTextInput,
-    FormUpdateButton,
+    Icon,
     Screen
 } from "../../../../components";
 import {confirmMessageBox} from "../../../../models/MessageBox";
@@ -30,7 +30,7 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
     }
 
     const handleDelete = async () => {
-        const shouldDelete = await confirmMessageBox({title: "Caution!", cardDescription: "Do you want to delete trip?"});
+        const shouldDelete = await confirmMessageBox({title: "Caution!", description: "Do you want to delete trip?"});
         if (!shouldDelete) {
             return;
         }
@@ -48,8 +48,19 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
                         <FormCalendarInput label={"Start date"} value={tripEdit.startDate} onChanged={tripEdit.setStartDate}/>
                         <FormCalendarInput label={"End date"} value={tripEdit.endDate} onChanged={tripEdit.setEndDate}/>
                         <FormButtonRow right>
-                            <FormDeleteButton onClick={handleDelete}/>
-                            <FormUpdateButton onClick={handleUpdate}/>
+                            <Button
+                                color={"error"}
+                                onClick={handleDelete}
+                                style={styles.button}>
+                                <Icon iconType={"delete"} size={22}/>
+                            </Button>
+                            <Button
+                                color={"primary"}
+                                onClick={handleUpdate}
+                                style={styles.button}>
+                                <Icon iconType={"confirm"} size={22}/>
+                                <Text style={{color: "white"}}>Edit</Text>
+                            </Button>
                         </FormButtonRow>
                     </FormCard>
                 </Center>
@@ -61,5 +72,9 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
 const styles = StyleSheet.create({
     root: {
         padding: 16,
+    },
+    button: {
+        marginLeft: 4,
+
     }
 });

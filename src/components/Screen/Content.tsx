@@ -1,18 +1,22 @@
 import React, {FC} from "react";
-import {StyleSheet, View} from "react-native";
+import {StyleSheet} from "react-native";
+import {useBackgroundColor} from "../../contexts/ThemeContext";
+import {ColoredBackground} from "../ColoredBackground";
 
 export type ContentProps = {
     children?: React.ReactNode
 }
+
 export const Content: FC<ContentProps> = ({children}) => {
+    const backgroundColor = useBackgroundColor()
     return (
-        <View style={styles.content}>{children}</View>
+        <ColoredBackground style={styles.content} color={backgroundColor}>{children}</ColoredBackground>
     )
 }
 
 
 const styles = StyleSheet.create({
     content: {
-        flex: 1
+        flex: 1,
     }
 });

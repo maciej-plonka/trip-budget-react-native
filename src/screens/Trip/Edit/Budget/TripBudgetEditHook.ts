@@ -3,7 +3,7 @@ import {BudgetCategory} from "../../../../store/states";
 import {useDispatch, useSelector} from "react-redux";
 import {selectBudgetByTripId, selectBudgetCategoriesByBudgetId} from "../../../../store/selectors";
 import {useState} from "react";
-import {createBudgetCategoryWithUniqueId} from "../../../../store/actions";
+import {createBudgetCategoryWithUniqueId, updateBudget} from "../../../../store/actions";
 
 type BudgetEdit = {
     totalBudget: Money,
@@ -34,7 +34,8 @@ export const useTripBudgetEdit = (tripId: number): BudgetEdit | undefined => {
     }
     const selectCategory = (category: BudgetCategory | null) => setSelectedCategory(category && JSON.parse(JSON.stringify(category)));
     const update = () => {
-
+        const budgetToUpdate = {...budget,totalBudget }
+        dispatch(updateBudget(budgetToUpdate))
     }
 
     return {

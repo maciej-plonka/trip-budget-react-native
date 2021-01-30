@@ -1,57 +1,56 @@
 import React, {createContext, useContext} from "react";
-import {Gradient} from "../../models/Colors";
+import {Color} from "../../models/Colors";
+import {gradients} from "./Gradients";
 
-const gradients = {
-    green: {
-        colors: ["#52E07A", "#4AC9AA"],
-        start: [0, 1],
-        end: [1, 0]
-    } as Gradient,
-
-    purple: {
-        colors: ["#7F7DF2", "#C772EF"],
-        start: [0, 1],
-        end: [1, 0]
-    } as Gradient,
-    purpleReversed: {
-        colors: ["#C772EF", "#7F7DF2"],
-        start: [0, 1],
-        end: [1, 0]
-    } as Gradient,
-    orange: {
-        colors: ["#EF7297", "#FCC87B"],
-        start: [0, 1],
-        end: [1, 0]
-    } as Gradient,
-    red: {
-        colors:  ["#D04545", "#EF7297"],
-        start: [0, 1],
-        end: [1, 0]
-    } as Gradient,
+type Buttons = {
+    primary: Color,
+    secondary: Color,
+    error: Color
 }
 
-const theme = {
+type Headers = {
+    trip: Color
+    budget: Color,
+    wish: Color
+}
+
+type Theme = {
+    background: Color,
+    headers: Headers
+    buttons: Buttons,
+    primary: Color,
+    secondary: Color,
+}
+
+
+const theme: Theme = {
     background: "#EEF1F5",
-    colors: {
-        headers: {
-            budget: gradients.orange,
-            wish: gradients.purple,
-        },
-        fab: gradients.green,
+    headers: {
+        trip: "white",
+        budget: gradients.orange,
+        wish: gradients.purple,
+    },
+    buttons: {
         primary: gradients.green,
         secondary: gradients.purpleReversed,
-        remove: gradients.red
-    }
+        error: gradients.red
+    },
+    primary: gradients.green,
+    secondary: gradients.purpleReversed,
 }
 
+export type ButtonColor = keyof Buttons
+export type HeaderColor = keyof Headers
 const ThemeContext = createContext(theme)
-export const useThemeContext = () => useContext(ThemeContext)
-
+export const useBackgroundColor = () => useContext(ThemeContext).background
+export const useButtonColor = (color: ButtonColor) => useContext(ThemeContext).buttons[color]
+export const useHeaderColor = (color: HeaderColor) => useContext(ThemeContext).headers[color]
+export const usePrimaryColor = () =>  useContext(ThemeContext).primary;
+export const useSecondaryColor = () => useContext(ThemeContext).secondary;
 interface Props {
     children?: React.ReactNode
 }
-
-export const Theme = ({children}: Props) => (
+export const ThemedApplication = ({children}: Props) => (
     <ThemeContext.Provider value={theme}>
         {children}
     </ThemeContext.Provider>

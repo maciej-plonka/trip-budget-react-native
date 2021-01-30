@@ -11,7 +11,7 @@ type Props = {
 export const WishDetailsCard = ({wish}: Props) => {
     return (
         <Card style={styles.detailsCard} rounded>
-            <Image source={{uri: "http://unsplash.it/365/176"}} style={styles.image}/>
+            <Image source={{uri: wish.image}} style={styles.image}/>
             <View style={styles.cardBody}>
                 <Text style={styles.title}>{wish.name}</Text>
                 <Text style={styles.cardDescription}>{wish.comments}</Text>

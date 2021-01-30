@@ -3,7 +3,7 @@ import {HasId} from "../BaseTypes";
 
 export type Wish = HasId &{
     tripId: number,
-    imageId?:string,
+    image?:string,
     budgetCategoryId?: number,
     budgetExpenseId?: number
     name: string,

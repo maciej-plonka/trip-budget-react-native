@@ -1,9 +1,13 @@
 import React from "react";
 import {Image, StyleSheet} from "react-native"
+import {Wish} from "../../../../store/states";
 
-export const ItemImage = () => {
+type Props = {
+    item: Wish
+}
+export const ItemImage = ({item}:Props) => {
     return (
-        <Image source={{uri:  "http://unsplash.it/48/48"}} style={styles.image} />
+        <Image source={{uri:  item.image, width: 48, height: 48}} style={styles.image} />
     )
 }
 

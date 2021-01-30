@@ -1,11 +1,11 @@
 import React from "react";
-import {Budget, sumCategoriesBudget} from "../store/states";
+import {Budget, sumCategoriesBudget} from "../../../store/states";
 import {useSelector} from "react-redux";
-import {selectBudgetCategoriesByBudgetId} from "../store/selectors";
-import {Card} from "./Card";
+import {selectBudgetCategoriesByBudgetId} from "../../../store/selectors";
+import {Card} from "../../../components";
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
-import {usePrimaryColor} from "../contexts/ThemeContext";
-import {MoneyLinearProgressBar} from "./Progress";
+import {usePrimaryColor} from "../../../contexts/ThemeContext";
+import {MoneyLinearProgressBar} from "../../../components";
 
 type Props = {
     budget: Readonly<Budget>,
@@ -13,7 +13,7 @@ type Props = {
     onPress?: () => void
 }
 
-export const BudgetProgress = ({budget, label = "Budget", onPress}: Props) => {
+export const TripDetailsBudgetProgress = ({budget, label = "Budget", onPress}: Props) => {
     const categories = useSelector(selectBudgetCategoriesByBudgetId(budget.id))
     const color = usePrimaryColor()
     const currentlySpent = sumCategoriesBudget(categories)

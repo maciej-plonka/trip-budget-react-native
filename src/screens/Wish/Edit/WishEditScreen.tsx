@@ -43,7 +43,7 @@ export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEdi
         navigation.goBack()
     }
 
-    const avatar = <FormImagePicker value={wishEdit.imageId} onChanged={wishEdit.setImageId}/>;
+    const avatar = <FormImagePicker value={wishEdit.image} onChanged={wishEdit.setImage}/>;
     return (
         <Screen>
             <Screen.Header title={"Edit wish"} color={"wish"} />

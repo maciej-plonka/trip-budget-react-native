@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
         transform: [{translateX: -(96 - 16)}, {translateY: -96}],
         backgroundColor: "white",
 
-
         position: "absolute",
         justifyContent: "center",
         alignItems: "center"

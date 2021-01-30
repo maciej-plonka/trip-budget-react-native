@@ -14,7 +14,7 @@ type Props = {
 export const ItemCard = ({item, onClick}:Props) => {
     return (
         <Card style={styles.card} flat>
-            <ItemImage />
+            <ItemImage item={item} />
             <ItemDescription item={item}/>
             <ItemPrice item={item} />
             <ItemButton item={item} onClick={onClick} />

@@ -1,63 +1,34 @@
-import {StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle} from "react-native";
+import {Image, StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle} from "react-native";
 import React from "react";
 import {showToast} from "../../../models/Toast";
-import {FileImage} from "../../FileImage";
-import {launchImageLibraryAsync} from "expo-image-picker";
-import {
-    addAssetsToAlbumAsync,
-    createAlbumAsync,
-    createAssetAsync,
-    getAlbumAsync,
-    removeAssetsFromAlbumAsync,
-    requestPermissionsAsync
-} from "expo-media-library";
+import {useFormImagePicker} from "./FormImagePickerHook";
+import {Icon} from "../../Icon";
 
 type Props = BaseInputProps<string | undefined> & {
-    style?: StyleProp<ViewStyle>
+    style?: StyleProp<ViewStyle>,
+    imageRatio?: [number, number]
 }
-export const FormImagePicker = ({value, onChanged}: Props) => {
-    const updateImageId = async (newImageId: string | undefined) => {
-        const album = await getAlbumAsync("Trip planner");
-        if (value && album) {
-            console.log(`deleting asset from album: ${value}`)
-            try {
-                const removed = await removeAssetsFromAlbumAsync([value], album)
-                console.log(`assets removed? ${removed}`)
-            }catch(error) {
-                console.error(error)
-            }
-        }
-        onChanged(newImageId);
-    }
 
+const EmptyImage = () => {
+    return (
+        <View style={styles.emptyImage}>
+            <Icon iconType={"plus"} size={64} color={"gray"} />
+        </View>
+    )
+}
 
-    const handlePress = async () => {
-
-        const {granted} = await requestPermissionsAsync()
-        if (!granted) return;
-        const selectedImage = await launchImageLibraryAsync() as { uri: string }
-        if (!selectedImage) {
-            showToast("Couldn't load image");
-            await updateImageId(undefined);
-            return;
+export const FormImagePicker = ({value, onChanged,imageRatio = [1,1]}: Props) => {
+    const formImagePicker = useFormImagePicker(value, onChanged, imageRatio)
+     const handlePress = async () => {
+        try {
+            await formImagePicker.chooseImageFromMemory()
+        }catch(e) {
+            showToast(`Error: ${e}`)
         }
-        const image = await createAssetAsync(selectedImage.uri)
-        if (!image) {
-            showToast("Couldn't save image");
-            await updateImageId(undefined)
-            return;
-        }
-        const album = await getAlbumAsync("Trip planner");
-        if (album) {
-            await addAssetsToAlbumAsync(image, album, false);
-        } else {
-            await createAlbumAsync("Trip planner", image, false);
-        }
-        await updateImageId(image.id);
     }
     return (
         <TouchableOpacity delayLongPress={200} onLongPress={handlePress} style={styles.root}>
-            {value ? (<FileImage style={styles.image} imageId={value}/>) : (<View/>)}
+            {value ? (<Image style={styles.image} source={{uri:value}} />) : (<EmptyImage />)}
         </TouchableOpacity>
     )
 }
@@ -66,11 +37,22 @@ const styles = StyleSheet.create({
     root: {
         width: "100%",
         height: "100%",
-        backgroundColor: "red"
+        elevation: 1,
     },
     image: {
         width: "100%",
         height: "100%"
+    },
+    emptyImage: {
+        width: "100%",
+        height: "100%",
+        backgroundColor: "white",
+        justifyContent: "center",
+        alignItems: "center",
+        elevation: 1,
+        borderRadius: 96,
+        borderWidth:1,
+        borderColor: "rgba(0,0,0,0.1)"
     }
 
 })

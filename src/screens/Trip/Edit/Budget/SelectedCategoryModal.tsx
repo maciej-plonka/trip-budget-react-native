@@ -1,4 +1,3 @@
-import {BudgetCategory} from "../../../../store/states";
 import {Modal, StyleSheet} from "react-native";
 import {
     Button,
@@ -13,8 +12,9 @@ import {
 } from "../../../../components";
 import React, {useState} from "react";
 import {useDispatch} from "react-redux";
-import {deleteBudgetCategoryById, updateBudgetCategory} from "../../../../store/actions";
 import {Money} from "../../../../models/Money";
+import {BudgetCategory} from "../../../../store/models";
+import {deleteBudgetCategoryById, updateBudgetCategory} from "../../../../store/actions/BudgetActions";
 
 type Props = {
     category: BudgetCategory,

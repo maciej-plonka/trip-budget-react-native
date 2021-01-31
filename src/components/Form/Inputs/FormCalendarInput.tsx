@@ -16,12 +16,13 @@ export const FormCalendarInput = (props: Props) => {
 
     return (
         <React.Fragment>
+            {show && <RNDateTimePicker value={props.value} mode={"date"} onChange={onDateChanged} />}
             <TouchableOpacity onPress={() => setShow(true)}>
                 <InputWrapper {...props} icon={"calendar"}>
                     <Text style={styles.input}>{format(props.value, "dd.MM.yyyy")}</Text>
                 </InputWrapper>
             </TouchableOpacity>
-            {show && <RNDateTimePicker value={props.value} mode={"date"} onChange={onDateChanged} />}
+
         </React.Fragment>
     )
 };

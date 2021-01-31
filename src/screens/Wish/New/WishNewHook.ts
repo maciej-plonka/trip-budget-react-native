@@ -1,13 +1,14 @@
-import {BudgetCategory} from "../../../store/states";
-import {Money} from "../../../models/Money";
+import {buildMoney, defaultMoney, Money} from "../../../models/Money";
 import {useDispatch, useSelector} from "react-redux";
-import {selectBudgetByTripId, selectBudgetCategoriesByBudgetId} from "../../../store/selectors";
 import {useState} from "react";
-import {createWishWithUniqueId} from "../../../store/actions";
+import {Id} from "../../../store";
+import {selectBudgetCategoriesByTripId, selectTripById} from "../../../store/selectors";
+import {BudgetCategory} from "../../../store/models";
+import {createWish} from "../../../store/actions/WishActions";
 
 type WishNew = {
-    imageId: string | undefined,
-    setImageId(imageId: string | undefined): void
+    image: string | undefined,
+    setImage(imageId: string | undefined): void
     categories: Readonly<BudgetCategory[]>
     category: BudgetCategory | undefined
     setCategory(category: BudgetCategory | undefined): void
@@ -20,32 +21,22 @@ type WishNew = {
     create(): void,
 }
 
-export const useWishNew = (tripId: number): WishNew | undefined => {
-    const budget = useSelector(selectBudgetByTripId(tripId));
-    if (!budget) {
-        return undefined;
-    }
-    const categories = useSelector(selectBudgetCategoriesByBudgetId(budget.id))
-    const [imageId, setImageId] = useState<string | undefined>()
+export const useWishNew = (tripId: Id): WishNew | undefined => {
+    const trip = useSelector(selectTripById(tripId))
+    const categories = useSelector(selectBudgetCategoriesByTripId(tripId))
+    const [image, setImage] = useState<string | undefined>()
     const [category, setCategory] = useState<BudgetCategory | undefined>()
-    const [targetValue, setTargetValue] = useState<Money>({...budget.totalBudget, amount: 0})
+    const [targetValue, setTargetValue] = useState<Money>(trip ? buildMoney(0, trip.totalBudget.currency) : defaultMoney())
     const [name, setName] = useState<string>("");
     const [comments, setComments] = useState<string>("");
 
     const dispatch = useDispatch()
     const create = () => {
-        const newItem = {
-            tripId,
-            budgetCategoryId: category?.id,
-            targetValue,
-            name,
-            comments,
-            imageId,
-        }
-        dispatch(createWishWithUniqueId(newItem))
+        const newItem = { tripId,budgetCategoryId: category?.id, targetValue, name,comments,image,}
+        dispatch(createWish(newItem))
     }
     return {
-        imageId, setImageId,
+        image, setImage,
         categories, category, setCategory,
         targetValue, setTargetValue,
         name, setName,

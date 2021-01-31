@@ -1,10 +1,21 @@
-import {differenceInDays, endOfDay, isAfter, isBefore, startOfDay} from "date-fns"
 import {HasId} from "../BaseTypes";
+import {Money} from "../../models/Money";
+import {differenceInDays, endOfDay, isAfter, isBefore, startOfDay} from "date-fns";
 
 export type Trip = HasId & {
     name: string,
+    image?: string,
     startDate: Date,
     endDate: Date,
+    totalBudget: Money,
+}
+
+export type NewTrip = {
+    name: string,
+    image?: string,
+    startDate: Date,
+    endDate: Date,
+    totalBudget: Money
 }
 
 export const hasStarted = (trip: Trip, now: Date = new Date()): boolean => isBefore(startOfDay(trip.startDate), now)
@@ -16,8 +27,10 @@ export const daysUntil = (trip: Trip, now: Date = new Date()): number => isActiv
     : differenceInDays(startOfDay(trip.startDate), startOfDay(now));
 export type SerializedTrip = HasId & {
     name: string,
+    image?: string,
     startDate: number,
     endDate: number,
+    totalBudget:Money
 }
 export const serialize = (deserialized: Trip): SerializedTrip => ({
     ...deserialized,
@@ -30,12 +43,3 @@ export const deserialize = (serialized: SerializedTrip): Trip => ({
     startDate: new Date(serialized.startDate),
     endDate: new Date(serialized.endDate)
 });
-
-export type TripState = {
-    trips: Readonly<SerializedTrip[]>,
-}
-
-
-export const initialTripState: TripState = {
-    trips: []
-}

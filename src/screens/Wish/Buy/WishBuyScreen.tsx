@@ -16,10 +16,11 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {selectBudgetCategoriesByTripId, selectWishById} from "../../../store/selectors";
 import {Money} from "../../../models/Money";
-import {BudgetCategory} from "../../../store/states";
 import {StyleSheet, View} from "react-native";
-import {buyWish} from "../../../store/actions";
 import {showToast} from "../../../models/Toast";
+import {BudgetCategory} from "../../../store/models";
+import {Id} from "../../../store";
+import {buyWish} from "../../../store/actions/WishActions";
 
 
 type WishBuy = {
@@ -30,15 +31,15 @@ type WishBuy = {
     actualValue: Money,
     setActualValue(actualValue: Money): void,
     comments: string,
-    setComments(comments:string): void,
+    setComments(comments: string): void,
     category: BudgetCategory | undefined
     setCategory(category: BudgetCategory | undefined): void
     categories: Readonly<BudgetCategory[]>
     buy(): void
 }
-const useWishBuy = (itemId: number): WishBuy | undefined => {
+const useWishBuy = (itemId: Id): WishBuy | undefined => {
     const wish = useSelector(selectWishById(itemId))
-    if(!wish) {
+    if (!wish) {
         return;
     }
     const dispatch = useDispatch()
@@ -49,14 +50,10 @@ const useWishBuy = (itemId: number): WishBuy | undefined => {
     const [comments, setComments] = useState<string>(wish.comments)
     const [category, setCategory] = useState<BudgetCategory | undefined>(categories.find(it => it.id === wish.budgetCategoryId))
 
-    const buy = () => dispatch(buyWish({
-        ...wish,
-        name,
-        actualValue,
-        targetValue,
-        comments,
-        budgetCategoryId: category?.id
-    }))
+    const buy = () => {
+        const wishToUpdate = {...wish, name, targetValue, comments, budgetCategoryId: category?.id}
+        dispatch(buyWish(wishToUpdate, actualValue));
+    }
     return {
         name, setName,
         targetValue, setTargetValue,
@@ -68,13 +65,13 @@ const useWishBuy = (itemId: number): WishBuy | undefined => {
     }
 }
 
-export const WishBuyScreen = ({route, navigation}:WishNavigationProps<"WishBuyScreen">) => {
+export const WishBuyScreen = ({route, navigation}: WishNavigationProps<"WishBuyScreen">) => {
     const wishBuy = useWishBuy(route.params.itemId)
     useEffect(() => {
         !wishBuy && navigation.navigate("WishHomeScreen", {...route.params})
     }, [wishBuy]);
 
-    if(!wishBuy) {
+    if (!wishBuy) {
         return (<View/>)
     }
     const onBuy = () => {
@@ -84,18 +81,21 @@ export const WishBuyScreen = ({route, navigation}:WishNavigationProps<"WishBuySc
     }
     return (
         <Screen>
-            <Screen.Header title={"Wish buy"} color={"wish"} />
+            <Screen.Header title={"Wish buy"} color={"wish"}/>
             <Screen.Content>
                 <Center styles={styles.root}>
                     <FormCard>
                         <FormTextInput value={wishBuy.name} onChanged={wishBuy.setName} label={"Name"} icon={"name"}/>
-                        <FormMoneyInput value={wishBuy.targetValue} onChanged={wishBuy.setTargetValue} label={"Target value"} />
-                        <FormMoneyInput value={wishBuy.actualValue} onChanged={wishBuy.setActualValue} label={"Actual value"} />
-                        <FormCategoryPicker value={wishBuy.category} onChanged={wishBuy.setCategory} values={wishBuy.categories} label={"Category"} />
-                        <FormTextArea value={wishBuy.comments} onChanged={wishBuy.setComments} label={"Comments"} />
+                        <FormMoneyInput value={wishBuy.targetValue} onChanged={wishBuy.setTargetValue}
+                                        label={"Target value"}/>
+                        <FormMoneyInput value={wishBuy.actualValue} onChanged={wishBuy.setActualValue}
+                                        label={"Actual value"}/>
+                        <FormCategoryPicker value={wishBuy.category} onChanged={wishBuy.setCategory}
+                                            values={wishBuy.categories} label={"Category"}/>
+                        <FormTextArea value={wishBuy.comments} onChanged={wishBuy.setComments} label={"Comments"}/>
                         <FormButtonRow right>
-                            <Button style={styles.button} onClick={onBuy} color={"secondary"} >
-                                <Icon iconType={"cart"} size={16} />
+                            <Button style={styles.button} onClick={onBuy} color={"secondary"}>
+                                <Icon iconType={"cart"} size={16}/>
                                 <TextWhite>Buy</TextWhite>
                             </Button>
                         </FormButtonRow>

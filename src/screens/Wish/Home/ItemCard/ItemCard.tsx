@@ -1,11 +1,11 @@
 import {Card} from "../../../../components";
 import React from "react";
-import {Wish} from "../../../../store/states";
 import {StyleSheet} from "react-native";
 import {ItemImage} from "./ItemImage";
 import {ItemDescription} from "./ItemDescription";
 import {ItemPrice} from "./ItemPrice";
 import {ItemButton} from "./ItemButton";
+import {Wish} from "../../../../store/models";
 
 type Props = {
     item: Wish,

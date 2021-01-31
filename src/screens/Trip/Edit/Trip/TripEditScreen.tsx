@@ -5,10 +5,10 @@ import {
     Center,
     FormButtonRow,
     FormCalendarInput,
-    FormCard,
+    FormCard, FormImagePicker, FormMoneyInput,
     FormTextInput,
     Icon,
-    Screen
+    Screen, Space
 } from "../../../../components";
 import {confirmMessageBox} from "../../../../models/MessageBox";
 import {showToast} from "../../../../models/Toast";
@@ -38,15 +38,17 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
         tripEdit.remove();
     }
 
+    const avatar = <FormImagePicker value={tripEdit.image} onChanged={tripEdit.setImage} imageRatio={[2,1]}/>;
     return (
         <Screen>
             <Screen.Header title={"Edit trip"}/>
             <Screen.Content>
                 <Center styles={styles.root}>
-                    <FormCard>
+                    <FormCard avatar={avatar}>
                         <FormTextInput icon={"name"} label={"Name"} value={tripEdit.name} onChanged={tripEdit.setName}/>
                         <FormCalendarInput label={"Start date"} value={tripEdit.startDate} onChanged={tripEdit.setStartDate}/>
                         <FormCalendarInput label={"End date"} value={tripEdit.endDate} onChanged={tripEdit.setEndDate}/>
+                        <FormMoneyInput label={"Total budget"} value={tripEdit.totalBudget} onChanged={tripEdit.setTotalBudget} />
                         <FormButtonRow right>
                             <Button
                                 color={"error"}
@@ -54,6 +56,7 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
                                 style={styles.button}>
                                 <Icon iconType={"delete"} size={22}/>
                             </Button>
+                            <Space size={8} />
                             <Button
                                 color={"primary"}
                                 onClick={handleUpdate}

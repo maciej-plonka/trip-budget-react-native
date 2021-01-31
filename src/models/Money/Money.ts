@@ -25,3 +25,6 @@ export type Money = {
     amount: number,
     currency: Currency
 }
+
+export const buildMoney = (amount: number, currency: Currency): Money => ({currency, amount})
+export const defaultMoney = ():Money => buildMoney(0, "¥")

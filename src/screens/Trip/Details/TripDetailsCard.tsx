@@ -1,28 +1,31 @@
-import {Trip} from "../../../store/states";
 import {Image, StyleSheet, Text, View} from "react-native";
 import {format} from "date-fns";
 import {Button, Card, FormButtonRow, Icon} from "../../../components";
 import React from "react";
+import {hasStarted, Trip} from "../../../store/models";
 
 type Props = {
     trip: Trip,
     onConfigure:() => void
 }
 export const TripDetailsCard = ({trip, onConfigure}: Props) => {
+    const image = trip.image ?? "http://unsplash.it/365/176"
     return (
         <Card style={styles.detailsCard}>
-            <Image source={{uri: "http://unsplash.it/365/176"}} style={styles.image}/>
+            <Image source={{uri: image}} style={styles.image}/>
+            {!hasStarted(trip) && (
+                <View style={styles.floatingButton}>
+                    <Button onClick={onConfigure} color={"primary"} >
+                        <Icon iconType={"configure"} size={19} />
+                    </Button>
+                </View>
+            )}
             <View style={styles.cardDescription}>
                 <Text style={styles.title}>{trip.name}</Text>
                 <View style={styles.dates}>
                     <Text style={styles.date}>{format(trip.startDate, "dd.MM.yyyy")}</Text>
                     <Text style={styles.date}>{format(trip.endDate, "dd.MM.yyyy")}</Text>
                 </View>
-                <FormButtonRow right>
-                    <Button onClick={onConfigure} color={"primary"} >
-                        <Icon iconType={"configure"} size={19} />
-                    </Button>
-                </FormButtonRow>
             </View>
 
         </Card>
@@ -31,7 +34,14 @@ export const TripDetailsCard = ({trip, onConfigure}: Props) => {
 
 const styles = StyleSheet.create({
     detailsCard: {
+        position: "relative",
         flexDirection: "column"
+    },
+
+    floatingButton: {
+        position: "absolute",
+        right: 8,
+        top: 8,
     },
 
     image: {

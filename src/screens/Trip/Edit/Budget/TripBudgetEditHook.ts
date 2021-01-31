@@ -1,47 +1,41 @@
-import {Money} from "../../../../models/Money";
-import {BudgetCategory} from "../../../../store/states";
+import {buildMoney, defaultMoney, Money} from "../../../../models/Money";
 import {useDispatch, useSelector} from "react-redux";
-import {selectBudgetByTripId, selectBudgetCategoriesByBudgetId} from "../../../../store/selectors";
 import {useState} from "react";
-import {createBudgetCategoryWithUniqueId, updateBudget} from "../../../../store/actions";
+import {BudgetCategory} from "../../../../store/models";
+import {Id} from "../../../../store";
+import {selectBudgetCategoriesByTripId, selectTripById} from "../../../../store/selectors";
+import {createBudgetCategory} from "../../../../store/actions/BudgetActions";
+import {updateTrip} from "../../../../store/actions/TripActions";
 
 type BudgetEdit = {
     totalBudget: Money,
-    setTotalBudget(totalBudget: Money): void,
     categories: Readonly<BudgetCategory[]>
     addCategory(name: string): void
     selectedCategory: BudgetCategory | null
     selectCategory(category: BudgetCategory | null): void,
-    update(): void,
 }
-export const useTripBudgetEdit = (tripId: number): BudgetEdit | undefined => {
+
+function breakReference<T>(t: T ): T {
+    return JSON.parse(JSON.stringify(t));
+}
+
+export const useTripBudgetEdit = (tripId: Id): BudgetEdit | undefined => {
     const dispatch = useDispatch()
-    const budget = useSelector(selectBudgetByTripId(tripId))
-    if (!budget) {
+    const trip  = useSelector(selectTripById(tripId))
+    const categories = useSelector(selectBudgetCategoriesByTripId(tripId));
+    const [selectedCategory, setSelectedCategory] = useState<BudgetCategory | null>(null)
+    if(!trip) {
         return;
     }
-    const categories = useSelector(selectBudgetCategoriesByBudgetId(budget.id));
-    const [totalBudget, setTotalBudget] = useState<Money>(budget.totalBudget);
-    const [selectedCategory, setSelectedCategory] = useState<BudgetCategory | null>(null)
-
     const addCategory = (name: string) => {
-        const budgetCategory = {
-            budgetId: budget.id,
-            categoryBudget: {amount: 0, currency: budget.totalBudget.currency},
-            name
-        }
-        dispatch(createBudgetCategoryWithUniqueId(budgetCategory))
+        const categoryBudget = buildMoney(0, trip.totalBudget.currency)
+        dispatch(createBudgetCategory({ tripId,categoryBudget, name}))
     }
-    const selectCategory = (category: BudgetCategory | null) => setSelectedCategory(category && JSON.parse(JSON.stringify(category)));
-    const update = () => {
-        const budgetToUpdate = {...budget,totalBudget }
-        dispatch(updateBudget(budgetToUpdate))
-    }
+    const selectCategory = (category: BudgetCategory | null) => setSelectedCategory(category && breakReference(category));
 
     return {
-        totalBudget, setTotalBudget,
+        totalBudget: trip.totalBudget,
         categories, addCategory,
         selectedCategory, selectCategory,
-        update
     }
 }

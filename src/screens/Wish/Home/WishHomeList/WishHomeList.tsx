@@ -1,8 +1,8 @@
 import React from "react";
-import {Wish} from "../../../../store/states";
 import {FlatList, StyleSheet, View} from "react-native";
 import {HasId} from "../../../../store";
 import {WishHomeListItem} from "./WishHomeListItem";
+import {Wish} from "../../../../store/models";
 
 const keyExtractor = (it: HasId) => it.id.toString();
 const renderItem = ({item}: { item: Wish }) => (

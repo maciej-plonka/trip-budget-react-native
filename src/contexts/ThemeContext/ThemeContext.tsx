@@ -5,7 +5,8 @@ import {gradients} from "./Gradients";
 type Buttons = {
     primary: Color,
     secondary: Color,
-    error: Color
+    error: Color,
+    disabled: Color,
 }
 
 type Headers = {
@@ -33,7 +34,8 @@ const theme: Theme = {
     buttons: {
         primary: gradients.green,
         secondary: gradients.purpleReversed,
-        error: gradients.red
+        error: gradients.red,
+        disabled: "#ababab",
     },
     primary: gradients.green,
     secondary: gradients.purpleReversed,

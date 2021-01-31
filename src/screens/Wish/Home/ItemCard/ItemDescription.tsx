@@ -1,8 +1,8 @@
-import {Wish} from "../../../../store/states";
 import {StyleSheet, Text, View} from "react-native";
 import React from "react";
 import {useSelector} from "react-redux";
 import {selectBudgetCategoryById} from "../../../../store/selectors";
+import {Wish} from "../../../../store/models";
 
 type Props = {
     item: Wish

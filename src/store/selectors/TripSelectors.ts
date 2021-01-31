@@ -1,5 +1,6 @@
-import {RootState} from "../reducers";
-import {deserialize} from "../states";
+import {State} from "../State";
+import {deserialize} from "../models";
+import {Id} from "../BaseTypes";
 
-export const selectTripById = (id: number) => (state: RootState) => state.trip.trips.map(deserialize).find(it => it.id === id)
-export const selectAllTrips = (state: RootState) => [...state.trip.trips.map(deserialize)]
+export const selectTripById = (id: Id) => (state: State) => state.trips.map(deserialize).find(it => it.id === id)
+export const selectAllTrips = (state: State) => [...state.trips.map(deserialize)]

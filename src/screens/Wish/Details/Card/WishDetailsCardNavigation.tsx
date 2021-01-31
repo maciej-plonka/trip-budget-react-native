@@ -2,8 +2,8 @@ import React from "react";
 import {Button, FormButtonRow, Icon, Space, TextWhite} from "../../../../components";
 import {useNavigation} from "@react-navigation/native";
 import {WishNavigation} from "../../../../navigation";
-import {Wish} from "../../../../store/states";
 import {StyleSheet} from "react-native";
+import {Wish} from "../../../../store/models";
 
 type Props = {
     wish: Wish

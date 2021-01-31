@@ -1,8 +1,8 @@
-import {Wish} from "../../../../store/states";
 import {useNavigation} from "@react-navigation/native";
 import {WishNavigation} from "../../../../navigation";
 import {ItemCard} from "../ItemCard";
 import React from "react";
+import {Wish} from "../../../../store/models";
 
 type Props = {
     wish: Wish

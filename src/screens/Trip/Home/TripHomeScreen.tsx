@@ -5,10 +5,10 @@ import {selectAllTrips} from "../../../store/selectors";
 import {TripNavigationProps} from "../../../navigation";
 import {TripListItem} from "./TripListItem";
 import {Screen} from "../../../components";
-import {Trip} from "../../../store/states";
+import {Trip} from "../../../store/models";
 
 type PotentialTrip = Trip | null
-const keyExtractor = (trip: PotentialTrip) => !trip ? "-1" : trip.id.toString();
+const keyExtractor = (trip: PotentialTrip): string => !trip ? "-1" : trip.id;
 
 export const TripHomeScreen = ({navigation}: TripNavigationProps<"TripHomeScreen">) => {
     const trips = useSelector(selectAllTrips)

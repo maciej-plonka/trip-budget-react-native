@@ -1,26 +1,20 @@
 import {Action} from "redux"
-import {Budget, BudgetCategory, BudgetExpense} from "../states";
+import {BudgetCategory, BudgetExpense, NewBudgetCategory, NewBudgetExpense} from "../models";
+import {Id} from "../BaseTypes";
 
 export type BudgetAction =
-    (Action<"create_budget"> & { budget: Budget }) |
-    (Action<"update_budget"> & { budget: Budget }) |
-    (Action<"delete_budget_by_trip_id"> & { tripId: number }) |
-    (Action<"create_budget_category"> & { category: BudgetCategory }) |
+    (Action<"create_budget_category"> & { newCategory: NewBudgetCategory }) |
     (Action<"update_budget_category"> & { category: BudgetCategory }) |
-    (Action<"delete_budget_category_by_id"> & { id: number }) |
-    (Action<"create_budget_expense">) & {expense: BudgetExpense}
+    (Action<"delete_budget_category_by_id"> & { id: Id }) |
+    (Action<"create_budget_expense">) & {newExpense: NewBudgetExpense}
 
-export const createBudget = (budget: Budget): BudgetAction => ({type: "create_budget", budget})
-
-export const updateBudget = (budget: Budget): BudgetAction => ({type: "update_budget", budget})
-export const deleteBudgetByTripId = (tripId: number): BudgetAction => ({type: "delete_budget_by_trip_id", tripId})
-export const createBudgetCategory = (category: BudgetCategory): BudgetAction => ({
+export const createBudgetCategory = (newCategory: NewBudgetCategory): BudgetAction => ({
     type: "create_budget_category",
-    category
+    newCategory
 })
 export const updateBudgetCategory = (category: BudgetCategory): BudgetAction => ({
     type: "update_budget_category",
     category
 })
-export const deleteBudgetCategoryById = (id: number):BudgetAction => ({type: "delete_budget_category_by_id", id})
-export const createBudgetExpense = (expense: BudgetExpense) :BudgetAction => ({type: "create_budget_expense", expense})
+export const deleteBudgetCategoryById = (id: Id):BudgetAction => ({type: "delete_budget_category_by_id", id})
+export const createBudgetExpense = (expense: NewBudgetExpense) :BudgetAction => ({type: "create_budget_expense", newExpense: expense})

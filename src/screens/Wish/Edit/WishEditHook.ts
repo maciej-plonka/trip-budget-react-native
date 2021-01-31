@@ -1,9 +1,11 @@
 import {useState} from "react";
-import {BudgetCategory, Wish} from "../../../store/states";
 import {Money} from "../../../models/Money";
 import {useDispatch, useSelector} from "react-redux";
 import {selectBudgetCategoriesByTripId, selectWishById} from "../../../store/selectors";
 import {deleteWishById, updateWish} from "../../../store/actions/WishActions";
+import {Id} from "../../../store";
+import {BudgetCategory, Wish} from "../../../store/models";
+import {findBy} from "../../../utils/Collections";
 
 type WishEdit = {
     image: string | undefined,
@@ -22,29 +24,22 @@ type WishEdit = {
 }
 
 
-export const useWishEdit = (itemId: number): WishEdit | undefined => {
-    const item = useSelector(selectWishById(itemId))
+export const useWishEdit = (itemId: Id): WishEdit | undefined => {
+    const wish = useSelector(selectWishById(itemId))
     const dispatch = useDispatch()
-    if (!item) {
+    const categories = useSelector(selectBudgetCategoriesByTripId(wish?.tripId ?? "-1"))
+    if (!wish) {
         return undefined
     }
-    const categories: Readonly<BudgetCategory[]> = useSelector(selectBudgetCategoriesByTripId(item.tripId))
-    const currentCategory = categories.find(it => it.id === item.budgetCategoryId)
-    const [image, setImage] = useState<string | undefined>(item.image);
+    const currentCategory = findBy(categories, "id", wish.budgetCategoryId ?? "-1");
+    const [image, setImage] = useState<string | undefined>(wish.image);
     const [category, setCategory] = useState<BudgetCategory | undefined>(currentCategory);
-    const [targetValue, setTargetValue] = useState<Money>(item.targetValue)
-    const [name, setName] = useState<string>(item.name)
-    const [comments, setComments] = useState<string>(item.comments)
+    const [targetValue, setTargetValue] = useState<Money>(wish.targetValue)
+    const [name, setName] = useState<string>(wish.name)
+    const [comments, setComments] = useState<string>(wish.comments)
 
     const update = () => {
-        const toUpdate: Wish = {
-            ...item,
-            image,
-            targetValue,
-            name,
-            comments,
-            budgetCategoryId: category?.id
-        }
+        const toUpdate: Wish = {...wish, image, targetValue, name,comments, budgetCategoryId: category?.id}
         dispatch(updateWish(toUpdate))
     }
 

@@ -1,8 +1,8 @@
 import React from "react";
 import {Card} from "../../../../components";
 import {Image, StyleSheet, Text, View} from "react-native";
-import {isBought, Wish} from "../../../../store/states";
 import {WishDetailsCardNavigation} from "./WishDetailsCardNavigation";
+import {isBought, Wish} from "../../../../store/models";
 
 type Props = {
     wish: Wish

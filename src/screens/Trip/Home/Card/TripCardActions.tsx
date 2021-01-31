@@ -1,9 +1,9 @@
 import React from "react";
-import {hasStarted, isActive, Trip} from "../../../../store/states";
-import {Button, Icon} from "../../../../components";
+import {Button, Icon, Space} from "../../../../components";
 import {useNavigation} from "@react-navigation/native";
 import {TripNavigation} from "../../../../navigation/Trip";
-import {View} from "react-native";
+import {StyleSheet, View} from "react-native";
+import {hasEnded, isActive, Trip} from "../../../../store/models";
 
 type Props = {
     trip: Trip
@@ -19,18 +19,23 @@ export const TripCardActions = ({trip}:Props) => {
     })
     const navigateToDetails = () => navigation.navigate("TripDetailsScreen", {tripId: trip.id})
     return (
-        <View style={{flexDirection: "row"}}>
-            {isActive(trip) && (
-                <Button onClick={navigateToTrip} color={"primary"}>
-                    <Icon iconType={"confirm"} size={18} />
-                </Button>
-            )}
-            {!hasStarted(trip) && (
-                <Button onClick={navigateToDetails} color={"primary"}>
-                    <Icon iconType={"configure"} size={18} />
-                </Button>
-            )}
+        <View style={styles.container}>
+            <Button onClick={navigateToTrip} color={"primary"} disabled={!isActive(trip)}>
+                <Icon iconType={"confirm"} size={18} />
+            </Button>
+            <Button onClick={navigateToDetails} color={"primary"} disabled={hasEnded(trip)}>
+                <Icon iconType={"configure"} size={18} />
+            </Button>
 
         </View>
     )
 }
+
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: "row",
+        width: "100%",
+        justifyContent: "space-between"
+    }
+})

@@ -1,24 +1,12 @@
 import React, {useEffect} from "react";
 import {FlatList, StyleSheet, Text, View} from "react-native";
-import {
-    Button,
-    Card,
-    FormButtonRow,
-    FormCard,
-    FormMoneyInput,
-    Icon,
-    MoneyLinearProgressBar,
-    Screen,
-    Space,
-    TextWhite
-} from "../../../../components";
-import {Budget, sumCategoriesBudget} from "../../../../store/states";
+import {Button, Card, Icon, MoneyLinearProgressBar, Screen} from "../../../../components";
 import {SelectedCategoryModal} from "./SelectedCategoryModal";
 import {formatMoney} from "../../../../models/Money";
 import {TripNavigationProps} from "../../../../navigation";
 import {useTripBudgetEdit} from "./TripBudgetEditHook";
 import {usePrimaryColor} from "../../../../contexts/ThemeContext";
-import {showToast} from "../../../../models/Toast";
+import {sumCategoriesBudget} from "../../../../store/models";
 
 export const TripBudgetEditScreen = ({navigation, route}: TripNavigationProps<"TripBudgetEditScreen">) => {
     const budget = useTripBudgetEdit(route.params.tripId);
@@ -31,11 +19,6 @@ export const TripBudgetEditScreen = ({navigation, route}: TripNavigationProps<"T
 
     const handleCreateCategory = () => budget.addCategory('New category')
     const handleOnSelectedCategoryChanged = () => budget.selectCategory(null)
-    const handleUpdateBudget = () => {
-        budget.update()
-        showToast("Budget updated")
-        navigation.goBack()
-    }
     return (
         <Screen>
             <Screen.Header title={"Edit budget"}/>
@@ -44,21 +27,6 @@ export const TripBudgetEditScreen = ({navigation, route}: TripNavigationProps<"T
                     <Card style={{padding: 16, marginBottom: 8}}>
                         <MoneyLinearProgressBar color={primaryColor} max={budget.totalBudget} current={sumCategoriesBudget(budget.categories)}/>
                     </Card>
-                    <FormCard>
-                        <FormMoneyInput label={"Budget"} value={budget.totalBudget} onChanged={budget.setTotalBudget}/>
-                        <FormButtonRow right>
-                            <Button onClick={handleCreateCategory} color={"primary"} >
-                                <Icon iconType={"plus"} size={19} />
-                            </Button>
-                            <Space size={8} />
-                            <Button onClick={handleUpdateBudget} color={"primary"} >
-                                <Icon iconType={"confirm"} size={19} />
-                                <TextWhite>Confirm</TextWhite>
-                            </Button>
-                        </FormButtonRow>
-                    </FormCard>
-
-
                     <FlatList style={styles.list} data={budget.categories} keyExtractor={i => i.id.toString()}
                               renderItem={({item}) => (
                                   <Card style={styles.category} rounded>
@@ -77,6 +45,7 @@ export const TripBudgetEditScreen = ({navigation, route}: TripNavigationProps<"T
                     }
                 </View>
             </Screen.Content>
+            <Screen.Fab onClick={handleCreateCategory}/>
         </Screen>
     )
 };

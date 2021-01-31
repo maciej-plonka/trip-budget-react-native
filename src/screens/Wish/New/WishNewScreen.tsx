@@ -35,7 +35,7 @@ export const WishNewScreen = ({route, navigation}: WishNavigationProps<"WishNewS
             <Screen.Content>
                 <ScrollView>
                     <Center styles={{padding: 16}}>
-                        <FormCard avatar={<FormImagePicker value={item.imageId} onChanged={item.setImageId}/>}>
+                        <FormCard avatar={<FormImagePicker value={item.image} onChanged={item.setImage}/>}>
                             <FormCategoryPicker label={"Category"} value={item.category} onChanged={item.setCategory}
                                                 values={item.categories}/>
                             <FormMoneyInput label={"Value"} value={item.targetValue} onChanged={item.setTargetValue}/>

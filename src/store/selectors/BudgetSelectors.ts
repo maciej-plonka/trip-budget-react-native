@@ -1,12 +1,7 @@
-import {RootState} from "../reducers";
 import {filterBy, findBy} from "../../utils/Collections";
+import {State} from "../State";
+import {Id} from "../BaseTypes";
 
-export const selectBudgetByTripId = (tripId: number) => (state: RootState) => findBy(state.budget.budgets, "tripId", tripId);
-export const selectBudgetById = (id: number) => (state: RootState) => findBy(state.budget.budgets, "id", id)
-export const selectBudgetCategoriesByBudgetId = (id: number) => (state: RootState) => filterBy(state.budget.budgetCategories, "budgetId", id)
-export const selectBudgetCategoryById = (id: number) => (state: RootState) => findBy(state.budget.budgetCategories, "id", id);
-export const selectBudgetExpenseById = (id: number) => (state: RootState) => findBy(state.budget.budgetExpenses, "id", id);
-export const selectBudgetCategoriesByTripId = (tripId: number) => (state: RootState) => {
-    const budget = findBy(state.budget.budgets, "tripId", tripId);
-    return budget ? filterBy(state.budget.budgetCategories, "budgetId", budget.id) : []
-}
+export const selectBudgetCategoryById = (id: Id) => (state: State) => findBy(state.budgetCategories, "id", id);
+export const selectBudgetExpenseById = (id: Id) => (state: State) => findBy(state.budgetExpenses, "id", id);
+export const selectBudgetCategoriesByTripId = (tripId: Id) => (state: State) => filterBy(state.budgetCategories, "tripId", tripId)

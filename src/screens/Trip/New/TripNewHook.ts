@@ -1,8 +1,8 @@
-import {Money} from "../../../models/Money";
+import {defaultMoney, Money} from "../../../models/Money";
 import {useState} from "react";
 import {addDays, startOfDay} from "date-fns";
 import {useDispatch} from "react-redux";
-import {createFullTrip} from "../../../store/actions";
+import {createTrip} from "../../../store/actions/TripActions";
 
 type TripNew = {
     name: string,
@@ -13,6 +13,8 @@ type TripNew = {
     setEndDate(endDate: Date): void,
     totalBudget: Money,
     setTotalBudget(totalBudget: Money): void,
+    image: string | undefined
+    setImage(image: string | undefined):void,
     create(): void,
 }
 
@@ -20,23 +22,16 @@ export const useTripNew = (): TripNew => {
     const [name, setName] = useState("New trip");
     const [startDate, setStartDate] = useState<Date>(startOfDay(new Date()))
     const [endDate, setEndDate] = useState<Date>(addDays(startDate, 1));
-    const [totalBudget, setTotalBudget] = useState<Money>({amount: 0, currency: "¥"})
+    const [totalBudget, setTotalBudget] = useState<Money>(defaultMoney())
+    const [image, setImage] = useState<string | undefined>()
     const dispatch = useDispatch()
-
-    const create = () => {
-        const trip = {
-            name,
-            startDate,
-            endDate,
-            totalBudget
-        }
-        dispatch(createFullTrip(trip))
-    }
+    const create = () => dispatch(createTrip({ name,startDate, endDate,totalBudget, image}))
     return {
         name, setName,
         startDate, setStartDate,
         endDate, setEndDate,
         totalBudget, setTotalBudget,
+        image, setImage,
         create,
     }
 }

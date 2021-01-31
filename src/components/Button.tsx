@@ -7,13 +7,22 @@ export type ButtonProps = {
     onClick: () => void,
     color: ButtonColor
     children?: React.ReactNode,
-    style?: StyleProp<ViewStyle>
+    style?: StyleProp<ViewStyle>,
+    disabled?: boolean
 }
 
-export const Button = ({onClick, style, color, children}: ButtonProps) => {
+const getButtonColor = (color: ButtonColor, disabled: boolean) => {
+    const disabledColor = useButtonColor("disabled")
     const buttonColor = useButtonColor(color)
+    return disabled ? disabledColor : buttonColor;
+
+}
+
+export const Button = ({onClick, style, color, children, disabled}: ButtonProps) => {
+    const buttonColor = getButtonColor(color, !!disabled)
+    const handleOnPress =() => !disabled && onClick();
     return (
-        <TouchableOpacity onPress={onClick}>
+        <TouchableOpacity onPress={handleOnPress}>
             <ColoredBackground style={[styles.background, style]} color={buttonColor}>
                 {children}
             </ColoredBackground>
@@ -30,5 +39,5 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "row"
-    }
+    },
 });

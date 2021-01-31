@@ -1,9 +1,9 @@
-import {isBought, Wish} from "../../../../../store/states";
 import {StyleSheet, TouchableOpacity} from "react-native";
 import React from "react";
 import {ColoredBackground} from "../../../../../components";
 import {usePrimaryColor, useSecondaryColor} from "../../../../../contexts/ThemeContext";
 import {ItemButtonIcon} from "./ItemButtonIcon";
+import {isBought, Wish} from "../../../../../store/models";
 
 type Props = {
     item: Wish,

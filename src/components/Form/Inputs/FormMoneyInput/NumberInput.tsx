@@ -31,18 +31,14 @@ export const NumberInput = ({value, onChanged, style}: Props) => {
 
 
     }
-    try {
-        return (
-            <TextInput style={[styles.input, style]}
-                       keyboardType={"numeric"}
-                       selection={selection}
-                       onSelectionChange={(event) => setSelection(event.nativeEvent.selection)}
-                       value={value.toString()}
-                       onChangeText={handleUpdate}/>
-        )
-    }catch(e) {
-        console.error(e)
-    }
+    return (
+        <TextInput style={[styles.input, style]}
+                   keyboardType={"numeric"}
+                   selection={selection}
+                   onSelectionChange={(event) => setSelection(event.nativeEvent.selection)}
+                   value={value.toString()}
+                   onChangeText={handleUpdate}/>
+    )
 };
 
 const styles = StyleSheet.create({

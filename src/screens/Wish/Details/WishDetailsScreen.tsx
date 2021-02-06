@@ -18,7 +18,7 @@ export const WishDetailsScreen = ({route, navigation}: WishNavigationProps<"Wish
         <Screen>
             <Screen.Header title={"Wish details"} color={"wish"} />
             <Screen.Content>
-                <Center styles={{padding: 16}}>
+                <Center style={{padding: 16}}>
                     <WishDetailsCard wish={wish} />
                 </Center>
             </Screen.Content>

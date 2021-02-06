@@ -49,7 +49,7 @@ export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEdi
             <Screen.Header title={"Edit wish"} color={"wish"} />
             <Screen.Content>
                 <ScrollView>
-                    <Center styles={{padding: 16}}>
+                    <Center style={{padding: 16}}>
                         <FormCard avatar={avatar}>
                             <FormCategoryPicker label={"Category"}
                                                 value={wishEdit.category}
@@ -61,11 +61,11 @@ export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEdi
                             <FormTextInput label={"Name"}
                                            value={wishEdit.name}
                                            onChanged={wishEdit.setName}
-                                           icon={"name"}/>
+                                           icon={"notes"}/>
                             <FormTextArea label={"Comments"}
                                           value={wishEdit.comments}
                                           onChanged={wishEdit.setComments}
-                                          icon={"name"}/>
+                                          icon={"notes"}/>
                             <FormButtonRow right>
                                 <Button onClick={handleDelete} color={"error"}>
                                     <Icon iconType={"delete"} size={19} />

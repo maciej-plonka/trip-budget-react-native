@@ -1,13 +1,12 @@
 import React from "react";
-import {StyleProp, StyleSheet, TouchableOpacity, ViewStyle} from "react-native";
+import {StyleSheet, TouchableOpacity} from "react-native";
 import {ColoredBackground} from "./ColoredBackground";
 import {ButtonColor, useButtonColor} from "../contexts/ThemeContext";
+import {Parent, Styled} from "./Blocks";
 
-export type ButtonProps = {
+export type ButtonProps = Styled & Parent & {
     onClick: () => void,
     color: ButtonColor
-    children?: React.ReactNode,
-    style?: StyleProp<ViewStyle>,
     disabled?: boolean
 }
 
@@ -20,7 +19,7 @@ const getButtonColor = (color: ButtonColor, disabled: boolean) => {
 
 export const Button = ({onClick, style, color, children, disabled}: ButtonProps) => {
     const buttonColor = getButtonColor(color, !!disabled)
-    const handleOnPress =() => !disabled && onClick();
+    const handleOnPress = () => !disabled && onClick();
     return (
         <TouchableOpacity onPress={handleOnPress}>
             <ColoredBackground style={[styles.background, style]} color={buttonColor}>

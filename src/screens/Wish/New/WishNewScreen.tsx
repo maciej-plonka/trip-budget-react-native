@@ -34,12 +34,12 @@ export const WishNewScreen = ({route, navigation}: WishNavigationProps<"WishNewS
             <Screen.Header title={"New item"} color={"wish"}/>
             <Screen.Content>
                 <ScrollView>
-                    <Center styles={{padding: 16}}>
+                    <Center style={{padding: 16}}>
                         <FormCard avatar={<FormImagePicker value={item.image} onChanged={item.setImage}/>}>
                             <FormCategoryPicker label={"Category"} value={item.category} onChanged={item.setCategory}
                                                 values={item.categories}/>
                             <FormMoneyInput label={"Value"} value={item.targetValue} onChanged={item.setTargetValue}/>
-                            <FormTextInput label={"Name"} value={item.name} onChanged={item.setName} icon={"name"}/>
+                            <FormTextInput label={"Name"} value={item.name} onChanged={item.setName} icon={"notes"}/>
                             <FormButtonRow right>
                                 <Button onClick={handleCreateItem} color={"primary"}>
                                     <Icon iconType={"confirm"} size={19} />

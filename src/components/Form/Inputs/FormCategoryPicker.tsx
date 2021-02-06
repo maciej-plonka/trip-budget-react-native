@@ -1,4 +1,4 @@
-import InputWrapper from "./InputWrapper";
+import {InputWrapper} from "./InputWrapper";
 import React from "react";
 import {Picker} from "@react-native-picker/picker";
 import {StyleSheet, View} from "react-native";

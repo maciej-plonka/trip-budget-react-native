@@ -1,8 +1,8 @@
 import React from "react";
 import {StyleSheet, View} from "react-native";
+import {Parent} from "../../Blocks";
 
-type Props = {
-    children?: React.ReactNode,
+type Props = Parent & {
     left?: boolean,
     right?: boolean,
     center?: boolean

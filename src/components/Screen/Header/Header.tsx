@@ -7,9 +7,10 @@ import {ColoredBackground} from "../../ColoredBackground";
 import {HeaderTitle} from "./HeaderTitle";
 import {HeaderColor, useHeaderColor} from "../../../contexts/ThemeContext";
 import {useSelectedTab} from "./HeaderHook";
+import {Parent} from "../../Blocks";
 
-export type HeaderProps = {
-    children?: Array<ReactElement<HeaderTabProps>> | ReactElement<HeaderTabProps>,
+type ChildrenType = Array<ReactElement<HeaderTabProps>> | ReactElement<HeaderTabProps>
+export type HeaderProps = Parent<ChildrenType> & {
     color?: HeaderColor,
     title: string,
     onTabChanged?: (tab: string | null) => void

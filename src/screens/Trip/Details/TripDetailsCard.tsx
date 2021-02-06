@@ -1,6 +1,6 @@
 import {Image, StyleSheet, Text, View} from "react-native";
 import {format} from "date-fns";
-import {Button, Card, FormButtonRow, Icon} from "../../../components";
+import {Button, Card, Icon} from "../../../components";
 import React from "react";
 import {hasStarted, Trip} from "../../../store/models";
 

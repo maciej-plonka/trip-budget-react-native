@@ -1,12 +1,11 @@
 import React from "react";
-import {StyleProp, View, ViewStyle} from "react-native";
+import {View} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
 import {Color, isGradient} from "../models/Colors";
+import {Parent, Styled} from "./Blocks";
 
-type Props = {
+type Props = Styled & Parent & {
     color: Color,
-    style?: StyleProp<ViewStyle>
-    children?: React.ReactNode
 }
 
 const plainBackgroundColor = (backgroundColor: string) => ({backgroundColor})

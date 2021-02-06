@@ -1,8 +1,8 @@
 import React from "react";
-import {StyleProp, StyleSheet, Text, ViewStyle} from "react-native";
+import {StyleSheet, Text} from "react-native";
+import {Styled} from "./Blocks";
 
-type Props = {
-    style?: StyleProp<ViewStyle>
+type Props =  Styled &{
     children: string
 }
 export const TextWhite = ({children, style}: Props) => (

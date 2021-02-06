@@ -1,11 +1,11 @@
-import {Image, StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle} from "react-native";
+import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
 import React from "react";
 import {showToast} from "../../../models/Toast";
 import {useFormImagePicker} from "./FormImagePickerHook";
 import {Icon} from "../../Icon";
+import {Styled} from "../../Blocks";
 
-type Props = BaseInputProps<string | undefined> & {
-    style?: StyleProp<ViewStyle>,
+type Props = BaseInputProps<string | undefined> & Styled & {
     imageRatio?: [number, number]
 }
 

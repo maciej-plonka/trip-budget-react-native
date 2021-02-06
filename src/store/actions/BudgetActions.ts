@@ -1,5 +1,5 @@
 import {Action} from "redux"
-import {BudgetCategory, BudgetExpense, NewBudgetCategory, NewBudgetExpense} from "../models";
+import {BudgetCategory, NewBudgetCategory, NewBudgetExpense} from "../models";
 import {Id} from "../BaseTypes";
 
 export type BudgetAction =

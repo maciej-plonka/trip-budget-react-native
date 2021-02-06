@@ -1,19 +1,19 @@
 import React from "react";
 import {Color} from "../../models/Colors";
 import {ColoredBackground} from "../ColoredBackground";
-import {StyleProp, StyleSheet, ViewStyle} from "react-native";
+import {StyleSheet} from "react-native";
+import {Styled} from "../Blocks";
 
-type Props = {
+type Props = Styled & {
     current: number,
     max: number,
     color: Color,
-    style?: StyleProp<ViewStyle>
 }
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, (Math.min(max, value)));
-const calculateCurrentPercent = (current:number, max: number) => clamp(Math.floor(current / max * 100), 0, 100);
+const calculateCurrentPercent = (current: number, max: number) => clamp(Math.floor(current / max * 100), 0, 100);
 
-export const LinearProgressBar = ({current, max, color,style}: Props) => {
+export const LinearProgressBar = ({current, max, color, style}: Props) => {
     const progressFillStyle = {width: calculateCurrentPercent(current, max) + "%"};
     return (
         <ColoredBackground style={[styles.progressBackground, style]} color={"#E6EAF8"}>

@@ -1,13 +1,12 @@
 import React from "react";
 import {Picker} from "@react-native-picker/picker";
-import {StyleProp, StyleSheet, View, ViewStyle} from "react-native";
+import {StyleSheet, View} from "react-native";
 import {availableCurrencies, Currency} from "../../../../models/Money";
 import {ItemValue} from "@react-native-picker/picker/typings/Picker";
+import {Styled} from "../../../Blocks";
 
 
-type Props<T> = BaseInputProps<Currency> & {
-    style?: StyleProp<ViewStyle>
-}
+type Props<T> = BaseInputProps<Currency> & Styled
 
 export const CurrencyPicker = ({value, onChanged, style}: Props<Currency>) => {
     const handleValueChanged = (newValue: ItemValue) => {

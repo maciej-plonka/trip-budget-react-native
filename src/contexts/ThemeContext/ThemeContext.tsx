@@ -1,6 +1,7 @@
 import React, {createContext, useContext} from "react";
 import {Color} from "../../models/Colors";
 import {gradients} from "./Gradients";
+import {Parent} from "../../components";
 
 type Buttons = {
     primary: Color,
@@ -49,10 +50,8 @@ export const useButtonColor = (color: ButtonColor) => useContext(ThemeContext).b
 export const useHeaderColor = (color: HeaderColor) => useContext(ThemeContext).headers[color]
 export const usePrimaryColor = () =>  useContext(ThemeContext).primary;
 export const useSecondaryColor = () => useContext(ThemeContext).secondary;
-interface Props {
-    children?: React.ReactNode
-}
-export const ThemedApplication = ({children}: Props) => (
+
+export const ThemedApplication = ({children}: Parent) => (
     <ThemeContext.Provider value={theme}>
         {children}
     </ThemeContext.Provider>

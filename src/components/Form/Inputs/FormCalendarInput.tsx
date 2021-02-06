@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from "react";
-import InputWrapper from "./InputWrapper";
+import {InputWrapper} from "./InputWrapper";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import {format} from "date-fns";

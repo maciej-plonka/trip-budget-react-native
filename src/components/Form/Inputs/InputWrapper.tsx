@@ -1,16 +1,21 @@
 import React from "react";
 import {StyleSheet, Text, View} from "react-native";
-import {InputIcon, InputIconName} from "./InputIcon";
+import {Parent} from "../../Blocks";
+import {Icon, IconType} from "../../Icon";
 
 
-type Props = {
+type Props =Parent & {
     label: string,
-    icon?: InputIconName,
-    children?: React.ReactNode
+    icon?: IconType
 }
-const InputWrapper = ({label, icon, children}: Props) => {
+function getIconSize(iconType: IconType ) {
+    if(iconType === "money") return 16;
+    return 20;
+}
+
+export const InputWrapper = ({label, icon, children}: Props) => {
     return <View style={styles.wrapper}>
-        {icon && <InputIcon icon={icon} styles={styles.icon} /> }
+        {icon && <Icon iconType={icon} style={styles.icon} size={getIconSize(icon)} color={"#D04545"} /> }
         <View style={styles.inputWrapper}>
             <Text style={styles.label}>{label}</Text>
             {children}
@@ -37,5 +42,3 @@ const styles = StyleSheet.create({
     },
 
 });
-
-export default InputWrapper;

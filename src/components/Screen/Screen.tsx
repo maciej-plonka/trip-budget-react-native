@@ -3,10 +3,12 @@ import {Header, HeaderProps} from "./Header";
 import {Content, ContentProps} from "./Content";
 import {StyleSheet, View} from "react-native";
 import {FABProps, FloatingActionButton} from "./FloatingActionButton";
+import {Parent} from "../Blocks";
 
-type Props = {
-    children?: [ReactElement<HeaderProps>, ReactElement<ContentProps>] | [ReactElement<HeaderProps>, ReactElement<ContentProps>, ReactElement<FABProps>]
-}
+
+type ChildrenType =
+    [ReactElement<HeaderProps>, ReactElement<ContentProps>] |
+    [ReactElement<HeaderProps>, ReactElement<ContentProps>, ReactElement<FABProps>]
 
 interface IComposition {
     Header: typeof Header
@@ -14,7 +16,7 @@ interface IComposition {
     Fab: typeof FloatingActionButton
 }
 
-export const Screen: FC<Props> & IComposition = ({children}) => (
+export const Screen: FC<Parent<ChildrenType>> & IComposition = ({children}) => (
     <View style={styles.screen}>{children}</View>
 )
 

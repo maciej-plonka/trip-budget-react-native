@@ -1,11 +1,10 @@
-import {buildMoney, defaultMoney, Money} from "../../../../models/Money";
+import {buildMoney, Money} from "../../../../models/Money";
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from "react";
 import {BudgetCategory} from "../../../../store/models";
 import {Id} from "../../../../store";
 import {selectBudgetCategoriesByTripId, selectTripById} from "../../../../store/selectors";
 import {createBudgetCategory} from "../../../../store/actions/BudgetActions";
-import {updateTrip} from "../../../../store/actions/TripActions";
 
 type BudgetEdit = {
     totalBudget: Money,

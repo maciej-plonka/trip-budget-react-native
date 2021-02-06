@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Icon, Space} from "../../../../components";
+import {Button, Icon} from "../../../../components";
 import {useNavigation} from "@react-navigation/native";
 import {TripNavigation} from "../../../../navigation/Trip";
 import {StyleSheet, View} from "react-native";

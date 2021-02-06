@@ -1,10 +1,11 @@
 import React from "react";
 import {StyleSheet, TextInput} from "react-native";
-import InputWrapper, {InputIconName} from "./InputWrapper";
+import {InputWrapper} from "./InputWrapper";
+import {IconType} from "../../Icon";
 
 type Props = BaseInputProps<string> & {
     label: string,
-    icon?: InputIconName,
+    icon?: IconType,
 }
 
 export const FormTextInput  = (props: Props) => {

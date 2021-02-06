@@ -1,6 +1,5 @@
 import {HasId, Id} from "../BaseTypes";
-import {Color} from "../../models/Colors";
-import {buildMoney, Currency, defaultMoney, Money} from "../../models/Money";
+import {buildMoney, defaultMoney, Money} from "../../models/Money";
 import {sumBy} from "../../utils/Collections";
 
 export type BudgetCategory = HasId & {

@@ -83,9 +83,9 @@ export const WishBuyScreen = ({route, navigation}: WishNavigationProps<"WishBuyS
         <Screen>
             <Screen.Header title={"Wish buy"} color={"wish"}/>
             <Screen.Content>
-                <Center styles={styles.root}>
+                <Center style={styles.root}>
                     <FormCard>
-                        <FormTextInput value={wishBuy.name} onChanged={wishBuy.setName} label={"Name"} icon={"name"}/>
+                        <FormTextInput value={wishBuy.name} onChanged={wishBuy.setName} label={"Name"} icon={"notes"}/>
                         <FormMoneyInput value={wishBuy.targetValue} onChanged={wishBuy.setTargetValue}
                                         label={"Target value"}/>
                         <FormMoneyInput value={wishBuy.actualValue} onChanged={wishBuy.setActualValue}

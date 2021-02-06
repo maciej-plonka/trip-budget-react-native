@@ -5,10 +5,13 @@ import {
     Center,
     FormButtonRow,
     FormCalendarInput,
-    FormCard, FormImagePicker, FormMoneyInput,
+    FormCard,
+    FormImagePicker,
+    FormMoneyInput,
     FormTextInput,
     Icon,
-    Screen, Space
+    Screen,
+    Space
 } from "../../../../components";
 import {confirmMessageBox} from "../../../../models/MessageBox";
 import {showToast} from "../../../../models/Toast";
@@ -43,9 +46,9 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
         <Screen>
             <Screen.Header title={"Edit trip"}/>
             <Screen.Content>
-                <Center styles={styles.root}>
+                <Center style={styles.root}>
                     <FormCard avatar={avatar}>
-                        <FormTextInput icon={"name"} label={"Name"} value={tripEdit.name} onChanged={tripEdit.setName}/>
+                        <FormTextInput icon={"notes"} label={"Name"} value={tripEdit.name} onChanged={tripEdit.setName}/>
                         <FormCalendarInput label={"Start date"} value={tripEdit.startDate} onChanged={tripEdit.setStartDate}/>
                         <FormCalendarInput label={"End date"} value={tripEdit.endDate} onChanged={tripEdit.setEndDate}/>
                         <FormMoneyInput label={"Total budget"} value={tripEdit.totalBudget} onChanged={tripEdit.setTotalBudget} />

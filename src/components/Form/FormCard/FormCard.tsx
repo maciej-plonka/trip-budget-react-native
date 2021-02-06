@@ -1,18 +1,16 @@
 import React from "react";
-import {StyleProp, StyleSheet, View, ViewStyle} from "react-native";
+import {StyleSheet, View} from "react-native";
 import {Card} from "../../Card";
 import MaskedView from "@react-native-community/masked-view";
+import {Parent, Styled} from "../../Blocks";
 
-type Props = {
+type Props = Styled & Parent & {
     avatar?: React.ReactNode
-    children?: React.ReactNode,
-    style?: StyleProp<ViewStyle>
 }
 
 const FormCard = ({children, avatar, style}: Props) => {
-    const hasAvatar = !!avatar
     return (
-        <Card style={[styles.root, hasAvatar && styles.mindAvatar, style]}>
+        <Card style={[styles.root, !!avatar && styles.avatarGap, style]}>
             {avatar && (
                 <MaskedView style={styles.avatarWrapper} maskElement={<View style={styles.avatar}/>}>
                     {avatar}
@@ -32,7 +30,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 24,
     },
 
-    mindAvatar: {
+    avatarGap: {
         marginTop: 128,
         paddingTop: 128,
     },

@@ -1,4 +1,4 @@
-import {filterBy, filterOutBy} from "../utils/Collections";
+import {filterOutBy} from "../utils/Collections";
 import {initialState, State} from "./State";
 import {BudgetExpense, serialize} from "./models";
 import {HasId, Id} from "./BaseTypes";

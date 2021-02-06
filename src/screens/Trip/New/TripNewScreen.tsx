@@ -4,7 +4,8 @@ import {
     Center,
     FormButtonRow,
     FormCalendarInput,
-    FormCard, FormImagePicker,
+    FormCard,
+    FormImagePicker,
     FormMoneyInput,
     FormTextInput,
     Icon,
@@ -25,9 +26,9 @@ export const TripNewScreen = ({navigation}: TripNavigationProps<"TripNewScreen">
         <Screen>
             <Screen.Header title={"New trip"}/>
             <Screen.Content>
-                <Center styles={{padding: 16}}>
+                <Center style={{padding: 16}}>
                     <FormCard avatar={avatar}>
-                        <FormTextInput icon={"name"} label={"Name"} value={tripNew.name} onChanged={tripNew.setName}/>
+                        <FormTextInput icon={"notes"} label={"Name"} value={tripNew.name} onChanged={tripNew.setName}/>
                         <FormCalendarInput label={"Start date"} value={tripNew.startDate} onChanged={tripNew.setStartDate}/>
                         <FormCalendarInput label={"End date"} value={tripNew.endDate} onChanged={tripNew.setEndDate}/>
                         <FormMoneyInput label={"Budget"} value={tripNew.totalBudget} onChanged={tripNew.setTotalBudget}

@@ -1,12 +1,11 @@
 import React from "react";
-import {StyleProp, StyleSheet, ViewStyle} from "react-native";
+import {StyleSheet} from "react-native";
 import {ColoredBackground} from "./ColoredBackground";
 import {Color} from "../models/Colors";
+import {Parent, Styled} from "./Blocks";
 
-type Props = {
+type Props =Styled & Parent &  {
     rounded?: boolean,
-    children?: React.ReactNode
-    style?: StyleProp<ViewStyle>,
     color?: Color
     flat?: boolean
 }

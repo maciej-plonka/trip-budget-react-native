@@ -44,7 +44,7 @@ export const SelectedCategoryModal = ({category, onChanged}: Props) => {
             style={StyleSheet.absoluteFill}
             animationType="slide"
             visible>
-            <Center styles={StyleSheet.absoluteFill}>
+            <Center style={StyleSheet.absoluteFill}>
                 <FormCard>
                     <FormTextInput label={"Name"} value={name} onChanged={setName}/>
                     <FormMoneyInput label={"Budget"} value={categoryBudget} onChanged={setCategoryBudget}/>

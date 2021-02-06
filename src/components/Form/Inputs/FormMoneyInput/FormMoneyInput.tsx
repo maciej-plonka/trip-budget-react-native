@@ -1,6 +1,6 @@
 import {Currency, Money} from "../../../../models/Money";
 import React from "react";
-import InputWrapper from "../InputWrapper";
+import {InputWrapper} from "../InputWrapper";
 import {StyleSheet, Text, View} from "react-native"
 import {NumberInput} from "./NumberInput";
 import {CurrencyPicker} from "./CurrencyPicker";

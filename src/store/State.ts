@@ -1,10 +1,10 @@
 import {BudgetCategory, BudgetExpense, SerializedTrip, Wish} from "./models";
 
 export type State = {
-    trips: Readonly<SerializedTrip[]>,
-    budgetCategories: Readonly<BudgetCategory[]>,
-    budgetExpenses: Readonly<BudgetExpense[]>,
-    wishes: Readonly<Wish[]>
+    trips: ReadonlyArray<SerializedTrip>,
+    budgetCategories: ReadonlyArray<BudgetCategory>,
+    budgetExpenses: ReadonlyArray<BudgetExpense>,
+    wishes: ReadonlyArray<Wish>
 }
 
 export const initialState: State = {

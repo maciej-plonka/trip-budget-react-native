@@ -8,13 +8,14 @@ import {Id} from "../../../store";
 
 type Tab = { id: "all", title: "All" } | { id: "bought", title: "Bought" } | { id: "to buy", title: "To buy" }
 
-const tabs: Readonly<Tab[]> = [
+const tabs: ReadonlyArray<Tab> = [
     {id: "all", title: "All"},
     {id: "bought", title: "Bought"},
     {id: "to buy", title: "To buy"},
 ]
 
-const filterWishesByTab = (wishes: Readonly<Wish[]>, tab: Tab | undefined) => {
+const filterWishesByTab = (wishes: ReadonlyArray<Wish>, tab: Tab | undefined) => {
+
     if (!tab || tab.id === "all")
         return wishes;
     switch (tab.id) {
@@ -25,21 +26,21 @@ const filterWishesByTab = (wishes: Readonly<Wish[]>, tab: Tab | undefined) => {
     }
 }
 
-const filterWishesByCategory = (wishes: Readonly<Wish[]>, category: BudgetCategory | undefined) => {
+const filterWishesByCategory = (wishes: ReadonlyArray<Wish>, category: BudgetCategory | undefined) => {
     if (!category) {
         return wishes;
     }
     return filterBy(wishes, "budgetCategoryId", category.id)
 }
 
-const filterWishes = (wishes: Readonly<Wish[]>, tab: Tab | undefined, category: BudgetCategory | undefined) => {
+const filterWishes = (wishes: ReadonlyArray<Wish>, tab: Tab | undefined, category: BudgetCategory | undefined) => {
     return filterWishesByCategory(filterWishesByTab(wishes, tab), category);
 }
 
 type WishHome = {
-    wishes: Readonly<Wish[]>,
-    tabs: Readonly<Tab[]>,
-    categories: Readonly<BudgetCategory[]>
+    wishes: ReadonlyArray<Wish>,
+    tabs: ReadonlyArray<Tab>,
+    categories: ReadonlyArray<BudgetCategory>
     category: BudgetCategory | undefined,
     selectTab(tabId: string | null): void,
     selectCategory(category: BudgetCategory | undefined): void,

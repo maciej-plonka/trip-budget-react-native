@@ -9,7 +9,7 @@ import {createWish} from "../../../store/actions/WishActions";
 type WishNew = {
     image: string | undefined,
     setImage(imageId: string | undefined): void
-    categories: Readonly<BudgetCategory[]>
+    categories: ReadonlyArray<BudgetCategory>
     category: BudgetCategory | undefined
     setCategory(category: BudgetCategory | undefined): void
     targetValue: Money

@@ -28,6 +28,6 @@ export type NewBudgetExpense = {
     name: string,
 }
 
-export const sumCategoriesBudget = (categories: Readonly<BudgetCategory[]>): Money => categories.length
+export const sumCategoriesBudget = (categories: ReadonlyArray<BudgetCategory>): Money => categories.length
     ? buildMoney(sumBy(categories, it => it.categoryBudget.amount),categories[0].categoryBudget.currency)
     : defaultMoney()

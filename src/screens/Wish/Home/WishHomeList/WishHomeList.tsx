@@ -12,7 +12,7 @@ const renderItem = ({item}: { item: Wish }) => (
 )
 
 type Props = {
-    wishes: Readonly<Wish[]>
+    wishes: ReadonlyArray<Wish>
 }
 
 export const WishHomeList = ({wishes}: Props) => (

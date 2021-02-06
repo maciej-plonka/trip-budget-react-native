@@ -16,7 +16,7 @@ export const CurrencyPicker = ({value, onChanged, style}: Props<Currency>) => {
     return (
         <View style={[styles.root, style]}>
             <Picker style={styles.picker}  mode={"dialog"} selectedValue={value} onValueChange={handleValueChanged}>
-                {availableCurrencies().map(it => (
+                {availableCurrencies.map(it => (
                     <Picker.Item key={it} value={it} label={it}/>
                 ))}
             </Picker>

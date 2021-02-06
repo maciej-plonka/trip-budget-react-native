@@ -8,7 +8,7 @@ import {createBudgetCategory} from "../../../../store/actions/BudgetActions";
 
 type BudgetEdit = {
     totalBudget: Money,
-    categories: Readonly<BudgetCategory[]>
+    categories: ReadonlyArray<BudgetCategory>
     addCategory(name: string): void
     selectedCategory: BudgetCategory | null
     selectCategory(category: BudgetCategory | null): void,

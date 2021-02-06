@@ -6,7 +6,7 @@ import "react-native-get-random-values"
 import {nanoid} from "nanoid";
 import {StateAction} from "./actions";
 
-const updateItem = <T extends HasId>(collection: Readonly<T[]>, newV: T): Readonly<T[]> => {
+const updateItem = <T extends HasId>(collection: ReadonlyArray<T>, newV: T): ReadonlyArray<T> => {
     return collection.map(it => it.id === newV.id ? newV : it)
 }
 

@@ -10,7 +10,7 @@ import {findBy} from "../../../utils/Collections";
 type WishEdit = {
     image: string | undefined,
     setImage(imageId: string | undefined): void
-    categories: Readonly<BudgetCategory[]>
+    categories: ReadonlyArray<BudgetCategory>
     category: BudgetCategory | undefined
     setCategory(category: BudgetCategory | undefined): void
     targetValue: Money

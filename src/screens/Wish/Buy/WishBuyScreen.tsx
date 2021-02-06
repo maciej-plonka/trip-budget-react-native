@@ -34,7 +34,7 @@ type WishBuy = {
     setComments(comments: string): void,
     category: BudgetCategory | undefined
     setCategory(category: BudgetCategory | undefined): void
-    categories: Readonly<BudgetCategory[]>
+    categories: ReadonlyArray<BudgetCategory>
     buy(): void
 }
 const useWishBuy = (itemId: Id): WishBuy | undefined => {

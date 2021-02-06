@@ -7,7 +7,7 @@ import {findBy} from "../../../utils/Collections";
 
 type Props = BaseInputProps<BudgetCategory | undefined> & {
     label: string,
-    values: Readonly<BudgetCategory[]>
+    values: ReadonlyArray<BudgetCategory>
     unselectedLabel?: string,
     iconDisabled?: boolean
 }

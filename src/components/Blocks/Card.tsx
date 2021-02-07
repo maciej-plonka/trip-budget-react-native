@@ -1,20 +1,21 @@
 import React from "react";
 import {StyleSheet} from "react-native";
-import {ColoredBackground} from "./ColoredBackground";
-import {Color} from "../models/Colors";
-import {Parent, Styled} from "./Blocks";
+import {ColoredBackground} from "../ColoredBackground";
+import {Color} from "../../models/Colors";
+import {BlockProps, useBlockStyles} from "./Block";
 
-type Props =Styled & Parent &  {
+type Props = BlockProps & {
     rounded?: boolean,
     color?: Color
     flat?: boolean
 }
-export const  Card = ({rounded, style, children, flat, color = "white"}: Props) => {
+export const Card = ({rounded, children, flat, color = "white", ...props}: Props) => {
+    const blockStyles = useBlockStyles(props)
     const cardStyle = [
         styles.root,
+        blockStyles,
         rounded && styles.rounded,
         flat && styles.flat,
-        style
     ];
     return (
         <ColoredBackground color={color} style={cardStyle}>

@@ -1,5 +1,7 @@
+import {sumBy} from "../../utils/Collections";
+
 export type Currency = "¥" | "$"
-export const availableCurrencies:  ReadonlyArray<Currency> = ["¥", "$"]
+export const availableCurrencies: ReadonlyArray<Currency> = ["¥", "$"]
 
 export const formatMoney = (money: Money): string => {
     switch (money.currency) {
@@ -27,4 +29,7 @@ export type Money = {
 }
 
 export const buildMoney = (amount: number, currency: Currency): Money => ({currency, amount})
-export const defaultMoney = ():Money => buildMoney(0, "¥")
+export const defaultMoney = (): Money => buildMoney(0, "¥")
+export const sumMoney = (money: ReadonlyArray<Money>): Money => money.length > 0
+    ? buildMoney(sumBy(money, it => it.amount), money[0].currency)
+    : defaultMoney()

@@ -1,7 +1,6 @@
 export * from "./Form"
 export * from "./Progress"
 export * from "./Screen"
-export * from "./Card"
 export * from "./ColoredBackground"
 export * from "./Button"
 export * from "./Icon"

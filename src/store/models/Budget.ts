@@ -1,5 +1,5 @@
 import {HasId, Id} from "../BaseTypes";
-import {buildMoney, defaultMoney, Money} from "../../models/Money";
+import {buildMoney, defaultMoney, Money, sumMoney} from "../../models/Money";
 import {sumBy} from "../../utils/Collections";
 
 export type BudgetCategory = HasId & {
@@ -28,6 +28,5 @@ export type NewBudgetExpense = {
     name: string,
 }
 
-export const sumCategoriesBudget = (categories: ReadonlyArray<BudgetCategory>): Money => categories.length
-    ? buildMoney(sumBy(categories, it => it.categoryBudget.amount),categories[0].categoryBudget.currency)
-    : defaultMoney()
+export const sumCategoriesBudget = (categories: ReadonlyArray<BudgetCategory>): Money => sumMoney(categories.map(it => it.categoryBudget))
+export const sumBudgetExpenses = (expenses: ReadonlyArray<BudgetExpense>): Money => sumMoney(expenses.map(it => it.value))

@@ -8,6 +8,7 @@ type Buttons = {
     secondary: Color,
     error: Color,
     disabled: Color,
+    transparent: Color
 }
 
 type Headers = {
@@ -37,6 +38,7 @@ const theme: Theme = {
         secondary: gradients.purpleReversed,
         error: gradients.red,
         disabled: "#ababab",
+        transparent: "rgba(0,0,0,0)"
     },
     primary: gradients.green,
     secondary: gradients.purpleReversed,

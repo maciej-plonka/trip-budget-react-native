@@ -1,14 +1,22 @@
 import React, {FC} from "react";
-import {StyleSheet, View} from "react-native";
+import {StyleProp, StyleSheet, View, ViewStyle} from "react-native";
 import {Button} from "../Button";
 import {Icon} from "../Icon";
 
 export type FABProps = {
-    onClick: () => void
+    onClick: () => void,
+    position?: "right" | "center"
 }
-export const FloatingActionButton:FC<FABProps> = ({onClick}) => {
+
+const fabStyles = (position:"right" | "center" ): StyleProp<ViewStyle>[] => [
+    styles.container,
+    position === "right" && styles.containerRight,
+    position === "center" && styles.containerCenter
+]
+
+export const FloatingActionButton:FC<FABProps> = ({onClick, position = "right"}) => {
     return (
-        <View style={styles.container}>
+        <View style={fabStyles(position)}>
             <Button style={styles.fab} onClick={onClick} color={"primary"}>
                 <Icon iconType={"plus"} size={48} color={"white"} />
             </Button>
@@ -18,9 +26,18 @@ export const FloatingActionButton:FC<FABProps> = ({onClick}) => {
 const styles = StyleSheet.create({
     container: {
         position: "absolute",
+        zIndex: 2,
+    },
+
+    containerCenter: {
+        bottom: 28,
+        alignSelf: "center"
+    },
+    containerRight: {
         bottom: 16,
         right: 16,
     },
+
     fab: {
         justifyContent: "center",
         alignItems: "center",

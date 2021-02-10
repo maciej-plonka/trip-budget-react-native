@@ -1,4 +1,5 @@
 export * from "./RootNavigationProps"
 export * from "./RootNavigationScreens"
 export {TripParamList, TripNavigationProps} from "./Trip"
-export {WishNavigationProps, BudgetParamList, ModulesParamList, BudgetNavigationProps, ModulesNavigationProps, WishParamList, WishNavigation} from "./Modules"
+export {WishNavigationProps, WishParamList, WishNavigation} from "./Wish"
+export {BudgetNavigationProps, BudgetParamList, BudgetNavigation} from "./Budget"

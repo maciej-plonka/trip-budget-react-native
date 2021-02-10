@@ -1,11 +1,11 @@
-import {NavigatorScreenParams, RouteProp} from "@react-navigation/native";
-import {ModulesParamList, WishParamList} from "./Modules";
-import {TripParamList} from "./Trip";
+import {RouteProp} from "@react-navigation/native";
 import {StackNavigationProp} from "@react-navigation/stack";
+import {Id} from "../store";
 
 export type RootParamList = {
-    TripList: NavigatorScreenParams<TripParamList>
-    Modules: NavigatorScreenParams<ModulesParamList>
+    Trip: undefined
+    Budget: { tripId: Id }
+    Wish: { tripId: Id }
 }
 
 export type RootNavigation<T extends keyof RootParamList> = StackNavigationProp<RootParamList, T>

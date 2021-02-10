@@ -12,7 +12,7 @@ export type TripParamList = {
 }
 
 export type TripNavigation<T extends keyof TripParamList> = CompositeNavigationProp<StackNavigationProp<TripParamList, T>,
-    StackNavigationProp<RootParamList, "TripList">>
+    StackNavigationProp<RootParamList, "Trip">>
 
 export type TripNavigationProps<T extends keyof TripParamList> = {
     navigation: TripNavigation<T>

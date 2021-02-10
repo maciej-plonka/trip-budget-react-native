@@ -4,16 +4,19 @@ import {Content, ContentProps} from "./Content";
 import {StyleSheet, View} from "react-native";
 import {FABProps, FloatingActionButton} from "./FloatingActionButton";
 import {Parent} from "../Blocks";
+import {BottomDrawer, BottomDrawerProps} from "./ButtonDrawer";
 
-
+type E<T> = ReactElement<T>
 type ChildrenType =
-    [ReactElement<HeaderProps>, ReactElement<ContentProps>] |
-    [ReactElement<HeaderProps>, ReactElement<ContentProps>, ReactElement<FABProps>]
+    [E<HeaderProps>, E<ContentProps>] |
+    [E<HeaderProps>, E<ContentProps>, E<FABProps>] |
+    [E<HeaderProps>, E<ContentProps>, E<BottomDrawerProps>, E<FABProps>]
 
 interface IComposition {
     Header: typeof Header
     Content: typeof Content,
-    Fab: typeof FloatingActionButton
+    Fab: typeof FloatingActionButton,
+    BottomDrawer: typeof BottomDrawer
 }
 
 export const Screen: FC<Parent<ChildrenType>> & IComposition = ({children}) => (
@@ -23,6 +26,7 @@ export const Screen: FC<Parent<ChildrenType>> & IComposition = ({children}) => (
 Screen.Header = Header
 Screen.Content = Content
 Screen.Fab = FloatingActionButton
+Screen.BottomDrawer = BottomDrawer
 
 const styles = StyleSheet.create({
     screen: {

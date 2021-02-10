@@ -1,4 +1,5 @@
 export * from "./Edit"
 export * from "./New"
 export * from "./Home"
+export * from "./Buy"
 export * from "./Details"

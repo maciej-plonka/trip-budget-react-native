@@ -1,6 +1,8 @@
 import {StackNavigationProp} from "@react-navigation/stack";
-import {RouteProp} from "@react-navigation/native";
+import {CompositeNavigationProp, RouteProp} from "@react-navigation/native";
 import {Id} from "../../store";
+import {RootParamList} from "../RootNavigationProps";
+import {BudgetParamList} from "../Budget";
 
 export type WishParamList = {
     WishHomeScreen: { tripId: Id },
@@ -10,7 +12,8 @@ export type WishParamList = {
     WishBuyScreen: {itemId: Id, tripId: Id}
 }
 
-export type WishNavigation<T extends keyof WishParamList> = StackNavigationProp<WishParamList, T>
+export type WishNavigation<T extends keyof WishParamList> = CompositeNavigationProp<StackNavigationProp<WishParamList, T>,
+    StackNavigationProp<RootParamList, "Trip">>
 
 export type WishNavigationProps<T extends keyof WishParamList> = {
     navigation: WishNavigation<T>

@@ -1,24 +1,11 @@
 import React from "react";
-import {Row} from "./Row";
-import {Column} from "./Column";
-import {BlockProps} from "./Block";
+import {BlockProps, useBlockStyles} from "./Block";
+import {View} from "react-native";
 
-type Props = BlockProps & {
-    direction: "horizontal" | "vertical" ,
-}
-export const Box = ({direction, children, ...props}: Props) => {
-    switch (direction) {
-        case "horizontal":
-            return (
-                <Row {...props}>
-                    {children}
-                </Row>
-            )
-        case "vertical":
-            return (
-                <Column {...props}>
-                    {children}
-                </Column>
-            )
-    }
+export const Box = ({children, ...props}: BlockProps) => {
+    return (
+        <View style={useBlockStyles(props)}>
+            {children}
+        </View>
+    )
 }

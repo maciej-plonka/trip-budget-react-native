@@ -1,6 +1,6 @@
 import React, {FC} from "react";
-import {Row} from "../../Blocks";
-import {StyleSheet, View} from "react-native";
+import {Box, Row} from "../../Blocks";
+import {StyleSheet} from "react-native";
 import {BottomDrawerItem} from "./BottomDrawerItem";
 
 export type NavigationTarget = "budget" | "wish"
@@ -14,16 +14,18 @@ export type BottomDrawerProps = {
 export const BottomDrawer: FC<BottomDrawerProps> = ({current, onNavigate}) => {
 
     return (
-        <View style={styles.container}>
-            <Row justifyContent={"space-between"}>
-                {targets.map(it => (
-                    <BottomDrawerItem key={it}
-                                      item={it}
-                                      onClick={() => onNavigate(it)}
-                                      selected={it === current}/>
+        <Box style={styles.container}>
+            <Row justifyContent={"flex-start"} flex={1}>
+                {targets.map((it, index) => (
+                    <Box key={index} marginHorizontal={8}>
+                        <BottomDrawerItem
+                            item={it}
+                            onClick={() => onNavigate(it)}
+                            selected={it === current}/>
+                    </Box>
                 ))}
             </Row>
-        </View>
+        </Box>
     )
 }
 
@@ -34,8 +36,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         zIndex: 1,
-        paddingHorizontal: 16,
-        backgroundColor: "white"
+        backgroundColor: "white",
     },
 
 })

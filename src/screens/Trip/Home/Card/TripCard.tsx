@@ -28,7 +28,7 @@ const formatDate = (trip: Trip): string => {
 const TripCard = ({trip}: Props) => {
     const image = trip.image ?? "http://unsplash.it/365/176"
     return (
-        <View style={styles.card}>
+        <View style={styles.progress}>
             <View style={styles.cardImage}>
                 <Image source={{uri: image}} style={styles.image}/>
                 <View style={styles.cardNavigation}>
@@ -51,7 +51,7 @@ const TripCard = ({trip}: Props) => {
 }
 
 const styles = StyleSheet.create({
-    card: {
+    progress: {
         position: "relative",
         flexDirection: "column",
         alignItems: "center",

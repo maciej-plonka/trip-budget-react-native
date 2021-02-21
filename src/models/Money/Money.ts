@@ -27,9 +27,22 @@ export type Money = {
     amount: number,
     currency: Currency
 }
-
+export const copyCurrency = (money: Money, amount: number): Money => ({...money, amount})
 export const buildMoney = (amount: number, currency: Currency): Money => ({currency, amount})
 export const defaultMoney = (): Money => buildMoney(0, "¥")
 export const sumMoney = (money: ReadonlyArray<Money>): Money => money.length > 0
     ? buildMoney(sumBy(money, it => it.amount), money[0].currency)
     : defaultMoney()
+
+
+export const sortMoney = (direction: "Ascending" | "Descending") => (left: Money, right: Money) => {
+    switch (direction) {
+        case "Ascending":
+            return Math.sign(left.amount - right.amount)
+        case "Descending":
+            return Math.sign(right.amount - left.amount)
+    }
+}
+
+export const sortMoneyDesc = sortMoney("Descending")
+export const sortMoneyAsc = sortMoney("Ascending")

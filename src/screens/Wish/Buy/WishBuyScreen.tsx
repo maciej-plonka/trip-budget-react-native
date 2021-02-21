@@ -16,7 +16,6 @@ import React, {useEffect} from "react";
 import {StyleSheet, View} from "react-native";
 import {showToast} from "../../../models/Toast";
 import {useWishBuy} from "./WishBuyHook";
-import {useWishBottomDrawerNavigation} from "../WishBottomDrawerNavigation";
 
 
 export const WishBuyScreen = ({route, navigation}: WishNavigationProps<"WishBuyScreen">) => {

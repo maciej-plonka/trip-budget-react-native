@@ -1,9 +1,9 @@
-import {BudgetCategory, BudgetExpense, SerializedTrip, Wish} from "./models";
+import {BudgetCategory, SerializedBudgetExpense, SerializedTrip, Wish} from "./models";
 
 export type State = {
     trips: ReadonlyArray<SerializedTrip>,
     budgetCategories: ReadonlyArray<BudgetCategory>,
-    budgetExpenses: ReadonlyArray<BudgetExpense>,
+    budgetExpenses: ReadonlyArray<SerializedBudgetExpense>,
     wishes: ReadonlyArray<Wish>
 }
 

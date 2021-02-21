@@ -1,5 +1,5 @@
 import React from "react";
-import { WishNavigationProps} from "../../../navigation";
+import {WishNavigationProps} from "../../../navigation";
 import {StyleSheet, View} from "react-native";
 import {Card, FormCategoryPicker, Screen} from "../../../components";
 import {useWishHome} from "./WishHomeHook";

@@ -13,7 +13,7 @@ type Props = {
 }
 export const ItemCard = ({item, onClick}:Props) => {
     return (
-        <Card style={styles.card} flat>
+        <Card style={styles.progress} flat>
             <ItemImage item={item} />
             <ItemDescription item={item}/>
             <ItemPrice item={item} />
@@ -23,7 +23,7 @@ export const ItemCard = ({item, onClick}:Props) => {
 }
 
 const styles = StyleSheet.create({
-   card: {
+   progress: {
        borderRadius: 8,
        flexDirection: "row",
        height: 48,

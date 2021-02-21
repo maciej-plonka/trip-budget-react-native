@@ -27,7 +27,7 @@ export const Card = ({rounded, children, flat, color = "white", ...props}: Props
 
 const styles = StyleSheet.create({
     root: {
-        elevation: 3,
+        elevation: 2,
     },
     flat: {
         elevation: 0,

@@ -17,4 +17,4 @@ export const updateBudgetCategory = (category: BudgetCategory): BudgetAction => 
     category
 })
 export const deleteBudgetCategoryById = (id: Id):BudgetAction => ({type: "delete_budget_category_by_id", id})
-export const createBudgetExpense = (expense: NewBudgetExpense) :BudgetAction => ({type: "create_budget_expense", newExpense: expense})
+export const createBudgetExpense = (newExpense: NewBudgetExpense) :BudgetAction => ({type: "create_budget_expense", newExpense})

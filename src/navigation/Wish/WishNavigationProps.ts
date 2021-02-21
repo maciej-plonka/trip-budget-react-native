@@ -2,7 +2,6 @@ import {StackNavigationProp} from "@react-navigation/stack";
 import {CompositeNavigationProp, RouteProp} from "@react-navigation/native";
 import {Id} from "../../store";
 import {RootParamList} from "../RootNavigationProps";
-import {BudgetParamList} from "../Budget";
 
 export type WishParamList = {
     WishHomeScreen: { tripId: Id },

@@ -1,6 +1,6 @@
 import {filterOutBy} from "../utils/Collections";
 import {initialState, State} from "./State";
-import {BudgetExpense, serialize} from "./models";
+import {BudgetExpense, serializeExpense, serializeTrip} from "./models";
 import {HasId, Id} from "./BaseTypes";
 import "react-native-get-random-values"
 import {nanoid} from "nanoid";
@@ -15,11 +15,11 @@ const uniqueId = (): Id => nanoid()
 export const stateReducer = (state: State = initialState, action: StateAction): State => {
     switch (action.type) {
         case "update_trip": {
-            return {...state, trips: updateItem(state.trips, serialize(action.trip))}
+            return {...state, trips: updateItem(state.trips, serializeTrip(action.trip))}
         }
         case "create_trip": {
             const newTrip = {...action.trip, id: uniqueId()};
-            return {...state, trips: [...state.trips, serialize(newTrip)]}
+            return {...state, trips: [...state.trips, serializeTrip(newTrip)]}
         }
         case "delete_trip": {
             return {
@@ -38,8 +38,8 @@ export const stateReducer = (state: State = initialState, action: StateAction): 
             return {...state, budgetCategories: updateItem(state.budgetCategories, action.category)}
         }
         case "create_budget_expense": {
-            const newExpense = {...action.newExpense, id: uniqueId()};
-            return {...state, budgetExpenses: [...state.budgetExpenses, newExpense]}
+            const newExpense = {...action.newExpense, date: new Date(), id: uniqueId()};
+            return {...state, budgetExpenses: [...state.budgetExpenses, serializeExpense(newExpense)]}
         }
         case "delete_budget_category_by_id": {
             return {
@@ -65,11 +65,12 @@ export const stateReducer = (state: State = initialState, action: StateAction): 
                 tripId,
                 categoryId,
                 name,
+                date: new Date(),
                 value: action.actualValue
             }
             return {
                 ...state,
-                budgetExpenses: [...state.budgetExpenses, expense],
+                budgetExpenses: [...state.budgetExpenses, serializeExpense(expense)],
                 wishes: updateItem(state.wishes, {...action.wish, budgetExpenseId: expense.id})
             }
         }

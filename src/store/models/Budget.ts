@@ -1,6 +1,5 @@
 import {HasId, Id} from "../BaseTypes";
-import {buildMoney, defaultMoney, Money, sumMoney} from "../../models/Money";
-import {sumBy} from "../../utils/Collections";
+import {Money, sumMoney} from "../../models/Money";
 
 export type BudgetCategory = HasId & {
     tripId: Id,
@@ -17,8 +16,13 @@ export type NewBudgetCategory = {
 export type BudgetExpense = HasId & {
     tripId: Id,
     categoryId?: Id,
+    date: Date,
     value: Money,
     name: string,
+}
+
+export type SerializedBudgetExpense = Omit<BudgetExpense, "date"> & {
+    date: number,
 }
 
 export type NewBudgetExpense = {
@@ -30,3 +34,13 @@ export type NewBudgetExpense = {
 
 export const sumCategoriesBudget = (categories: ReadonlyArray<BudgetCategory>): Money => sumMoney(categories.map(it => it.categoryBudget))
 export const sumBudgetExpenses = (expenses: ReadonlyArray<BudgetExpense>): Money => sumMoney(expenses.map(it => it.value))
+
+export const serializeExpense = (expense: BudgetExpense): SerializedBudgetExpense => ({
+    ...expense,
+    date: expense.date.getTime()
+})
+
+export const deserializeExpense = (expense: SerializedBudgetExpense): BudgetExpense => ({
+    ...expense,
+    date: new Date(expense.date)
+})

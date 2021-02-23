@@ -23,6 +23,7 @@ type Theme = {
     buttons: Buttons,
     primary: Color,
     secondary: Color,
+    error: Color
 }
 
 
@@ -42,6 +43,7 @@ const theme: Theme = {
     },
     primary: gradients.green,
     secondary: gradients.purpleReversed,
+    error: gradients.red
 }
 
 export type ButtonColor = keyof Buttons
@@ -52,7 +54,7 @@ export const useButtonColor = (color: ButtonColor) => useContext(ThemeContext).b
 export const useHeaderColor = (color: HeaderColor) => useContext(ThemeContext).headers[color]
 export const usePrimaryColor = () =>  useContext(ThemeContext).primary;
 export const useSecondaryColor = () => useContext(ThemeContext).secondary;
-
+export const useErrorColor = () => useContext(ThemeContext).error
 export const ThemedApplication = ({children}: Parent) => (
     <ThemeContext.Provider value={theme}>
         {children}

@@ -1,41 +1,39 @@
-import React from "react";
-import {DailyExpense} from "./BudgetHomeHook";
+import React, {useMemo} from "react";
 import {Card, Column, LinearProgressBar, Row, Space} from "../../../components";
 import {StyleSheet, Text} from "react-native"
-import {DayOfYear, daysAreEqual, toDayOfYear} from "../../../store";
-import {addDays} from "date-fns";
+import {addDays, format, isSameDay} from "date-fns";
 import {usePrimaryColor} from "../../../contexts/ThemeContext";
-import {formatMoney} from "../../../models/Money";
+import {formatMoney, sumMoney} from "../../../models/Money";
+import {DailyExpense} from "../Daily/BudgetDailyHook";
 
 type Props = {
     dailyExpense: Readonly<DailyExpense>
 }
 
-const formatDayOfYear = (dayOfYear: DayOfYear): string => {
-    const now = new Date()
-    if (daysAreEqual(dayOfYear, toDayOfYear(now)))
+const formatDayOfYear = (day: Date, today: Date = new Date()): string => {
+    if (isSameDay(day, today))
         return "Today"
-    if (daysAreEqual(dayOfYear, toDayOfYear(addDays(now, -1)))) {
+    const yesterday = addDays(today, -1)
+    if (isSameDay(day, yesterday)) {
         return "Yesterday"
     }
-    const fixZero = (value: number) => value < 10 ? "0" + value : "" + value
-    const {year, month, day} = dayOfYear
-    return `${fixZero(day)}.${fixZero(month)}.${year}`
+    return format(day, "dd.MM.yyyy")
 }
 
 export const BudgetHomeDailyExpense = ({dailyExpense}: Props) => {
     const color = usePrimaryColor()
-    const {day,max,spent} = dailyExpense
+    const {day, max, expenses} = dailyExpense
+    const spent = useMemo(() => sumMoney(expenses.map(it => it.value)), [expenses])
     return (
         <Card padding={16}>
             <Column>
                 <Text style={styles.dayOfYear}>{formatDayOfYear(day)}</Text>
-                <Space size={8} direction={"vertical"} />
+                <Space size={8} direction={"vertical"}/>
                 <Row justifyContent={"space-between"}>
                     <Text>{formatMoney(spent)}</Text>
                     <Text>{formatMoney(max)}</Text>
                 </Row>
-                <LinearProgressBar max={max.amount} current={spent.amount} color={color} />
+                <LinearProgressBar max={max.amount} current={spent.amount} color={color}/>
             </Column>
         </Card>
     )

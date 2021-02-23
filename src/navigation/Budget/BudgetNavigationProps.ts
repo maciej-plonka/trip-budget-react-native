@@ -5,7 +5,9 @@ import {RootParamList} from "../RootNavigationProps";
 
 export type BudgetParamList = {
     BudgetHomeScreen: { tripId: Id },
-    budgetNewScreen: { tripId: Id, date?: Date }
+    BudgetNewScreen: { tripId: Id },
+    BudgetEditScreen: { tripId: Id, id: Id },
+    BudgetDailyScreen: {tripId: Id, dayTime?: number }
 }
 
 export type BudgetNavigation<T extends keyof BudgetParamList> = CompositeNavigationProp<StackNavigationProp<BudgetParamList, T>,

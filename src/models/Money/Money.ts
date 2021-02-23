@@ -3,12 +3,13 @@ import {sumBy} from "../../utils/Collections";
 export type Currency = "¥" | "$"
 export const availableCurrencies: ReadonlyArray<Currency> = ["¥", "$"]
 
+const formatAmount = (amount: number) => amount.toFixed(2)
 export const formatMoney = (money: Money): string => {
     switch (money.currency) {
         case "$":
-            return `${money.currency}${money.amount}`;
+            return `${money.currency}${formatAmount(money.amount)}`;
         case "¥" :
-            return `${money.amount}${money.currency}`
+            return `${formatAmount(money.amount)}${money.currency}`
     }
 }
 

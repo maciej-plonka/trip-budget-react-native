@@ -1,4 +1,4 @@
-import {filterOutBy} from "../utils/Collections";
+import {filterOutBy, findBy} from "../utils/Collections";
 import {initialState, State} from "./State";
 import {BudgetExpense, serializeExpense, serializeTrip} from "./models";
 import {HasId, Id} from "./BaseTypes";
@@ -40,6 +40,17 @@ export const stateReducer = (state: State = initialState, action: StateAction): 
         case "create_budget_expense": {
             const newExpense = {...action.newExpense, date: new Date(), id: uniqueId()};
             return {...state, budgetExpenses: [...state.budgetExpenses, serializeExpense(newExpense)]}
+        }
+        case "update_budget_expense": {
+            return {...state, budgetExpenses: updateItem(state.budgetExpenses, serializeExpense(action.expense))}
+        }
+        case "delete_budget_expense_by_id": {
+            const wish = findBy(state.wishes, "budgetExpenseId", action.id)
+            return {
+                ...state,
+                budgetExpenses: filterOutBy(state.budgetExpenses, "id", action.id),
+                wishes: wish ? updateItem(state.wishes, {...wish, budgetExpenseId: undefined}) : state.wishes
+            }
         }
         case "delete_budget_category_by_id": {
             return {

@@ -1,7 +1,9 @@
 import React, {FC, useEffect} from "react";
-import {StyleSheet, Text, TouchableOpacity} from "react-native";
+import {Dimensions, StyleSheet, Text, TouchableOpacity} from "react-native";
 import {useHeader} from "./HeaderContext";
 import {Color, isGradient} from "../../../models/Colors";
+import {Box} from "../../Blocks";
+import {Button} from "../../Button";
 
 export type HeaderTabProps = {
     title: string,
@@ -9,21 +11,19 @@ export type HeaderTabProps = {
     initial?: boolean
 }
 
-
 const textStyle = (color: Color, selected: boolean) => [
     styles.tabText,
     selected && {color: isGradient(color) ? "white" : "black"},
 ]
 
-
 export const HeaderTab: FC<HeaderTabProps> = ({title, initial, id = title}) => {
     const {isActive, selectTab, color} = useHeader()
     useEffect(() => {
         initial && selectTab(id)
-    }, [initial])
+    }, [])
     const selected = isActive(id)
     return (
-        <TouchableOpacity style={styles.tab} onPress={() => selectTab(id)}>
+        <TouchableOpacity onPress={() => selectTab(id)} style={styles.touchable}>
             <Text style={textStyle(color, selected)}>{title}</Text>
         </TouchableOpacity>
 
@@ -32,17 +32,14 @@ export const HeaderTab: FC<HeaderTabProps> = ({title, initial, id = title}) => {
 
 
 const styles = StyleSheet.create({
-    tab: {
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "flex-start",
-        paddingVertical: 8,
-    },
-
     tabText: {
         color: "rgba(0,0,0,0.5)",
-        width: "100%",
         textAlign: "center"
-
+    },
+    touchable: {
+        flex: 1,
+        padding: 8,
+        justifyContent: "center",
+        alignItems: "center"
     }
 })

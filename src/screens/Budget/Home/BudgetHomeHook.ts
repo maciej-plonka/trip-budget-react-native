@@ -1,10 +1,14 @@
-import {DayOfYear, Id, toDayOfYear} from "../../../store";
+import {Id} from "../../../store";
 import {useSelector} from "react-redux";
 import {selectBudgetCategoriesByTripId, selectBudgetExpensesByTripId, selectTripById} from "../../../store/selectors";
-import {copyCurrency, defaultMoney, Money} from "../../../models/Money";
-import {BudgetCategory, BudgetExpense, sumBudgetExpenses, Trip} from "../../../store/models";
+import {Money} from "../../../models";
+import {BudgetCategory, BudgetExpense, sumBudgetExpenses} from "../../../store/models";
 import {filterBy} from "../../../utils/Collections";
-import {addDays} from "date-fns";
+import {useTripDailyExpenses} from "../TripDailyExpensesHook";
+import {DailyExpense} from "../Daily/BudgetDailyHook";
+import {useTripDaysRange} from "../TripDayRangeHook";
+import {addDays, endOfDay, isAfter, isBefore, startOfDay} from "date-fns";
+import {useMemo} from "react";
 
 export type BudgetHome = {
     totalBudget: Money,
@@ -18,26 +22,16 @@ export type CategoryExpense = {
     expenses: ReadonlyArray<BudgetExpense>
 }
 
-export type DailyExpense = {
-    day: DayOfYear,
-    max: Money,
-    spent: Money
-}
+const filterByLastDays = (daysBack: number, today: Date = new Date()) =>
+    ({day}: DailyExpense) =>  isBefore(day, endOfDay(today)) && isAfter(day, startOfDay(addDays(today, -daysBack)))
 
-const useDailyExpenses = (expenses: ReadonlyArray<BudgetExpense>, trip?: Trip): ReadonlyArray<DailyExpense> => {
-    const now = new Date()
-    const money = defaultMoney();
-    return [
-        {day: toDayOfYear(now), max: copyCurrency(money, 800), spent: copyCurrency(money, 300)},
-        {day: toDayOfYear(addDays(now, -1)), max: copyCurrency(money, 1000), spent: copyCurrency(money, 100)},
-    ]
-}
-
-export const useBudgetHome = (tripId: Id): BudgetHome | undefined => {
+export const useBudgetHome = (tripId: Id, daysBack: number = 5): BudgetHome | undefined => {
     const trip = useSelector(selectTripById(tripId))
     const categories = useSelector(selectBudgetCategoriesByTripId(tripId))
     const expenses = useSelector(selectBudgetExpensesByTripId(tripId))
-    const dailyExpenses = useDailyExpenses(expenses, trip)
+    const days = useTripDaysRange(tripId)
+    const dailyExpenses = useTripDailyExpenses(tripId, days).filter(filterByLastDays(daysBack))
+    const totalBudgetSpent = useMemo(() => sumBudgetExpenses(expenses), [expenses])
 
     if (!trip) {
         return;
@@ -50,7 +44,7 @@ export const useBudgetHome = (tripId: Id): BudgetHome | undefined => {
 
     return {
         totalBudget: trip.totalBudget,
-        totalBudgetSpent: sumBudgetExpenses(expenses),
+        totalBudgetSpent,
         categoryExpenses,
         dailyExpenses
     }

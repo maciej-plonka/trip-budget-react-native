@@ -14,9 +14,19 @@ import {
 } from "../../../components";
 import {BudgetNavigationProps} from "../../../navigation";
 import {useBudgetNew} from "./BudgetNewHook";
+import {showToast} from "../../../models/Toast";
 
-export const BudgetNewScreen = ({route}: BudgetNavigationProps<"budgetNewScreen">) => {
+export const BudgetNewScreen = ({route, navigation}: BudgetNavigationProps<"BudgetNewScreen">) => {
     const budgetNew = useBudgetNew(route.params.tripId)
+    const handleNew = () => {
+        try {
+            budgetNew.create()
+            showToast("Budget expense created")
+            navigation.goBack()
+        }catch(error){
+            showToast(error.message)
+        }
+    }
     return (
         <Screen>
             <Screen.Header title={"New Expense"} color={"budget"}/>
@@ -38,7 +48,7 @@ export const BudgetNewScreen = ({route}: BudgetNavigationProps<"budgetNewScreen"
                             onChanged={budgetNew.setName}
                             icon={"notes"}/>
                         <FormButtonRow center>
-                            <Button style={{paddingHorizontal: 16}} color={"primary"} onClick={budgetNew.create}>
+                            <Button style={{paddingHorizontal: 16}} color={"primary"} onClick={handleNew}>
                                 <Icon iconType={"confirm"} size={16}/>
                                 <Space size={8}/>
                                 <TextWhite>Create</TextWhite>

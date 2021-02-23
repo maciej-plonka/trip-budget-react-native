@@ -1,5 +1,5 @@
 import React from "react";
-import {Money} from "../../models/Money";
+import {formatMoney, Money} from "../../models/Money";
 import {Color} from "../../models/Colors";
 import {StyleSheet, Text, View} from "react-native";
 import {LinearProgressBar} from "./LinearProgressBar";
@@ -12,7 +12,6 @@ type Props = {
 }
 
 
-const formatMoney = ({amount, currency}: Money) => `${amount}${currency}`
 
 export const MoneyLinearProgressBar = ({current, max, color}:Props) => {
     return (

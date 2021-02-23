@@ -31,6 +31,8 @@ export const BottomDrawer: FC<BottomDrawerProps> = ({current, onNavigate}) => {
 
 const styles = StyleSheet.create({
     container: {
+        borderTopWidth: 1,
+        borderColor: "rgba(0,0,0,0.2)",
         position: "absolute",
         bottom: 0,
         left: 0,

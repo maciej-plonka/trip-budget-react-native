@@ -1,49 +1,53 @@
-import {Money} from "../../../models/Money";
-import {BudgetCategory} from "../../../store/models";
+import {defaultMoney, Money} from "../../../models";
+import {BudgetCategory, Wish} from "../../../store/models";
 import {Id} from "../../../store";
 import {useDispatch, useSelector} from "react-redux";
 import {selectBudgetCategoriesByTripId, selectWishById} from "../../../store/selectors";
-import {useState} from "react";
 import {buyWish} from "../../../store/actions/WishActions";
+import {findBy} from "../../../utils/Collections";
+import {useMemo} from "react";
+import * as yup from "yup";
+import {moneySchema} from "../../../validation";
+import {createWishInitialValues, wishCommentsSchema, wishNameSchema, WishValues} from "../WishValues";
 
-type WishBuy = {
-    name: string,
-    setName(name: string): void,
-    targetValue: Money
-    setTargetValue(targetValue: Money): void
+export type WishBuyValues = WishValues & {
     actualValue: Money,
-    setActualValue(actualValue: Money): void,
-    comments: string,
-    setComments(comments: string): void,
-    category: BudgetCategory | undefined
-    setCategory(category: BudgetCategory | undefined): void
-    categories: ReadonlyArray<BudgetCategory>
-    buy(): void
 }
-export const useWishBuy = (itemId: Id): WishBuy | undefined => {
-    const wish = useSelector(selectWishById(itemId))
-    if (!wish) {
-        return;
-    }
-    const dispatch = useDispatch()
-    const categories = useSelector(selectBudgetCategoriesByTripId(wish.tripId))
-    const [name, setName] = useState<string>(wish.name)
-    const [actualValue, setActualValue] = useState<Money>(wish.targetValue)
-    const [targetValue, setTargetValue] = useState<Money>(wish.targetValue)
-    const [comments, setComments] = useState<string>(wish.comments)
-    const [category, setCategory] = useState<BudgetCategory | undefined>(categories.find(it => it.id === wish.budgetCategoryId))
 
-    const buy = () => {
-        const wishToUpdate = {...wish, name, targetValue, comments, budgetCategoryId: category?.id}
-        dispatch(buyWish(wishToUpdate, actualValue));
+export const wishBuyValidationSchema = yup.object().shape({
+    name: wishNameSchema,
+    actualValue: moneySchema,
+    targetValue: moneySchema,
+    comments: wishCommentsSchema
+})
+
+const createInitialValues = (categories: ReadonlyArray<BudgetCategory>, wish: Wish | undefined): WishBuyValues =>
+    ({
+        ...createWishInitialValues(categories, wish),
+        actualValue: wish?.targetValue ?? defaultMoney()
+    })
+
+export const useWishBuy = (tripId: Id, wishId: Id) => {
+    const wish = useSelector(selectWishById(wishId))
+    const categories = useSelector(selectBudgetCategoriesByTripId(tripId))
+    const initialValues = useMemo(() => createInitialValues(categories, wish), [])
+    const dispatch = useDispatch()
+
+    const buy = (values: WishBuyValues) => {
+        const wish: Wish = {
+            id: wishId,
+            tripId,
+            name: values.name,
+            targetValue: values.targetValue,
+            comments: values.comments,
+            budgetCategoryId: values.category?.id,
+        }
+        dispatch(buyWish(wish, values.actualValue));
     }
     return {
-        name, setName,
-        targetValue, setTargetValue,
-        actualValue, setActualValue,
-        comments, setComments,
-        category, setCategory, categories,
-        buy
-
+        exists: !!wish,
+        buy,
+        categories,
+        initialValues
     }
 }

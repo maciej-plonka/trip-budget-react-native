@@ -15,7 +15,6 @@ const tabs: ReadonlyArray<Tab> = [
 ]
 
 const filterWishesByTab = (wishes: ReadonlyArray<Wish>, tab: Tab | undefined) => {
-
     if (!tab || tab.id === "all")
         return wishes;
     switch (tab.id) {
@@ -27,10 +26,7 @@ const filterWishesByTab = (wishes: ReadonlyArray<Wish>, tab: Tab | undefined) =>
 }
 
 const filterWishesByCategory = (wishes: ReadonlyArray<Wish>, category: BudgetCategory | undefined) => {
-    if (!category) {
-        return wishes;
-    }
-    return filterBy(wishes, "budgetCategoryId", category.id)
+    return category ? filterBy(wishes, "budgetCategoryId", category.id) : wishes
 }
 
 const filterWishes = (wishes: ReadonlyArray<Wish>, tab: Tab | undefined, category: BudgetCategory | undefined) => {

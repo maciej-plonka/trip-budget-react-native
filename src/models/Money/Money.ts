@@ -28,6 +28,17 @@ export type Money = {
     amount: number,
     currency: Currency
 }
+
+export const isCurrency = (x: string): x is Currency => availableCurrencies.some(it => it === x)
+
+export const isMoney = (x: any): x is Money => {
+    if(!x.hasOwnProperty("amount") || typeof x.amount !== 'number')
+        return false
+    if(!x.hasOwnProperty("currency") || typeof x.currency !== 'string' || !isCurrency(x.currency))
+        return false
+    return true
+}
+
 export const copyCurrency = (money: Money, amount: number): Money => ({...money, amount})
 export const buildMoney = (amount: number, currency: Currency): Money => ({currency, amount})
 export const defaultMoney = (): Money => buildMoney(0, "¥")

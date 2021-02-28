@@ -1,37 +1,44 @@
-import {defaultMoney, Money} from "../../../models/Money";
-import {useState} from "react";
-import {addDays, startOfDay} from "date-fns";
+import {availableCurrencies, defaultMoney, Money} from "../../../models/Money";
+import {useMemo, useState} from "react";
+import {addDays, startOfDay, startOfTomorrow} from "date-fns";
 import {useDispatch} from "react-redux";
 import {createTrip} from "../../../store/actions/TripActions";
+import * as yup from "yup";
+import {NewTrip, Trip} from "../../../store/models";
+import {TripEditValues} from "../Edit/Trip/TripEditHook";
 
-type TripNew = {
+export type TripNewValues = {
     name: string,
-    setName(name: string): void,
     startDate: Date,
-    setStartDate(startDate: Date): void,
     endDate: Date,
-    setEndDate(endDate: Date): void,
-    totalBudget: Money,
-    setTotalBudget(totalBudget: Money): void,
+    totalBudget: Money
     image: string | undefined
-    setImage(image: string | undefined):void,
-    create(): void,
 }
 
-export const useTripNew = (): TripNew => {
-    const [name, setName] = useState("New trip");
-    const [startDate, setStartDate] = useState<Date>(startOfDay(new Date()))
-    const [endDate, setEndDate] = useState<Date>(addDays(startDate, 1));
-    const [totalBudget, setTotalBudget] = useState<Money>(defaultMoney())
-    const [image, setImage] = useState<string | undefined>()
+
+const createInitialValues = ():TripNewValues => ({
+    name: "",
+    startDate:  new Date(),
+    endDate:  new Date(),
+    image: undefined,
+    totalBudget: defaultMoney()
+})
+
+export const useTripNew = () => {
     const dispatch = useDispatch()
-    const create = () => dispatch(createTrip({ name,startDate, endDate,totalBudget, image}))
+    const initialValues = useMemo(() => createInitialValues(), [])
+    const create = (values: TripNewValues) => {
+        const newTrip:NewTrip = {
+            name: values.name,
+            startDate: values.startDate,
+            endDate: values.endDate,
+            image: values.image,
+            totalBudget: values.totalBudget
+        }
+
+        dispatch(createTrip(newTrip));
+    }
     return {
-        name, setName,
-        startDate, setStartDate,
-        endDate, setEndDate,
-        totalBudget, setTotalBudget,
-        image, setImage,
-        create,
+        create,initialValues
     }
 }

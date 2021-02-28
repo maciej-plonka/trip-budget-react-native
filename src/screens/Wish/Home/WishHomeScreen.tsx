@@ -1,7 +1,7 @@
 import React from "react";
 import {WishNavigationProps} from "../../../navigation";
 import {StyleSheet, View} from "react-native";
-import {Card, FormCategoryPicker, Screen} from "../../../components";
+import {Card, FormCategorySelect, Screen} from "../../../components";
 import {useWishHome} from "./WishHomeHook";
 import {WishHomeList} from "./WishHomeList";
 import {useWishBottomDrawerNavigation} from "../WishBottomDrawerNavigation";
@@ -20,7 +20,7 @@ export const WishHomeScreen = ({navigation, route}: WishNavigationProps<"WishHom
             </Screen.Header>
             <Screen.Content>
                 <Card style={styles.categoryCard}>
-                    <FormCategoryPicker
+                    <FormCategorySelect
                         label={"Category"}
                         values={wishHome.categories}
                         value={wishHome.category}

@@ -5,7 +5,7 @@ import {
     Center,
     FormButtonRow,
     FormCard,
-    FormCategoryPicker,
+    FormCategorySelect,
     FormImagePicker,
     FormMoneyInput,
     FormTextArea,
@@ -15,17 +15,19 @@ import {
     Space,
     TextWhite
 } from "../../../components";
-import {confirmMessageBox} from "../../../models/MessageBox";
-import {showToast} from "../../../models/Toast";
-import {ScrollView, View} from "react-native";
+import {confirmMessageBox, showToast} from "../../../models";
+import {ScrollView} from "react-native";
 import {useWishEdit} from "./WishEditHook";
+import {Formik, FormikHelpers} from "formik";
+import {enhanceFormik} from "../../../components/Form/FormikEnhanced";
+import {wishValidationSchema, WishValues} from "../WishValues";
 
 export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEditScreen">) => {
-    const wishEdit = useWishEdit(route.params.itemId)
+    const {tripId, itemId} = route.params
+    const {categories, initialValues, exists, update, remove} = useWishEdit(itemId, tripId)
     useEffect(() => {
-        !wishEdit && navigation.navigate("WishHomeScreen", {...route.params})
-    }, [wishEdit])
-    if (!wishEdit) return (<View/>)
+        !exists && navigation.navigate("WishHomeScreen", {...route.params})
+    }, [exists])
 
     const handleDelete = async () => {
         const messageBoxOptions = {title: "Caution!", cardDescription: "Do you want to delete item?"};
@@ -33,53 +35,76 @@ export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEdi
         if (!shouldDelete) {
             return;
         }
-        wishEdit.remove()
+        remove()
         navigation.popToTop()
         showToast("Item deleted")
     }
-    const handleUpdate = () => {
-        wishEdit.update()
+    const handleSubmit = async (values: WishValues, actions: FormikHelpers<WishValues>) => {
+        const valid = await actions.validateForm(values)
+        if (!valid) return;
+        update(values)
         showToast("Item updated")
         navigation.goBack()
     }
 
-    const avatar = <FormImagePicker value={wishEdit.image} onChanged={wishEdit.setImage}/>;
     return (
         <Screen>
-            <Screen.Header title={"Edit wish"} color={"wish"} />
+            <Screen.Header title={"Edit wish"} color={"wish"}/>
             <Screen.Content>
                 <ScrollView>
                     <Center style={{padding: 16}}>
-                        <FormCard avatar={avatar}>
-                            <FormCategoryPicker label={"Category"}
-                                                value={wishEdit.category}
-                                                onChanged={wishEdit.setCategory}
-                                                values={wishEdit.categories}/>
-                            <FormMoneyInput label={"Value"}
-                                            value={wishEdit.targetValue}
-                                            onChanged={wishEdit.setTargetValue}/>
-                            <FormTextInput label={"Name"}
-                                           value={wishEdit.name}
-                                           onChanged={wishEdit.setName}
-                                           icon={"notes"}/>
-                            <FormTextArea label={"Comments"}
-                                          value={wishEdit.comments}
-                                          onChanged={wishEdit.setComments}
-                                          icon={"notes"}/>
-                            <FormButtonRow right>
-                                <Button onClick={handleDelete} color={"error"}>
-                                    <Icon iconType={"delete"} size={19} />
-                                </Button>
-                                <Space size={8} />
-                                <Button onClick={handleUpdate} color={"primary"}>
-                                    <Icon iconType={"confirm"} size={19} />
-                                    <TextWhite>Edit</TextWhite>
-                                </Button>
-                            </FormButtonRow>
-                        </FormCard>
-                    </Center>
-                </ScrollView>
-            </Screen.Content>
-        </Screen>
-    )
-}
+                        <Formik<WishValues>
+                            initialValues={initialValues}
+                            validationSchema={wishValidationSchema}
+                            onSubmit={handleSubmit}
+                        >
+                            {props => {
+                                const {values} = props
+                                const {hasErrors, setValueToValidate, error} = enhanceFormik(props)
+                                const avatar = <FormImagePicker value={values.image}
+                                                                onChanged={setValueToValidate("image")}/>;
+                                return (
+                                    <FormCard avatar={avatar}>
+                                        <FormCategorySelect
+                                            label={"Category"}
+                                            value={values.category}
+                                            onChanged={setValueToValidate("category")}
+                                            error={error("category")}
+                                            values={categories}/>
+                                        <FormMoneyInput
+                                            label={"Value"}
+                                            value={values.targetValue}
+                                            onChanged={setValueToValidate("targetValue")}
+                                            error={error("targetValue")}/>
+                                        <FormTextInput
+                                            label={"Name"}
+                                            value={values.name}
+                                            onChanged={setValueToValidate("name")}
+                                            error={error("name")}/>
+                                        <FormTextArea
+                                            label={"Comments"}
+                                            value={values.comments}
+                                            onChanged={setValueToValidate("comments")}
+                                            error={error("comments")}/>
+                                        <FormButtonRow right>
+                                            <Button onClick={handleDelete} color={"error"}>
+                                                <Icon iconType={"delete"} size={19}/>
+                                            </Button>
+                                            <Space size={8}/>
+                                            <Button onClick={props.handleSubmit} color={"primary"}
+                                                    disabled={hasErrors()}>
+                                                <Icon iconType={"confirm"} size={19}/>
+                                                <TextWhite>Edit</TextWhite>
+                                            </Button>
+                                        </FormButtonRow>
+                                    </FormCard>
+
+                                )
+                            }}
+                                </Formik>
+                                </Center>
+                                </ScrollView>
+                                </Screen.Content>
+                                </Screen>
+                                )
+                            }

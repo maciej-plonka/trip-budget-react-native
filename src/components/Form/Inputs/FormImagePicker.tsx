@@ -4,8 +4,9 @@ import {showToast} from "../../../models/Toast";
 import {useFormImagePicker} from "./FormImagePickerHook";
 import {Icon} from "../../Icon";
 import {Styled} from "../../Blocks";
+import {InputProps} from "./InputProps";
 
-type Props = BaseInputProps<string | undefined> & Styled & {
+type Props = InputProps<string | undefined> & Styled & {
     imageRatio?: [number, number]
 }
 

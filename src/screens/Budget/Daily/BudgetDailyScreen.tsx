@@ -29,6 +29,7 @@ export const BudgetDailyScreen = ({navigation, route}: BudgetNavigationProps<"Bu
                             <BudgetDailyExpenseCard  dailyExpense={budgetDaily.currentDayDailyExpense}/>
                             <Space direction={"vertical"} size={8} />
                             <BudgetDailyExpenseList
+                                onNavigate={item => navigation.push("BudgetEditScreen", {tripId, id: item.id})}
                                 dailyExpense={budgetDaily.currentDayDailyExpense}
                                 categories={budgetDaily.categories}/>
                         </>

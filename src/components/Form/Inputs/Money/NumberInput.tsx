@@ -1,8 +1,9 @@
 import {StyleSheet, TextInput} from "react-native";
 import React, {useEffect, useState} from "react";
 import {Styled} from "../../../Blocks";
+import {InputProps} from "../InputProps";
 
-type Props = BaseInputProps<number> &  Styled
+type Props = InputProps<number> &  Styled
 
 type Selection = { start: number, end: number }
 const buildSelection = (index: number): Selection => ({start: index, end: index})

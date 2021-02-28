@@ -1,23 +1,26 @@
 import React from "react";
-import {FlatList, StyleSheet, Text} from "react-native";
+import {FlatList, StyleSheet, Text, TouchableOpacity} from "react-native";
 import {Box, Card, Column, Row} from "../../../components";
 import {BudgetCategory, BudgetExpense} from "../../../store/models";
 import {DailyExpense} from "./BudgetDailyHook";
 import {findBy} from "../../../utils/Collections";
-import {formatMoney} from "../../../models/Money";
+import {formatMoney} from "../../../models";
 
 type Props = {
     dailyExpense: Readonly<DailyExpense>,
     categories: ReadonlyArray<BudgetCategory>
+    onNavigate: (item: BudgetExpense) => void
 }
 
-export const BudgetDailyExpenseList = ({dailyExpense, categories}: Props) => {
+export const BudgetDailyExpenseList = ({dailyExpense, categories, onNavigate}: Props) => {
     return (
         <FlatList
             data={dailyExpense.expenses}
                   renderItem={({item}) => (
                       <Box marginVertical={4}>
-                          <BudgetDailyExpense categories={categories} expense={item}/>
+                          <TouchableOpacity onLongPress={() => onNavigate(item)}>
+                              <BudgetDailyExpense categories={categories} expense={item} />
+                          </TouchableOpacity>
                       </Box>
                   )}
             />

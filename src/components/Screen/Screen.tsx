@@ -1,7 +1,7 @@
 import React, {FC, ReactElement} from "react";
 import {Header, HeaderProps} from "./Header";
 import {Content, ContentProps} from "./Content";
-import {StyleSheet, View} from "react-native";
+import {KeyboardAvoidingView, Platform, StyleSheet, View} from "react-native";
 import {FABProps, FloatingActionButton} from "./FloatingActionButton";
 import {Parent} from "../Blocks";
 import {BottomDrawer, BottomDrawerProps} from "./ButtonDrawer";
@@ -20,7 +20,12 @@ interface IComposition {
 }
 
 export const Screen: FC<Parent<ChildrenType>> & IComposition = ({children}) => (
-    <View style={styles.screen}>{children}</View>
+   <KeyboardAvoidingView
+       behavior={Platform.OS === "ios" ? "padding" : "height"}
+       style={{flex: 1}}
+   >
+       <View style={styles.screen}>{children}</View>
+   </KeyboardAvoidingView>
 )
 
 Screen.Header = Header

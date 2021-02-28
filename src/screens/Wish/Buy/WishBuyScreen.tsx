@@ -1,10 +1,9 @@
 import {WishNavigationProps} from "../../../navigation";
 import {
     Button,
-    Center,
     FormButtonRow,
     FormCard,
-    FormCategoryPicker,
+    FormCategorySelect,
     FormMoneyInput,
     FormTextArea,
     FormTextInput,
@@ -13,22 +12,24 @@ import {
     TextWhite
 } from "../../../components";
 import React, {useEffect} from "react";
-import {StyleSheet, View} from "react-native";
-import {showToast} from "../../../models/Toast";
-import {useWishBuy} from "./WishBuyHook";
+import {ScrollView, StyleSheet} from "react-native";
+import {showToast} from "../../../models";
+import {useWishBuy, wishBuyValidationSchema, WishBuyValues} from "./WishBuyHook";
+import {Formik, FormikHelpers} from "formik";
+import {enhanceFormik} from "../../../components/Form/FormikEnhanced";
 
 
 export const WishBuyScreen = ({route, navigation}: WishNavigationProps<"WishBuyScreen">) => {
-    const wishBuy = useWishBuy(route.params.itemId)
+    const {tripId, itemId} = route.params
+    const {categories, initialValues, exists, buy} = useWishBuy(tripId, itemId)
     useEffect(() => {
-        !wishBuy && navigation.navigate("WishHomeScreen", {...route.params})
-    }, [wishBuy]);
+        !exists && navigation.navigate("WishHomeScreen", {...route.params})
+    }, [exists]);
 
-    if (!wishBuy) {
-        return (<View/>)
-    }
-    const onBuy = () => {
-        wishBuy.buy()
+    const handleSubmit = async (values: WishBuyValues, actions: FormikHelpers<WishBuyValues>) => {
+        const valid = await actions.validateForm(values);
+        if (!valid) return;
+        buy(values)
         showToast("Item bought")
         navigation.goBack()
     }
@@ -36,24 +37,56 @@ export const WishBuyScreen = ({route, navigation}: WishNavigationProps<"WishBuyS
         <Screen>
             <Screen.Header title={"Wish buy"} color={"wish"}/>
             <Screen.Content>
-                <Center style={styles.root}>
-                    <FormCard>
-                        <FormTextInput value={wishBuy.name} onChanged={wishBuy.setName} label={"Name"} icon={"notes"}/>
-                        <FormMoneyInput value={wishBuy.targetValue} onChanged={wishBuy.setTargetValue}
-                                        label={"Target value"}/>
-                        <FormMoneyInput value={wishBuy.actualValue} onChanged={wishBuy.setActualValue}
-                                        label={"Actual value"}/>
-                        <FormCategoryPicker value={wishBuy.category} onChanged={wishBuy.setCategory}
-                                            values={wishBuy.categories} label={"Category"}/>
-                        <FormTextArea value={wishBuy.comments} onChanged={wishBuy.setComments} label={"Comments"}/>
-                        <FormButtonRow right>
-                            <Button style={styles.button} onClick={onBuy} color={"secondary"}>
-                                <Icon iconType={"cart"} size={16}/>
-                                <TextWhite>Buy</TextWhite>
-                            </Button>
-                        </FormButtonRow>
-                    </FormCard>
-                </Center>
+                <ScrollView style={styles.root}>
+                    <Formik<WishBuyValues>
+                        initialValues={initialValues}
+                        onSubmit={handleSubmit}
+                        validationSchema={wishBuyValidationSchema}>
+                        {props => {
+                            const {values} = props
+                            const {setValueToValidate, hasErrors, error} = enhanceFormik(props)
+                            return (
+                                <FormCard>
+                                    <FormTextInput
+                                        label={"Name"}
+                                        value={values.name}
+                                        error={error("name")}
+                                        onChanged={setValueToValidate("name")}/>
+                                    <FormMoneyInput
+                                        label={"Target value"}
+                                        value={values.targetValue}
+                                        error={error("targetValue")}
+                                        onChanged={setValueToValidate("targetValue")}/>
+                                    <FormMoneyInput
+                                        label={"Actual value"}
+                                        value={values.actualValue}
+                                        error={error("actualValue")}
+                                        onChanged={setValueToValidate("actualValue")}/>
+                                    <FormCategorySelect
+                                        label={"Category"}
+                                        values={categories}
+                                        value={values.category}
+                                        error={error("category")}
+                                        onChanged={setValueToValidate("category")}/>
+                                    <FormTextArea
+                                        label={"Comments"}
+                                        value={values.comments}
+                                        error={error("comments")}
+                                        onChanged={setValueToValidate("comments")}/>
+                                    <FormButtonRow right>
+                                        <Button style={styles.button} onClick={props.handleSubmit} color={"secondary"}
+                                                disabled={hasErrors()}>
+                                            <Icon iconType={"cart"} size={16}/>
+                                            <TextWhite>Buy</TextWhite>
+                                        </Button>
+                                    </FormButtonRow>
+                                </FormCard>
+
+                            )
+                        }}
+                    </Formik>
+
+                </ScrollView>
             </Screen.Content>
         </Screen>
     )

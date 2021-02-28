@@ -1,5 +1,5 @@
 import {HasId, Id} from "../BaseTypes";
-import {Money, sumMoney} from "../../models/Money";
+import {Money, sumMoney} from "../../models";
 
 export type BudgetCategory = HasId & {
     tripId: Id,

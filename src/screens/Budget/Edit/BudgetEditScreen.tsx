@@ -5,52 +5,81 @@ import {
     Center,
     FormButtonRow,
     FormCard,
-    FormCategoryPicker,
+    FormCategorySelect,
     FormMoneyInput,
     FormTextInput,
     Icon,
     Screen,
+    Space,
     TextWhite
 } from "../../../components";
-import {useBudgetEdit} from "./BudgetEditHook";
+import {Formik, FormikHelpers} from "formik";
+import {budgetEditValidationSchema, BudgetEditValues, useBudgetEdit} from "./BudgetEditHook";
+import {enhanceFormik} from "../../../components/Form/FormikEnhanced";
+
 
 export const BudgetEditScreen = ({route, navigation}: BudgetNavigationProps<"BudgetEditScreen">) => {
     const {id, tripId} = route.params
-    const {exists, ...budgetEdit} = useBudgetEdit(id, tripId)
+    const {onSubmit, remove, exists, initialValues, categories} = useBudgetEdit(id, tripId)
 
     useEffect(() => {
         !exists && navigation.goBack()
     }, [exists])
+
+    const handleSubmit = async (values: BudgetEditValues, actions: FormikHelpers<BudgetEditValues>) => {
+        const isValid = await actions.validateForm(values)
+        if (!isValid) return;
+        onSubmit(values)
+        navigation.goBack()
+    }
+
     return (
         <Screen>
             <Screen.Header title={"Edit expense"} color={"budget"}/>
             <Screen.Content>
                 <Center padding={16}>
-                    <FormCard>
-                        <FormCategoryPicker
-                            label={"Category"}
-                            value={budgetEdit.category}
-                            values={budgetEdit.categories}
-                            onChanged={budgetEdit.setCategory}/>
-                        <FormMoneyInput
-                            label={"Amount"}
-                            value={budgetEdit.value}
-                            onChanged={budgetEdit.setValue}/>
-                        <FormTextInput
-                            label={"Name"}
-                            value={budgetEdit.name}
-                            onChanged={budgetEdit.setName}/>
-                        <FormButtonRow>
-                            <Button color={"error"} onClick={budgetEdit.remove} disabled={!exists}>
-                                <Icon iconType={"delete"} size={18}/>
-                                <TextWhite>Delete</TextWhite>
-                            </Button>
-                            <Button color={"primary"} onClick={budgetEdit.update} disabled={!exists}>
-                                <Icon iconType={"confirm"} size={18}/>
-                                <TextWhite>Update</TextWhite>
-                            </Button>
-                        </FormButtonRow>
-                    </FormCard>
+                    <Formik<BudgetEditValues>
+                        initialValues={initialValues}
+                        validationSchema={budgetEditValidationSchema}
+                        onSubmit={handleSubmit}>
+                        {(props) => {
+                            const {setValueToValidate, error, hasErrors} = enhanceFormik(props)
+                            return (
+                                <FormCard>
+                                    <FormCategorySelect
+                                        label={"Category"}
+                                        value={props.values.category}
+                                        onChanged={setValueToValidate("category")}
+                                        values={categories}
+                                        error={error("category")}
+                                    />
+                                    <FormMoneyInput
+                                        label={"Amount"}
+                                        value={props.values.value}
+                                        onChanged={setValueToValidate("value")}
+                                        error={error("value")}
+                                    />
+                                    <FormTextInput
+                                        label={"Name"}
+                                        value={props.values.name}
+                                        onChanged={setValueToValidate("name")}
+                                        error={error("name")}
+                                    />
+                                    <FormButtonRow center>
+                                        <Button color={"error"} onClick={remove}>
+                                            <Icon iconType={"delete"} size={18}/>
+                                            <TextWhite>Delete</TextWhite>
+                                        </Button>
+                                        <Space direction={"horizontal"} size={8}/>
+                                        <Button color={"primary"} onClick={props.handleSubmit} disabled={hasErrors()}>
+                                            <Icon iconType={"confirm"} size={18}/>
+                                            <TextWhite>Update</TextWhite>
+                                        </Button>
+                                    </FormButtonRow>
+                                </FormCard>
+                            )
+                        }}
+                    </Formik>
                 </Center>
             </Screen.Content>
         </Screen>

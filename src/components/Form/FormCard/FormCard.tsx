@@ -2,7 +2,7 @@ import React from "react";
 import {StyleSheet, View} from "react-native";
 import {Card} from "../../Blocks/Card";
 import MaskedView from "@react-native-community/masked-view";
-import {Parent, Styled} from "../../Blocks";
+import {Column, Parent, Styled} from "../../Blocks";
 
 type Props = Styled & Parent & {
     avatar?: React.ReactNode
@@ -16,7 +16,9 @@ const FormCard = ({children, avatar, style}: Props) => {
                     {avatar}
                 </MaskedView>
             )}
-            {children}
+            <Column>
+                {children}
+            </Column>
         </Card>
     )
 }
@@ -27,7 +29,6 @@ const styles = StyleSheet.create({
         position: "relative",
         flexDirection: "column",
         padding: 16,
-        paddingHorizontal: 24,
     },
 
     avatarGap: {

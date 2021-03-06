@@ -1,11 +1,12 @@
 import React, {useEffect} from "react";
-import {StyleSheet, View} from "react-native"
+import {ScrollView, StyleSheet, View} from "react-native"
 import {useSelector} from "react-redux";
-import {TripDetailsCard} from "./TripDetailsCard";
 import {TripNavigationProps} from "../../../navigation";
-import {Screen} from "../../../components";
-import {TripDetailsBudgetProgress} from "./TripDetailsBudgetProgress";
+import {Column, Screen, Space} from "../../../components";
 import {selectTripById} from "../../../store/selectors";
+import {TripDetailsCard} from "./TripDetailsCard";
+import {TripModule} from "./TripModulesCard/TripModule";
+import {TripModulesCard} from "./TripModulesCard";
 
 export const TripDetailsScreen = ({navigation, route}: TripNavigationProps<"TripDetailsScreen">) => {
     const tripId = route.params.tripId;
@@ -14,16 +15,30 @@ export const TripDetailsScreen = ({navigation, route}: TripNavigationProps<"Trip
         !trip && navigation.navigate("TripHomeScreen")
     }, [trip])
     const handleConfigureTrip = () => navigation.push("TripEditScreen", {tripId})
-    const handleConfigureBudget = () => navigation.push("TripBudgetEditScreen", {tripId});
+    const handleModuleSelected = (tripModule: TripModule) => {
+        switch(tripModule){
+            case "wish":{
+                navigation.push("Wish", {tripId})
+                break;
+            }
+            case "budget":{
+                navigation.push("Budget", {tripId})
+                break;
+            }
+        }
+    }
     if(!trip) return (<View/>)
     return (
         <Screen>
             <Screen.Header title={"Trip details"}/>
             <Screen.Content>
-                <View style={styles.root}>
-                    <TripDetailsCard trip={trip} onConfigure={handleConfigureTrip}/>
-                    <TripDetailsBudgetProgress trip={trip} onPress={handleConfigureBudget}/>
-                </View>
+                <ScrollView >
+                    <Column padding={16}>
+                        <TripDetailsCard trip={trip} />
+                        <Space size={16} direction={"vertical"} />
+                        <TripModulesCard trip={trip} onModuleSelected={handleModuleSelected} />
+                    </Column>
+                </ScrollView>
             </Screen.Content>
         </Screen>
     )
@@ -34,4 +49,5 @@ const styles = StyleSheet.create({
         padding: 16,
         flexDirection: "column"
     },
+
 });

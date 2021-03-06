@@ -1,13 +1,13 @@
 import {useDispatch, useSelector} from "react-redux";
 import {Id} from "../../../store";
-import {selectBudgetCategoriesByTripId} from "../../../store/selectors";
+import {selectBudgetCategoriesByBudgetId} from "../../../store/selectors";
 import {createWish} from "../../../store/actions/WishActions";
 import {createWishInitialValues, WishValues} from "../WishValues";
 import {NewWish} from "../../../store/models";
 import {useMemo} from "react";
 
 export const useWishNew = (tripId: Id) => {
-    const categories = useSelector(selectBudgetCategoriesByTripId(tripId))
+    const categories = useSelector(selectBudgetCategoriesByBudgetId(tripId))
     const initialValues = useMemo(() => createWishInitialValues(categories), []);
     const dispatch = useDispatch()
     const create = (values: WishValues) => {

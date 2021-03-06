@@ -1,8 +1,7 @@
-import React from "react";
+import React, {useMemo} from "react";
 import {Image, StyleSheet, Text, View} from "react-native";
 import {format} from "date-fns";
-import {TripCardActions} from "./TripCardActions";
-import {daysUntil, hasEnded, isActive, Trip} from "../../../../store/models";
+import {daysUntil, hasEnded, isActive, Trip} from "../../../store/models";
 
 type Props = {
     trip: Trip
@@ -25,34 +24,22 @@ const formatDate = (trip: Trip): string => {
 }
 
 
-const TripCard = ({trip}: Props) => {
+export const TripCard = ({trip}: Props) => {
     const image = trip.image ?? "http://unsplash.it/365/176"
+    const date = useMemo(() => formatDate(trip), [trip])
     return (
-        <View style={styles.progress}>
-            <View style={styles.cardImage}>
-                <Image source={{uri: image}} style={styles.image}/>
-                <View style={styles.cardNavigation}>
-                    <TripCardActions trip={trip}/>
-                </View>
-            </View>
-
-
+        <View style={styles.tripCard}>
+            <Image source={{uri: image}} style={styles.image}/>
             <View style={styles.cardBody}>
-                <View style={styles.cardDescription}>
-                    <Text style={styles.title}>{trip.name}</Text>
-                    <Text style={styles.date}>{formatDate(trip)}</Text>
-                </View>
-
+                <Text style={styles.title}>{trip.name}</Text>
+                <Text style={styles.date}>{date}</Text>
             </View>
-
-
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    progress: {
-        position: "relative",
+    tripCard: {
         flexDirection: "column",
         alignItems: "center",
         borderRadius: 8,
@@ -60,15 +47,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
     },
 
-    cardImage: {
-        width: "100%",
-        height: 180,
-        position: "relative",
-    },
-
     image: {
         width: "100%",
-        height: "100%",
+        height: 180,
         resizeMode: "cover",
         borderTopLeftRadius: 8,
         borderTopRightRadius: 8,
@@ -79,15 +60,10 @@ const styles = StyleSheet.create({
         height: 60,
         paddingVertical: 10,
         paddingHorizontal: 14,
-        flexDirection: "row",
-        alignItems: "stretch"
+        flexDirection: "column",
     },
 
-    cardDescription: {
-        flexDirection: "column",
-        justifyContent: "space-between",
-        flex: 1,
-    },
+
     title: {
         alignSelf: "flex-start",
         fontSize: 16,
@@ -97,14 +73,4 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: "#B5B5B5"
     },
-    cardNavigation: {
-        bottom: 0,
-        position: "absolute",
-        width: "100%",
-        padding: 8,
-    },
-
-
 })
-
-export default TripCard

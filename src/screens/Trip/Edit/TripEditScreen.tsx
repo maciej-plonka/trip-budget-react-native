@@ -12,13 +12,13 @@ import {
     Icon,
     Screen,
     Space
-} from "../../../../components";
-import {confirmMessageBox, showToast} from "../../../../models";
-import {TripNavigationProps} from "../../../../navigation";
+} from "../../../components";
+import {confirmMessageBox, showToast} from "../../../models";
+import {TripNavigationProps} from "../../../navigation";
 import {TripEditValues, useTripEdit} from "./TripEditHook";
 import {Formik, FormikHelpers} from "formik";
-import {enhanceFormik} from "../../../../components/Form/FormikEnhanced";
-import {tripValidationSchema} from "../../TripValidationSchema";
+import {enhanceFormik} from "../../../components/Form/FormikEnhanced";
+import {tripValidationSchema} from "../TripValidationSchema";
 
 export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEditScreen">) => {
     const {initialValues, exists, remove, update} = useTripEdit(route.params.tripId);
@@ -77,11 +77,6 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
                                         value={values.endDate}
                                         error={error("endDate")}
                                         onChanged={setValueToValidate("endDate")}/>
-                                    <FormMoneyInput
-                                        label={"Total budget"}
-                                        value={values.totalBudget}
-                                        error={error("totalBudget")}
-                                        onChanged={setValueToValidate("totalBudget")}/>
                                     <FormButtonRow right>
                                         <Button
                                             color={"error"}

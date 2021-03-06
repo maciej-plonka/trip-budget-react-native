@@ -1,4 +1,3 @@
-import {useEffect, useState} from "react";
 import * as ImagePicker from 'expo-image-picker';
 
 type FormImagePicker = {
@@ -13,12 +12,7 @@ const imagePickerOptions = (aspect: [number, number]) =>  ({
 });
 
 type Result = {uri: string}
-export const useFormImagePicker = (current: string | undefined, onChanged: (value: string | undefined) => void, aspectRatio: [number, number]): FormImagePicker => {
-    const [image, setImage] = useState<string | undefined>(current)
-    useEffect(() => {
-        onChanged(image)
-    }, [image])
-
+export const useMemoryImagePicker = (onChanged: (value: string | undefined) => void, aspectRatio: [number, number]): FormImagePicker => {
     const chooseImageFromMemory = async () => {
         const {granted} = await ImagePicker.requestMediaLibraryPermissionsAsync()
         if (!granted) {
@@ -26,7 +20,7 @@ export const useFormImagePicker = (current: string | undefined, onChanged: (valu
         }
 
         const result = await ImagePicker.launchImageLibraryAsync(imagePickerOptions(aspectRatio)) as Result;
-        setImage(result.uri)
+        onChanged(result.uri)
     }
     return {chooseImageFromMemory}
 }

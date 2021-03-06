@@ -1,8 +1,8 @@
 import {StyleSheet, View} from "react-native";
-import TripCard from "./Card/TripCard";
 import React from "react";
 import {Space} from "../../../components";
 import {Trip} from "../../../store/models";
+import {TripCard} from "./TripCard";
 
 type ListItemProps = {
     item: Trip | null

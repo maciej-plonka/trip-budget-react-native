@@ -1,9 +1,9 @@
 import React from "react";
-import {DailyExpense} from "./BudgetDailyHook";
-import {Card, Column, LinearProgressBar, Row} from "../../../components";
+import {DailyExpense} from "./BudgetDailyExpenseHook";
+import {Card, Column, LinearProgressBar, Row} from "../../../../components";
 import {Text} from "react-native";
-import {formatMoney, isMore, sumMoney} from "../../../models/Money";
-import {useErrorColor, usePrimaryColor} from "../../../contexts/ThemeContext";
+import {formatMoney, isMore, sumMoney} from "../../../../models/Money";
+import {useErrorColor, usePrimaryColor} from "../../../../contexts/ThemeContext";
 
 type Props = {
     dailyExpense: DailyExpense

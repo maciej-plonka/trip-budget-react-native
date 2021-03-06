@@ -4,3 +4,4 @@ export * from './FormCalendarInput'
 export * from './Money'
 export * from './FormTextArea'
 export * from './FormImagePicker'
+export * from "./MemoryImagePicker"

@@ -1,2 +1,1 @@
-export * from "./Trip"
-export * from "./Budget"
+export * from "./TripEditScreen"

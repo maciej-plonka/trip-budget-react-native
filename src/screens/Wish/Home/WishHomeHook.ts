@@ -1,5 +1,5 @@
 import {useSelector} from "react-redux";
-import {selectAllWishesByTripId, selectBudgetCategoriesByTripId} from "../../../store/selectors";
+import {selectAllWishesByTripId, selectBudgetCategoriesByBudgetId} from "../../../store/selectors";
 import {useState} from "react";
 import {filterBy} from "../../../utils/Collections";
 import {BudgetCategory, isBought, Wish} from "../../../store/models";
@@ -44,7 +44,7 @@ type WishHome = {
 
 export const useWishHome = (tripId: Id): WishHome => {
     const allWishes = useSelector(selectAllWishesByTripId(tripId))
-    const categories = useSelector(selectBudgetCategoriesByTripId(tripId))
+    const categories = useSelector(selectBudgetCategoriesByBudgetId(tripId))
     const [tab, setTab] = useState<Tab | undefined>()
     const [category, setCategory] = useState<BudgetCategory | undefined>()
     const wishes = filterWishes(allWishes, tab, category);

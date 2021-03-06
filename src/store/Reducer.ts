@@ -22,14 +22,27 @@ export const stateReducer = (state: State = initialState, action: StateAction): 
             return {...state, trips: [...state.trips, serializeTrip(newTrip)]}
         }
         case "delete_trip": {
+            const tripId = action.tripId;
+            const budget = findBy(state.budgets, "tripId", tripId);
             return {
                 ...state,
-                trips: filterOutBy(state.trips, "id", action.tripId),
-                budgetCategories: filterOutBy(state.budgetCategories, "tripId", action.tripId),
-                budgetExpenses: filterOutBy(state.budgetExpenses, "tripId", action.tripId),
-                wishes: filterOutBy(state.wishes, "tripId", action.tripId),
+                trips: filterOutBy(state.trips, "id", tripId),
+                budgetCategories: budget ? filterOutBy(state.budgetCategories, "budgetId", budget.id) : state.budgetCategories,
+                budgetExpenses: budget ? filterOutBy(state.budgetExpenses, "budgetId", tripId) : state.budgetExpenses,
+                wishes: filterOutBy(state.wishes, "tripId", tripId),
             }
         }
+
+        case "create_budget": {
+            const exists = !!findBy(state.budgets, "tripId", action.newBudget.tripId);
+            if (exists) return state;
+            const budget = {...action.newBudget, id: uniqueId()}
+            return {
+                ...state,
+                budgets: [...state.budgets, budget]
+            }
+        }
+
         case "create_budget_category": {
             const newCategory = {...action.newCategory, id: uniqueId()};
             return {...state, budgetCategories: [...state.budgetCategories, newCategory]}
@@ -70,11 +83,12 @@ export const stateReducer = (state: State = initialState, action: StateAction): 
             return {...state, wishes: filterOutBy(state.wishes, "id", action.id)}
         }
         case "buy_wish": {
-            const {tripId, budgetCategoryId: categoryId, name} = action.wish
+            const {budgetCategoryId, name} = action.wish
+
             const expense: BudgetExpense = {
                 id: uniqueId(),
-                tripId,
-                categoryId,
+                budgetId: action.budgetId,
+                categoryId: budgetCategoryId,
                 name,
                 date: new Date(),
                 value: action.actualValue

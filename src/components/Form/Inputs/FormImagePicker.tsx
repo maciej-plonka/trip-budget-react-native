@@ -1,7 +1,7 @@
 import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {showToast} from "../../../models/Toast";
-import {useFormImagePicker} from "./FormImagePickerHook";
+import {useMemoryImagePicker} from "./MemoryImagePicker";
 import {Icon} from "../../Icon";
 import {Styled} from "../../Blocks";
 import {InputProps} from "./InputProps";
@@ -19,10 +19,14 @@ const EmptyImage = () => {
 }
 
 export const FormImagePicker = ({value, onChanged,imageRatio = [1,1]}: Props) => {
-    const formImagePicker = useFormImagePicker(value, onChanged, imageRatio)
+    const [image, setImage] = useState<string | undefined>(value)
+    useEffect(() => {
+        onChanged(image)
+    }, [image])
+    const {chooseImageFromMemory} = useMemoryImagePicker(setImage, imageRatio)
      const handlePress = async () => {
         try {
-            await formImagePicker.chooseImageFromMemory()
+            await chooseImageFromMemory()
         }catch(e) {
             showToast(`Error: ${e}`)
         }

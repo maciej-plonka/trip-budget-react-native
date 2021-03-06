@@ -92,7 +92,6 @@ export const WishBuyScreen = ({route, navigation}: WishNavigationProps<"WishBuyS
     )
 }
 
-
 const styles = StyleSheet.create({
     root: {
         padding: 16,

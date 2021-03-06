@@ -1,6 +1,6 @@
 import {Money, sortMoneyDesc, sumMoney} from "../../../../models/Money";
 import {CategoryExpense} from "../BudgetHomeHook";
-import {useElementDimensions} from "./ElementDimensions";
+import {useElementDimensions} from "../../../../hooks/ElementDimensions";
 import {sortBy} from "../../../../utils/Collections";
 import {useRandomColor} from "./RandomColor";
 

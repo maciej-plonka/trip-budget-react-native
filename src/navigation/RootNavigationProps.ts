@@ -8,7 +8,7 @@ export type RootParamList = {
     Wish: { tripId: Id }
 }
 
-export type RootNavigation<T extends keyof RootParamList> = StackNavigationProp<RootParamList, T>
+type RootNavigation<T extends keyof RootParamList> = StackNavigationProp<RootParamList, T>
 
 export type RootNavigationProps<T extends keyof RootParamList> = {
     navigation: RootNavigation<T>

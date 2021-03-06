@@ -18,7 +18,7 @@ export const Card = ({rounded, children, flat, color = "white", ...props}: Props
         flat && styles.flat,
     ];
     return (
-        <ColoredBackground color={color} style={cardStyle}>
+        <ColoredBackground color={color} style={cardStyle}  onLayout={props.onLayout}>
             {children}
         </ColoredBackground>
     )

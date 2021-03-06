@@ -7,7 +7,6 @@ export type Trip = HasId & {
     image?: string,
     startDate: Date,
     endDate: Date,
-    totalBudget: Money,
 }
 
 export type NewTrip = {
@@ -15,7 +14,6 @@ export type NewTrip = {
     image?: string,
     startDate: Date,
     endDate: Date,
-    totalBudget: Money
 }
 
 export const hasStarted = (trip: Trip, now: Date = new Date()): boolean => isBefore(startOfDay(trip.startDate), now)

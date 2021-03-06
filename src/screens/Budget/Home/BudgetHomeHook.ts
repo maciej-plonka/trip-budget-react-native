@@ -1,16 +1,23 @@
 import {Id} from "../../../store";
 import {useSelector} from "react-redux";
-import {selectBudgetCategoriesByTripId, selectBudgetExpensesByTripId, selectTripById} from "../../../store/selectors";
-import {Money} from "../../../models";
+import {
+    selectBudgetByTripId,
+    selectBudgetCategoriesByBudgetId,
+    selectBudgetExpensesByBudgetId,
+    selectTripById
+} from "../../../store/selectors";
+import {defaultMoney, Money} from "../../../models";
 import {BudgetCategory, BudgetExpense, sumBudgetExpenses} from "../../../store/models";
 import {filterBy} from "../../../utils/Collections";
-import {useTripDailyExpenses} from "../TripDailyExpensesHook";
-import {DailyExpense} from "../Daily/BudgetDailyHook";
+import {useBudgetDailyExpenses} from "../TripDailyExpensesHook";
+import {DailyExpense} from "../Expense/Daily/BudgetDailyExpenseHook";
 import {useTripDaysRange} from "../TripDayRangeHook";
 import {addDays, endOfDay, isAfter, isBefore, startOfDay} from "date-fns";
 import {useMemo} from "react";
 
 export type BudgetHome = {
+    budgetId?: Id,
+    exists: boolean,
     totalBudget: Money,
     totalBudgetSpent: Money,
     categoryExpenses: ReadonlyArray<CategoryExpense>,
@@ -25,17 +32,14 @@ export type CategoryExpense = {
 const filterByLastDays = (daysBack: number, today: Date = new Date()) =>
     ({day}: DailyExpense) =>  isBefore(day, endOfDay(today)) && isAfter(day, startOfDay(addDays(today, -daysBack)))
 
-export const useBudgetHome = (tripId: Id, daysBack: number = 5): BudgetHome | undefined => {
-    const trip = useSelector(selectTripById(tripId))
-    const categories = useSelector(selectBudgetCategoriesByTripId(tripId))
-    const expenses = useSelector(selectBudgetExpensesByTripId(tripId))
+export const useBudgetHome = (tripId: Id,  daysBack: number = 5): BudgetHome  => {
+    const budget = useSelector(selectBudgetByTripId(tripId))
+    const categories = useSelector(selectBudgetCategoriesByBudgetId(tripId))
+    const expenses = useSelector(selectBudgetExpensesByBudgetId(tripId))
     const days = useTripDaysRange(tripId)
-    const dailyExpenses = useTripDailyExpenses(tripId, days).filter(filterByLastDays(daysBack))
+    const dailyExpenses = useBudgetDailyExpenses(tripId, days).filter(filterByLastDays(daysBack))
     const totalBudgetSpent = useMemo(() => sumBudgetExpenses(expenses), [expenses])
 
-    if (!trip) {
-        return;
-    }
     const categoryExpenses = categories.map(category => ({
         category,
         expenses: filterBy(expenses, "categoryId", category.id)
@@ -43,7 +47,9 @@ export const useBudgetHome = (tripId: Id, daysBack: number = 5): BudgetHome | un
 
 
     return {
-        totalBudget: trip.totalBudget,
+        budgetId: budget?.id,
+        exists: !!budget,
+        totalBudget: budget?.totalBudget ?? defaultMoney(),
         totalBudgetSpent,
         categoryExpenses,
         dailyExpenses

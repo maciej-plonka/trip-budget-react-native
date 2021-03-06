@@ -1,34 +1,37 @@
-import {Icon, IconType} from "../../Icon";
-import {Text, TouchableOpacity} from "react-native";
-import {Column} from "../../Blocks";
-import React from "react";
+import {TouchableOpacity} from "react-native";
+import {Box} from "../../Blocks";
+import React, {useMemo} from "react";
 import {NavigationTarget} from "./BottomDrawer";
-
-const getIcon = (target: NavigationTarget): IconType => {
-    switch (target) {
-        case "budget":
-            return "money";
-        case "wish":
-            return "cart"
-    }
-}
-
-const itemColor = (selected: boolean):string => selected ? "black" : "gray"
+import {Icons} from "../../../icons";
 
 type BottomDrawerItemProps = {
     item: NavigationTarget,
     onClick: () => void,
     selected: boolean
 }
-export const BottomDrawerItem = ({onClick, item, selected}: BottomDrawerItemProps) => {
-    const color = itemColor(selected);
+export const BottomDrawerItem = ({onClick, ...props}: BottomDrawerItemProps) => {
     return (
         <TouchableOpacity onPress={onClick}>
-            <Column alignItems={"center"} justifyContent={"flex-end"} padding={8}>
-                <Icon iconType={getIcon(item)} size={24} color={color}/>
-                <Text style={{fontSize: 10, marginTop: 4, color}}>{item}</Text>
-            </Column>
+            <Box paddingVertical={8} paddingHorizontal={12}>
+                <BottomDrawerIcon {...props} />
+            </Box>
         </TouchableOpacity>
     )
 }
 
+type BottomDrawerIconProps = {
+    item: NavigationTarget,
+    selected: boolean
+}
+
+const iconSize = 32
+
+const BottomDrawerIcon = ({item, selected}: BottomDrawerIconProps) => {
+    const color = useMemo(() => selected ? "black" : "gray", [selected])
+    switch (item) {
+        case "budget":
+            return (<Icons.Coins fill={color} width={iconSize} height={iconSize}/>)
+        case "wish":
+            return (<Icons.ShoppingList fill={color} width={iconSize} height={iconSize}/>)
+    }
+}

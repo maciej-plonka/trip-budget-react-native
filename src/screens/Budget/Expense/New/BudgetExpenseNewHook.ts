@@ -1,21 +1,21 @@
-import {Id} from "../../../store";
+import {Id} from "../../../../store";
 import {useDispatch, useSelector} from "react-redux";
-import {selectBudgetCategoriesByTripId, selectTripById} from "../../../store/selectors";
+import {selectBudgetById, selectBudgetCategoriesByBudgetId, selectTripById} from "../../../../store/selectors";
 import {useMemo} from "react";
-import {BudgetCategory, NewBudgetExpense, Trip} from "../../../store/models";
-import {copyCurrency, defaultMoney, Money} from "../../../models";
-import {createBudgetExpense} from "../../../store/actions/BudgetActions";
+import {Budget, BudgetCategory, NewBudgetExpense, Trip} from "../../../../store/models";
+import {copyCurrency, defaultMoney, Money} from "../../../../models";
+import {createBudgetExpense} from "../../../../store/actions/BudgetActions";
 import * as yup from "yup"
-import {moneySchema} from "../../../validation";
+import {moneySchema} from "../../../../validation";
 export type BudgetNewValues = {
     name: string,
     value: Money,
     category: BudgetCategory | undefined
 }
 
-const createInitialValues = (trip?: Trip): BudgetNewValues => ({
+const createInitialValues = (budget?: Budget): BudgetNewValues => ({
     name: '',
-    value: trip ? copyCurrency(trip.totalBudget, 0) : defaultMoney(),
+    value: defaultMoney(),
     category: undefined
 })
 
@@ -24,14 +24,14 @@ export const budgetNewValidationSchema = yup.object().shape({
     value: moneySchema
 })
 
-export const useBudgetNew = (tripId: Id) => {
-    const trip = useSelector(selectTripById(tripId))
-    const categories = useSelector(selectBudgetCategoriesByTripId(tripId))
+export const useBudgetExpenseNew = (budgetId: Id) => {
+    const trip = useSelector(selectBudgetById(budgetId))
+    const categories = useSelector(selectBudgetCategoriesByBudgetId(budgetId))
     const initialValues = useMemo(() => createInitialValues(trip), [])
     const dispatch = useDispatch()
     const create = (values: BudgetNewValues) => {
         const budgetExpense: NewBudgetExpense = {
-            tripId,
+            budgetId,
             name: values.name,
             value: values.value,
             categoryId: values.category?.id

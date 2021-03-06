@@ -12,7 +12,7 @@ export type WishParamList = {
 }
 
 export type WishNavigation<T extends keyof WishParamList> = CompositeNavigationProp<StackNavigationProp<WishParamList, T>,
-    StackNavigationProp<RootParamList, "Trip">>
+    StackNavigationProp<RootParamList, "Wish">>
 
 export type WishNavigationProps<T extends keyof WishParamList> = {
     navigation: WishNavigation<T>

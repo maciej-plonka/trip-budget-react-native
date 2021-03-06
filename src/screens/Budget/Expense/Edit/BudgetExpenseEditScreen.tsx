@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {BudgetNavigationProps} from "../../../navigation";
+import {BudgetNavigationProps} from "../../../../navigation";
 import {
     Button,
     Center,
@@ -12,15 +12,15 @@ import {
     Screen,
     Space,
     TextWhite
-} from "../../../components";
+} from "../../../../components";
 import {Formik, FormikHelpers} from "formik";
-import {budgetEditValidationSchema, BudgetEditValues, useBudgetEdit} from "./BudgetEditHook";
-import {enhanceFormik} from "../../../components/Form/FormikEnhanced";
+import {budgetEditValidationSchema, BudgetEditValues, useBudgetExpenseEdit} from "./BudgetExpenseEditHook";
+import {enhanceFormik} from "../../../../components/Form/FormikEnhanced";
 
 
-export const BudgetEditScreen = ({route, navigation}: BudgetNavigationProps<"BudgetEditScreen">) => {
-    const {id, tripId} = route.params
-    const {onSubmit, remove, exists, initialValues, categories} = useBudgetEdit(id, tripId)
+export const BudgetExpenseEditScreen = ({route, navigation}: BudgetNavigationProps<"BudgetExpenseEditScreen">) => {
+    const {expenseId, tripId} = route.params
+    const {onSubmit, remove, exists, initialValues, categories} = useBudgetExpenseEdit(expenseId, tripId)
 
     useEffect(() => {
         !exists && navigation.goBack()

@@ -1,13 +1,13 @@
 import {useDispatch, useSelector} from "react-redux";
-import {BudgetCategory, BudgetExpense} from "../../../store/models";
-import {deleteBudgetExpenseById, updateBudgetExpense} from "../../../store/actions/BudgetActions";
-import {Id} from "../../../store";
-import {selectBudgetCategoriesByTripId, selectBudgetExpenseById} from "../../../store/selectors";
-import {defaultMoney, Money} from "../../../models";
-import {findBy} from "../../../utils/Collections";
+import {BudgetCategory, BudgetExpense} from "../../../../store/models";
+import {deleteBudgetExpenseById, updateBudgetExpense} from "../../../../store/actions/BudgetActions";
+import {Id} from "../../../../store";
+import {selectBudgetCategoriesByBudgetId, selectBudgetExpenseById} from "../../../../store/selectors";
+import {defaultMoney, Money} from "../../../../models";
+import {findBy} from "../../../../utils/Collections";
 import * as yup from "yup";
 import {useMemo} from "react";
-import {moneySchema} from "../../../validation";
+import {moneySchema} from "../../../../validation";
 
 export const budgetEditValidationSchema = yup.object().shape({
     name: yup.string().required('Name is required'),
@@ -27,9 +27,9 @@ const createInitialValues = (expense: BudgetExpense | undefined, categories: Rea
 })
 
 
-export const useBudgetEdit = (id: Id, tripId: Id) => {
+export const useBudgetExpenseEdit = (id: Id, tripId: Id) => {
     const expense = useSelector(selectBudgetExpenseById(id))
-    const categories = useSelector(selectBudgetCategoriesByTripId(tripId))
+    const categories = useSelector(selectBudgetCategoriesByBudgetId(tripId))
     const initialValues = useMemo(() => createInitialValues(expense, categories), [expense, categories])
     const dispatch = useDispatch()
     const onSubmit = (values: BudgetEditValues) => {

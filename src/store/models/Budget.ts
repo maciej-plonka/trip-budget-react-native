@@ -1,20 +1,28 @@
 import {HasId, Id} from "../BaseTypes";
 import {Money, sumMoney} from "../../models";
 
-export type BudgetCategory = HasId & {
+
+export type Budget = HasId & {
     tripId: Id,
+    totalBudget: Money,
+}
+
+export type NewBudget = Omit<Budget, "id">
+
+export type BudgetCategory = HasId & {
+    budgetId: Id,
     name: string,
     categoryBudget: Money
 }
 
 export type NewBudgetCategory = {
-    tripId: Id,
+    budgetId: Id,
     name: string,
     categoryBudget: Money,
 }
 
 export type BudgetExpense = HasId & {
-    tripId: Id,
+    budgetId: Id,
     categoryId?: Id,
     date: Date,
     value: Money,
@@ -26,7 +34,7 @@ export type SerializedBudgetExpense = Omit<BudgetExpense, "date"> & {
 }
 
 export type NewBudgetExpense = {
-    tripId: Id,
+    budgetId: Id,
     categoryId?: Id,
     value: Money,
     name: string,

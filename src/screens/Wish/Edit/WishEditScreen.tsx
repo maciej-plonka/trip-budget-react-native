@@ -56,8 +56,7 @@ export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEdi
                         <Formik<WishValues>
                             initialValues={initialValues}
                             validationSchema={wishValidationSchema}
-                            onSubmit={handleSubmit}
-                        >
+                            onSubmit={handleSubmit}>
                             {props => {
                                 const {values} = props
                                 const {hasErrors, setValueToValidate, error} = enhanceFormik(props)
@@ -101,10 +100,10 @@ export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEdi
 
                                 )
                             }}
-                                </Formik>
-                                </Center>
-                                </ScrollView>
-                                </Screen.Content>
-                                </Screen>
-                                )
-                            }
+                        </Formik>
+                    </Center>
+                </ScrollView>
+            </Screen.Content>
+        </Screen>
+    )
+}

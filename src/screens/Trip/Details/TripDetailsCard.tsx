@@ -6,20 +6,12 @@ import {hasStarted, Trip} from "../../../store/models";
 
 type Props = {
     trip: Trip,
-    onConfigure:() => void
 }
-export const TripDetailsCard = ({trip, onConfigure}: Props) => {
+export const TripDetailsCard = ({trip}: Props) => {
     const image = trip.image ?? "http://unsplash.it/365/176"
     return (
-        <Card style={styles.detailsCard}>
+        <Card  rounded>
             <Image source={{uri: image}} style={styles.image}/>
-            {!hasStarted(trip) && (
-                <View style={styles.floatingButton}>
-                    <Button onClick={onConfigure} color={"primary"} >
-                        <Icon iconType={"configure"} size={19} />
-                    </Button>
-                </View>
-            )}
             <View style={styles.cardDescription}>
                 <Text style={styles.title}>{trip.name}</Text>
                 <View style={styles.dates}>
@@ -27,7 +19,6 @@ export const TripDetailsCard = ({trip, onConfigure}: Props) => {
                     <Text style={styles.date}>{format(trip.endDate, "dd.MM.yyyy")}</Text>
                 </View>
             </View>
-
         </Card>
     )
 }
@@ -45,6 +36,8 @@ const styles = StyleSheet.create({
     },
 
     image: {
+        borderTopRightRadius: 8,
+        borderTopLeftRadius: 8,
         width: "100%",
         height: 180,
         resizeMode: "cover",

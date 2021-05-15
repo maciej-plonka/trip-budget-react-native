@@ -3,7 +3,7 @@ import {Card, Column, LinearProgressBar, Row, Space} from "../../../components";
 import {StyleSheet, Text} from "react-native"
 import {addDays, format, isSameDay} from "date-fns";
 import {usePrimaryColor} from "../../../contexts/ThemeContext";
-import {formatMoney, sumMoney} from "../../../models/Money";
+import {formatMoney, sumMoney} from "../../../models";
 import {DailyExpense} from "../Expense/Daily/BudgetDailyExpenseHook";
 
 type Props = {

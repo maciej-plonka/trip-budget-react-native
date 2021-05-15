@@ -1,7 +1,7 @@
 import {Action} from "redux";
 import {NewWish, Wish} from "../models";
 import {Id} from "../BaseTypes";
-import {Money} from "../../models/Money";
+import {Money} from "../../models";
 
 export type WishAction =
     Action<"create_wish"> & { newWish: NewWish } |

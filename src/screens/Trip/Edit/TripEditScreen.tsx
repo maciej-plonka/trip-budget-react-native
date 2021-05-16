@@ -1,8 +1,8 @@
 import React, {useEffect} from "react";
 import {StyleSheet, Text, View} from "react-native";
 import {
-    Button,
-    Center,
+    Button, Card,
+    Center, Column,
     FormButtonRow,
     FormCalendarInput,
     FormCard,
@@ -10,7 +10,7 @@ import {
     FormTextInput,
     Icon,
     Screen,
-    Space
+    Space, TextWhite
 } from "../../../components";
 import {confirmMessageBox, showToast} from "../../../models";
 import {TripNavigationProps} from "../../../navigation";
@@ -18,6 +18,7 @@ import {TripEditValues, useTripEdit} from "./TripEditHook";
 import {Formik, FormikHelpers} from "formik";
 import {enhanceFormik} from "../../../components/Form/FormikEnhanced";
 import {tripValidationSchema} from "../TripValidationSchema";
+import {TripImagePicker} from "../TripImagePicker";
 
 export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEditScreen">) => {
     const {initialValues, exists, remove, update} = useTripEdit(route.params.tripId);
@@ -56,45 +57,44 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
                         {(props) => {
                             const {values} = props
                             const {hasErrors, setValueToValidate, error} = enhanceFormik(props)
-                            const avatar = <FormImagePicker value={values.image}
-                                                            onChanged={setValueToValidate("image")}
-                                                            imageRatio={[2, 1]}/>;
                             return (
-                                <FormCard avatar={avatar}>
-                                    <FormTextInput
-                                        label={"Name"}
-                                        value={values.name}
-                                        error={error("name")}
-                                        onChanged={setValueToValidate("name")}/>
-                                    <FormCalendarInput
-                                        label={"Start date"}
-                                        value={values.startDate}
-                                        error={error("startDate")}
-                                        onChanged={setValueToValidate("startDate")}/>
-                                    <FormCalendarInput
-                                        label={"End date"}
-                                        value={values.endDate}
-                                        error={error("endDate")}
-                                        onChanged={setValueToValidate("endDate")}/>
-                                    <FormButtonRow right>
-                                        <Button
-                                            color={"error"}
-                                            onClick={handleDelete}
-                                            style={styles.button}>
-                                            <Icon iconType={"delete"} size={22}/>
-                                        </Button>
-                                        <Space size={8}/>
-                                        <Button
-                                            color={"primary"}
-                                            disabled={hasErrors()}
-                                            onClick={props.handleSubmit}
-                                            style={styles.button}>
-                                            <Icon iconType={"confirm"} size={22}/>
-                                            <Text style={{color: "white"}}>Edit</Text>
-                                        </Button>
-                                    </FormButtonRow>
-                                </FormCard>
-                            )
+                                <Card>
+                                    <TripImagePicker value={values.image} onChanged={setValueToValidate("image")}/>
+                                    <Column padding={16}>
+                                        <FormTextInput
+                                            label={"Name"}
+                                            value={values.name}
+                                            error={error("name")}
+                                            onChanged={setValueToValidate("name")}/>
+                                        <FormCalendarInput
+                                            label={"Start date"}
+                                            value={values.startDate}
+                                            error={error("startDate")}
+                                            onChanged={setValueToValidate("startDate")}/>
+                                        <FormCalendarInput
+                                            label={"End date"}
+                                            value={values.endDate}
+                                            error={error("endDate")}
+                                            onChanged={setValueToValidate("endDate")}/>
+                                        <FormButtonRow right>
+                                            <Button
+                                                color={"error"}
+                                                onClick={handleDelete}
+                                                style={styles.button}>
+                                                <Icon iconType={"delete"} size={22}/>
+                                            </Button>
+                                            <Space size={8}/>
+                                            <Button
+                                                color={"primary"}
+                                                disabled={hasErrors()}
+                                                onClick={props.handleSubmit}
+                                                style={styles.button}>
+                                                <Icon iconType={"confirm"} size={22}/>
+                                                <Text style={{color: "white"}}>Edit</Text>
+                                            </Button>
+                                        </FormButtonRow>
+                                    </Column>
+                                </Card>)
                         }}
                     </Formik>
                 </Center>

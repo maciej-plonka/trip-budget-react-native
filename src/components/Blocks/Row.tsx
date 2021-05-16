@@ -5,7 +5,7 @@ import {BlockProps, useBlockStyles} from "./Block";
 export const Row = ({children, ...props}: BlockProps) => {
     const blockStyles = useBlockStyles(props);
     return (
-        <View style={[styles.row, ...blockStyles]} {...props} >
+        <View style={[...blockStyles, styles.row]} {...props} >
             {children}
         </View>
     )

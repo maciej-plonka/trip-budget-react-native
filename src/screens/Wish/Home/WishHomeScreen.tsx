@@ -1,10 +1,11 @@
 import React from "react";
 import {WishNavigationProps} from "../../../navigation";
-import {StyleSheet, View} from "react-native";
-import {Card, FormCategorySelect, Screen} from "../../../components";
+import {ScrollView, StyleSheet, View} from "react-native";
+import {Card, Column, FormCategorySelect, Screen} from "../../../components";
 import {useWishHome} from "./WishHomeHook";
 import {WishHomeList} from "./WishHomeList";
 import {useWishBottomDrawerNavigation} from "../WishBottomDrawerNavigation";
+import {CategoryPicker} from "./CategoryPicker";
 
 export const WishHomeScreen = ({navigation, route}: WishNavigationProps<"WishHomeScreen">) => {
     const tripId = route.params.tripId;
@@ -19,19 +20,13 @@ export const WishHomeScreen = ({navigation, route}: WishNavigationProps<"WishHom
                 ))}
             </Screen.Header>
             <Screen.Content>
-                <Card style={styles.categoryCard}>
-                    <FormCategorySelect
-                        label={"Category"}
-                        values={wishHome.categories}
-                        value={wishHome.category}
-                        onChanged={wishHome.selectCategory}
-                        unselectedLabel={"All"}
-                        iconDisabled/>
-                </Card>
-
-                <View style={styles.list}>
+                <Column padding={16}>
+                    <CategoryPicker
+                        tripId={tripId}
+                        onCategoryChanged={wishHome.selectCategory}
+                    />
                     <WishHomeList wishes={wishHome.wishes}/>
-                </View>
+                </Column>
             </Screen.Content>
             <Screen.Fab onClick={navigateToCreateScreen} position={"center"}/>
             <Screen.BottomDrawer current={"wish"} onNavigate={bottomDrawerNavigation}/>
@@ -40,11 +35,6 @@ export const WishHomeScreen = ({navigation, route}: WishNavigationProps<"WishHom
 }
 
 const styles = StyleSheet.create({
-    categoryCard: {
-        paddingVertical: 8,
-        paddingHorizontal: 16
-    },
-
     list: {
         paddingVertical: 8,
         paddingHorizontal: 16

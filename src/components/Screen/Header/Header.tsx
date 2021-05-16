@@ -28,7 +28,7 @@ export const Header: FC<HeaderProps> & IComposition = (props) => {
     const {children, onConfiguration, onTabChanged, color = "trip", title} = props
     const headerColor = useHeaderColor(color)
     const selectedTab = useSelectedTab(null, onTabChanged)
-    const height = useMemo(() => children ? 124 : 82, [children])
+    const height = useMemo(() => children ? 104 : 82, [children])
     return (
         <HeaderProvider value={{...selectedTab, color: headerColor}}>
             <ColoredBackground color={headerColor}>

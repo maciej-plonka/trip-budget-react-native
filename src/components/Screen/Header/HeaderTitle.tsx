@@ -1,6 +1,6 @@
 import React, {FC} from "react";
-import {Color, isGradient} from "../../../models/Colors";
-import {StyleSheet, Text, View} from "react-native";
+import {Color, isGradient} from "../../../models";
+import {StyleSheet, Text} from "react-native";
 
 type Props = {
     title: string,

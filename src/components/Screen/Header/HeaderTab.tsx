@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from "react";
-import {StyleSheet, Text, TouchableOpacity} from "react-native";
+import {Pressable, StyleSheet, Text} from "react-native";
 import {useHeader} from "./HeaderContext";
 import {Color, isGradient} from "../../../models";
 
@@ -21,9 +21,9 @@ export const HeaderTab: FC<HeaderTabProps> = ({title, initial, id = title}) => {
     }, [])
     const selected = isActive(id)
     return (
-        <TouchableOpacity onPress={() => selectTab(id)} style={styles.touchable}>
+        <Pressable  onPress={() => selectTab(id)} style={styles.touchable}>
             <Text style={textStyle(color, selected)}>{title}</Text>
-        </TouchableOpacity>
+        </Pressable>
 
     )
 }
@@ -32,7 +32,8 @@ export const HeaderTab: FC<HeaderTabProps> = ({title, initial, id = title}) => {
 const styles = StyleSheet.create({
     tabText: {
         color: "rgba(0,0,0,0.5)",
-        textAlign: "center"
+        textAlign: "center",
+        fontSize: 14
     },
     touchable: {
         flex: 1,

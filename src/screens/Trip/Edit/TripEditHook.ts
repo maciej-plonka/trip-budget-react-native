@@ -3,10 +3,7 @@ import {selectTripById} from "../../../store/selectors";
 import {useMemo} from "react";
 import {Id} from "../../../store";
 import {deleteTrip, updateTrip} from "../../../store/actions/TripActions";
-import {availableCurrencies, defaultMoney, Money} from "../../../models";
 import {Trip} from "../../../store/models";
-import * as yup from "yup"
-import {addDays, startOfTomorrow} from "date-fns";
 
 export type TripEditValues = {
     name: string,

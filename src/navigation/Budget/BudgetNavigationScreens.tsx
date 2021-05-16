@@ -1,6 +1,11 @@
 import {createStackNavigator} from "@react-navigation/stack";
 import React from "react";
-import {BudgetExpenseDailyScreen, BudgetExpenseEditScreen, BudgetHomeScreen, BudgetExpenseNewScreen} from "../../screens";
+import {
+    BudgetExpenseDailyScreen,
+    BudgetExpenseEditScreen,
+    BudgetExpenseNewScreen,
+    BudgetHomeScreen
+} from "../../screens";
 import {BudgetParamList} from "./BudgetNavigationProps";
 import {RootNavigationProps} from "../RootNavigationProps";
 import {BudgetNewScreen} from "../../screens/Budget/New";

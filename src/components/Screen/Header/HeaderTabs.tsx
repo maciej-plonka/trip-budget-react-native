@@ -3,7 +3,7 @@ import {Dimensions, ScrollView, View} from "react-native";
 import React from "react";
 
 const windowWidth = Dimensions.get("window").width
-export const ChildrenWrapper = ({children}: Parent) => {
+export const HeaderTabs = ({children}: Parent) => {
     if (!children) return (<View/>)
     if (!Array.isArray(children) || children.length <= 4) {
         return (

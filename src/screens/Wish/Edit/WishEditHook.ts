@@ -4,8 +4,6 @@ import {deleteWishById, updateWish} from "../../../store/actions/WishActions";
 import {Id} from "../../../store";
 import {Wish} from "../../../store/models";
 import {useMemo} from "react";
-import * as yup from "yup";
-import {moneySchema} from "../../../validation";
 import {createWishInitialValues, WishValues} from "../WishValues";
 
 export const useWishEdit = (id: Id, tripId: Id) => {

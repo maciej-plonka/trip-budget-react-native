@@ -1,11 +1,12 @@
 import {Id} from "../../store";
 import {useSelector} from "react-redux";
-import {selectBudgetById, selectBudgetExpensesByBudgetId, selectTripById} from "../../store/selectors";
+import {selectBudgetById, selectBudgetExpensesByBudgetId} from "../../store/selectors";
 import {useMemo} from "react";
-import {Budget, BudgetExpense, Trip} from "../../store/models";
+import {Budget, BudgetExpense} from "../../store/models";
 import {copyCurrency, Money, sumMoney} from "../../models";
 import {isSameDay} from "date-fns";
 import {DailyExpense} from "./Expense/Daily/BudgetDailyExpenseHook";
+
 const generateDailyExpenses = (budget: Budget, days: ReadonlyArray<Date>, allExpenses: ReadonlyArray<BudgetExpense>): ReadonlyArray<DailyExpense> => {
     if (!days.length) {
         return [];

@@ -3,8 +3,7 @@ import {useSelector} from "react-redux";
 import {
     selectBudgetByTripId,
     selectBudgetCategoriesByBudgetId,
-    selectBudgetExpensesByBudgetId,
-    selectTripById
+    selectBudgetExpensesByBudgetId
 } from "../../../store/selectors";
 import {defaultMoney, Money} from "../../../models";
 import {BudgetCategory, BudgetExpense, sumBudgetExpenses} from "../../../store/models";

@@ -3,7 +3,7 @@ import {BudgetNavigationProps} from "../../../navigation";
 import {Box, Column, Screen, Space} from "../../../components";
 import {useBudgetBottomDrawerNavigation} from "../BudgetBottomDrawerNavigation";
 import {useBudgetHome} from "./BudgetHomeHook";
-import {ScrollView, TouchableOpacity, View} from "react-native";
+import {ScrollView, TouchableOpacity} from "react-native";
 import {BudgetHomeProgressCard} from "./Card";
 import {BudgetHomeDailyExpense} from "./BudgetHomeDailyExpense";
 import {DailyExpense} from "../Expense/Daily/BudgetDailyExpenseHook";

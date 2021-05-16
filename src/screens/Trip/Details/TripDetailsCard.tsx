@@ -1,8 +1,8 @@
 import {Image, StyleSheet, Text, View} from "react-native";
 import {format} from "date-fns";
-import {Button, Card, Icon} from "../../../components";
+import {Card} from "../../../components";
 import React from "react";
-import {hasStarted, Trip} from "../../../store/models";
+import {Trip} from "../../../store/models";
 
 type Props = {
     trip: Trip,

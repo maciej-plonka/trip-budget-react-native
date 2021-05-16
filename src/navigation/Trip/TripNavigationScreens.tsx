@@ -1,5 +1,5 @@
 import {createStackNavigator} from "@react-navigation/stack";
-import { TripDetailsScreen, TripEditScreen, TripHomeScreen, TripNewScreen} from "../../screens";
+import {TripDetailsScreen, TripEditScreen, TripHomeScreen, TripNewScreen} from "../../screens";
 import React from "react";
 import {TripParamList} from "./TripNavigationProps";
 

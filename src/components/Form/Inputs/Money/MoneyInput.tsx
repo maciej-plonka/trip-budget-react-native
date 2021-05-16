@@ -4,7 +4,6 @@ import {StyleSheet, Text} from "react-native"
 import {NumberInput} from "./NumberInput";
 import {InputProps} from "../InputProps";
 import {Row} from "../../../Blocks";
-import {Select} from "../Select";
 import {RequiredSelect} from "../RequiredSelect";
 
 type Props = InputProps<Money> & {

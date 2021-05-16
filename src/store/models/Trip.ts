@@ -1,5 +1,4 @@
 import {HasId} from "../BaseTypes";
-import {Money} from "../../models";
 import {differenceInDays, endOfDay, isAfter, isBefore, startOfDay} from "date-fns";
 
 export type Trip = HasId & {

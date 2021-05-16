@@ -1,12 +1,11 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {ScrollView, StyleSheet, View} from "react-native"
 import {useSelector} from "react-redux";
 import {TripNavigationProps} from "../../../navigation";
 import {Column, Screen, Space} from "../../../components";
 import {selectTripById} from "../../../store/selectors";
 import {TripDetailsCard} from "./TripDetailsCard";
-import {TripModule} from "./TripModulesCard/TripModule";
-import {TripModulesCard} from "./TripModulesCard";
+import {TripModule, TripModulesCard} from "./TripModulesCard";
 
 export const TripDetailsScreen = ({navigation, route}: TripNavigationProps<"TripDetailsScreen">) => {
     const tripId = route.params.tripId;
@@ -14,29 +13,24 @@ export const TripDetailsScreen = ({navigation, route}: TripNavigationProps<"Trip
     useEffect(() => {
         !trip && navigation.navigate("TripHomeScreen")
     }, [trip])
-    const handleConfigureTrip = () => navigation.push("TripEditScreen", {tripId})
-    const handleModuleSelected = (tripModule: TripModule) => {
-        switch(tripModule){
-            case "wish":{
-                navigation.push("Wish", {tripId})
-                break;
-            }
-            case "budget":{
-                navigation.push("Budget", {tripId})
-                break;
-            }
-        }
-    }
-    if(!trip) return (<View/>)
+
+    const handleConfigureTrip = useCallback(() => navigation.push("TripEditScreen", {tripId}), []);
+
+    const handleModuleSelected = useCallback((tripModule: TripModule) => {
+        if (tripModule === "wish") navigation.push("Wish", {tripId})
+        else if (tripModule === "budget") navigation.push("Budget", {tripId})
+    }, []);
+
+    if (!trip) return (<View/>)
     return (
         <Screen>
-            <Screen.Header title={"Trip details"}/>
+            <Screen.Header title={"Trip details"} onConfiguration={handleConfigureTrip}/>
             <Screen.Content>
-                <ScrollView >
+                <ScrollView>
                     <Column padding={16}>
-                        <TripDetailsCard trip={trip} />
-                        <Space size={16} direction={"vertical"} />
-                        <TripModulesCard trip={trip} onModuleSelected={handleModuleSelected} />
+                        <TripDetailsCard trip={trip}/>
+                        <Space size={16} direction={"vertical"}/>
+                        <TripModulesCard trip={trip} onModuleSelected={handleModuleSelected}/>
                     </Column>
                 </ScrollView>
             </Screen.Content>

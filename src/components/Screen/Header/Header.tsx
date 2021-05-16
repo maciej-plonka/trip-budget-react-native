@@ -1,42 +1,55 @@
-import React, {FC, ReactElement} from "react";
+import React, {FC, ReactElement, useMemo} from "react";
 import {HeaderProvider} from "./HeaderContext";
 import {HeaderTab, HeaderTabProps} from "./HeaderTab";
-import {StyleSheet} from "react-native";
-import {Color, isGradient} from "../../../models/Colors";
+import {Pressable, StyleSheet, View} from "react-native";
 import {ColoredBackground} from "../../ColoredBackground";
 import {HeaderTitle} from "./HeaderTitle";
 import {HeaderColor, useHeaderColor} from "../../../contexts/ThemeContext";
 import {useSelectedTab} from "./HeaderHook";
-import {Parent} from "../../Blocks";
-import {ChildrenWrapper} from "./HeaderChildrenWrapper";
+import {Column, Parent, Row} from "../../Blocks";
+import {HeaderTabs} from "./HeaderTabs";
+import {Icon} from "../../Icon";
 
 type ChildrenType = Array<ReactElement<HeaderTabProps>> | ReactElement<HeaderTabProps>
+
+
 export type HeaderProps = Parent<ChildrenType> & {
     color?: HeaderColor,
     title: string,
-    onTabChanged?: (tab: string | null) => void
+    onTabChanged?: (tab: string | null) => void,
+    onConfiguration?: () => void,
 }
 
 interface IComposition {
     Tab: typeof HeaderTab
 }
 
-
-const backgroundStyles = (backgroundColor: Color) => [
-    styles.container,
-    isGradient(backgroundColor) && styles.containerLeft
-]
-
-export const Header: FC<HeaderProps> & IComposition = ({children, onTabChanged, color = "trip", title}) => {
+export const Header: FC<HeaderProps> & IComposition = (props) => {
+    const {children, onConfiguration, onTabChanged, color = "trip", title} = props
     const headerColor = useHeaderColor(color)
     const selectedTab = useSelectedTab(null, onTabChanged)
+    const height = useMemo(() => children ? 124 : 82, [children])
     return (
         <HeaderProvider value={{...selectedTab, color: headerColor}}>
-            <ColoredBackground style={backgroundStyles(headerColor)} color={headerColor}>
-                <HeaderTitle title={title} color={headerColor}/>
-                <ChildrenWrapper>
-                    {children}
-                </ChildrenWrapper>
+            <ColoredBackground color={headerColor}>
+                <Column style={{height}}>
+                    <Row  flex={1} alignItems={"center"}  paddingHorizontal={16}>
+                        <HeaderTitle title={title} color={headerColor}/>
+                        {onConfiguration && (
+                            <>
+                                <View style={styles.spacer}/>
+                                <Pressable onPress={onConfiguration} >
+                                    <Icon iconType={"configure"} size={32} color={
+                                        color == "trip" ? "black" : "white"
+                                    }/>
+                                </Pressable>
+                            </>
+                        )}
+                    </Row>
+                    <HeaderTabs>
+                        {children}
+                    </HeaderTabs>
+                </Column>
             </ColoredBackground>
         </HeaderProvider>
     )
@@ -45,12 +58,7 @@ export const Header: FC<HeaderProps> & IComposition = ({children, onTabChanged, 
 Header.Tab = HeaderTab
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: "column",
-        alignItems: "center",
-    },
-    containerLeft: {
-        alignItems: "flex-start"
-    },
-    childrenList: {},
+    spacer: {
+        flexGrow: 1,
+    }
 })

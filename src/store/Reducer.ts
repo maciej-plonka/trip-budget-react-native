@@ -1,18 +1,20 @@
 import {filterOutBy, findBy} from "../utils/Collections";
 import {initialState, State} from "./State";
-import {BudgetExpense, serializeExpense, serializeTrip} from "./models";
+import {BudgetCategory, BudgetExpense, serializeExpense, serializeTrip} from "./models";
 import {HasId, Id} from "./BaseTypes";
 import "react-native-get-random-values"
 import {nanoid} from "nanoid";
 import {StateAction} from "./actions";
 
-const updateItem = <T extends HasId>(collection: ReadonlyArray<T>, newV: T): ReadonlyArray<T> => {
+function updateItem<T extends HasId>(collection: ReadonlyArray<T>, newV: T): ReadonlyArray<T> {
     return collection.map(it => it.id === newV.id ? newV : it)
 }
 
-const uniqueId = (): Id => nanoid()
+function uniqueId(): Id {
+    return nanoid();
+}
 
-export const stateReducer = (state: State = initialState, action: StateAction): State => {
+export function stateReducer(state: State = initialState, action: StateAction): State {
     switch (action.type) {
         case "update_trip": {
             return {...state, trips: updateItem(state.trips, serializeTrip(action.trip))}
@@ -37,9 +39,16 @@ export const stateReducer = (state: State = initialState, action: StateAction): 
             const exists = !!findBy(state.budgets, "tripId", action.newBudget.tripId);
             if (exists) return state;
             const budget = {...action.newBudget, id: uniqueId()}
+            const categories: BudgetCategory[] = action.newCategories.map(it => ({
+                id: uniqueId(),
+                name: it.name,
+                categoryBudget: it.categoryBudget,
+                budgetId: budget.id
+            }));
             return {
                 ...state,
-                budgets: [...state.budgets, budget]
+                budgets: [...state.budgets, budget],
+                budgetCategories: [...state.budgetCategories, ...categories],
             }
         }
 
@@ -104,4 +113,3 @@ export const stateReducer = (state: State = initialState, action: StateAction): 
     }
     return state;
 }
-

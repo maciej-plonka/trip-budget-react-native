@@ -16,6 +16,11 @@ export type BudgetCategory = HasId & {
 }
 
 export type NewBudgetCategory = {
+    name: string,
+    categoryBudget: Money
+}
+
+export type NewExistingBudgetCategory = {
     budgetId: Id,
     name: string,
     categoryBudget: Money,

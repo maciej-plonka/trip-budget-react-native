@@ -6,7 +6,8 @@ type Props = {
     confirmText?: string,
     declineText?: string
 }
-export const confirmMessageBox = async ({title, description = "", confirmText = "Yes", declineText = "No"}: Props) => {
+
+export async function confirmMessageBox({title, description = "", confirmText = "Yes", declineText = "No"}: Props) {
     return new Promise<boolean>((resolve) => {
         Alert.alert(
             title,

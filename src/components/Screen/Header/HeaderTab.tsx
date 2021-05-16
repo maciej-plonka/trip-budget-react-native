@@ -1,9 +1,7 @@
 import React, {FC, useEffect} from "react";
-import {Dimensions, StyleSheet, Text, TouchableOpacity} from "react-native";
+import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import {useHeader} from "./HeaderContext";
-import {Color, isGradient} from "../../../models/Colors";
-import {Box} from "../../Blocks";
-import {Button} from "../../Button";
+import {Color, isGradient} from "../../../models";
 
 export type HeaderTabProps = {
     title: string,

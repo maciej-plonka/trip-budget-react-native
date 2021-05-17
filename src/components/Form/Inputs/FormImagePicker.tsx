@@ -1,6 +1,6 @@
 import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
 import React, {useEffect, useState} from "react";
-import {showToast} from "../../../models/Toast";
+import {showToast} from "../../../models";
 import {useMemoryImagePicker} from "./MemoryImagePicker";
 import {Icon} from "../../Icon";
 import {Styled} from "../../Blocks";

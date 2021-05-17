@@ -1,5 +1,5 @@
 import {createContext, useContext} from "react";
-import {Color} from "../../../models/Colors";
+import {Color} from "../../../models";
 
 type HeaderCtxType = {
     isActive(tab: string):boolean

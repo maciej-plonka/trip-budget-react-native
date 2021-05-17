@@ -1,6 +1,5 @@
 import React from "react";
-import {formatMoney, Money} from "../../models/Money";
-import {Color} from "../../models/Colors";
+import {Color, formatMoney, Money} from "../../models";
 import {StyleSheet, Text, View} from "react-native";
 import {LinearProgressBar} from "./LinearProgressBar";
 

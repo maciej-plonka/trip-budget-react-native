@@ -1,5 +1,5 @@
 import React from "react";
-import {Color} from "../../models/Colors";
+import {Color} from "../../models";
 import {ColoredBackground} from "../ColoredBackground";
 import {StyleSheet} from "react-native";
 import {Styled} from "../Blocks";

@@ -1,6 +1,6 @@
 import React from "react";
 import {Card, CircularProgressBar, Column, Row, Space} from "../../../../components";
-import {Money} from "../../../../models/Money";
+import {Money} from "../../../../models";
 import {CategoryExpense} from "../BudgetHomeHook";
 import {useBudgetHomeCard} from "./BudgetHomeCardHook";
 import {StyleSheet, Text, View} from "react-native";

@@ -1,4 +1,4 @@
-import {Gradient} from "../../models/Colors";
+import {Gradient} from "../../models";
 
 type Gradients = {
     green: Gradient,

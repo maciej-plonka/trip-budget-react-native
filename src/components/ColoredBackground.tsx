@@ -1,7 +1,7 @@
 import React from "react";
 import {LayoutChangeEvent, View} from "react-native";
 import {LinearGradient} from "expo-linear-gradient";
-import {Color, isGradient} from "../models/Colors";
+import {Color, isGradient} from "../models";
 import {Parent, Styled} from "./Blocks";
 
 type Props = Styled & Parent & {

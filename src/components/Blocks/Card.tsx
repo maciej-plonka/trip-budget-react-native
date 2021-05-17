@@ -1,7 +1,7 @@
 import React from "react";
 import {StyleSheet} from "react-native";
 import {ColoredBackground} from "../ColoredBackground";
-import {Color} from "../../models/Colors";
+import {Color} from "../../models";
 import {BlockProps, useBlockStyles} from "./Block";
 
 type Props = BlockProps & {

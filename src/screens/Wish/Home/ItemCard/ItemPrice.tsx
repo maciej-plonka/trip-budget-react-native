@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from "react-native";
 import React from "react";
-import {formatMoney, isEqual, isMore} from "../../../../models/Money";
+import {formatMoney, isEqual, isMore} from "../../../../models";
 import {useSelector} from "react-redux";
 import {selectBudgetExpenseById} from "../../../../store/selectors";
 import {BudgetExpense, Wish} from "../../../../store/models";

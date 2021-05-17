@@ -1,6 +1,6 @@
 import React from "react";
 import {Styled} from "../Blocks";
-import {Color} from "../../models/Colors";
+import {Color} from "../../models";
 import {ColoredBackground} from "../ColoredBackground";
 import {StyleProp, StyleSheet, Text, ViewStyle} from "react-native";
 import Svg, {Circle} from 'react-native-svg';

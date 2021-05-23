@@ -12,13 +12,17 @@ function formatAmount(amount: number) {
     return amount.toFixed(2);
 }
 
+function formatAsianAmount(amount: number) {
+    return amount.toFixed(0);
+}
+
 export function formatMoney(money: Money): string {
     switch (money.currency) {
         case "$":
             return `${money.currency}${formatAmount(money.amount)}`;
         case "₩":
         case "¥" :
-            return `${formatAmount(money.amount)}${money.currency}`
+            return `${formatAsianAmount(money.amount)}${money.currency}`
     }
 }
 

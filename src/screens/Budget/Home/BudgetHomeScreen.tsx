@@ -1,48 +1,52 @@
 import React, {useEffect} from "react";
 import {BudgetNavigationProps} from "../../../navigation";
-import {Box, Column, Screen, Space} from "../../../components";
+import {Center, Column, Screen, Space} from "../../../components";
 import {useBudgetBottomDrawerNavigation} from "../BudgetBottomDrawerNavigation";
 import {useBudgetHome} from "./BudgetHomeHook";
-import {ScrollView, TouchableOpacity} from "react-native";
-import {BudgetHomeProgressCard} from "./Card";
-import {BudgetHomeDailyExpense} from "./BudgetHomeDailyExpense";
+import {ScrollView, Text} from "react-native";
 import {DailyExpense} from "../Expense/Daily/BudgetDailyExpenseHook";
+import {TotalBudgetCard} from "./TotalBudget";
 
-export const BudgetHomeScreen = ({navigation, route}: BudgetNavigationProps<"BudgetHomeScreen">) => {
+export function BudgetHomeScreen({navigation, route}: BudgetNavigationProps<"BudgetHomeScreen">) {
     const {tripId} = route.params;
     const bottomDrawerNavigation = useBudgetBottomDrawerNavigation(navigation, tripId);
     const budgetHome = useBudgetHome(tripId);
 
     useEffect(() => {
-        !budgetHome.budgetId && navigation.replace("BudgetNewScreen", {tripId})
-    }, [budgetHome.budgetId])
+        if (budgetHome.type == "NOT_FOUND")
+            navigation.replace("BudgetNewScreen", {tripId})
+    }, [budgetHome])
 
-    const navigateToNewExpense = () => {
-        if (!budgetHome.budgetId) return;
-        navigation.push("BudgetExpenseNewScreen", {tripId, budgetId: budgetHome.budgetId})
+    function navigateToNewExpense() {
+        if (budgetHome.type == "NOT_FOUND") return;
+        navigation.push("BudgetExpenseNewScreen", {tripId, budgetId: budgetHome.budget.id})
     }
 
-    const navigateToDailyExpense = (dailyExpense: DailyExpense) => {
-        if (!budgetHome.budgetId) return;
+    function navigateToDailyExpense(dailyExpense: DailyExpense) {
+        if (budgetHome.type == "NOT_FOUND") return;
         const dayTime = dailyExpense.day.getTime();
-        const budgetId = budgetHome.budgetId;
+        const budgetId = budgetHome.budget.id;
         navigation.push("BudgetExpenseDailyScreen", {tripId, budgetId, dayTime})
     }
+
+    if (budgetHome.type == "NOT_FOUND")
+        return (
+            <Center>
+                <Text> Budget not found</Text>
+            </Center>
+        )
+
     return (
         <Screen>
             <Screen.Header title={"Trip budget"} color={"budget"}/>
             <Screen.Content>
                 <ScrollView>
                     <Column padding={16} marginBottom={64}>
-                        <BudgetHomeProgressCard {...budgetHome} />
+                        <TotalBudgetCard
+                            totalBudget={budgetHome.budget.totalBudget}
+                            budgetExpenses={budgetHome.budgetExpenses}
+                            budgetCategories={budgetHome.budgetCategories}/>
                         <Space size={8} direction={"vertical"}/>
-                        {budgetHome.dailyExpenses.map((it, index) => (
-                            <Box key={index} marginVertical={8}>
-                                <TouchableOpacity onLongPress={() =>navigateToDailyExpense(it)}>
-                                    <BudgetHomeDailyExpense dailyExpense={it}/>
-                                </TouchableOpacity>
-                            </Box>
-                        ))}
                     </Column>
                 </ScrollView>
             </Screen.Content>

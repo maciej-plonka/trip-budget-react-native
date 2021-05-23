@@ -1,26 +1,25 @@
 import React, {useEffect} from "react";
-import {StyleSheet, Text, View} from "react-native";
+import {ScrollView, StyleSheet, Text, View} from "react-native";
 import {
-    Button, Card,
-    Center, Column,
-    FormButtonRow,
+    Button,
+    Card,
+    Column,
+    enhanceFormik, Expanded,
     FormCalendarInput,
-    FormCard,
-    FormImagePicker,
     FormTextInput,
     Icon,
+    ImagePicker,
+    Row,
     Screen,
-    Space, TextWhite
+    Space
 } from "../../../components";
 import {confirmMessageBox, showToast} from "../../../models";
 import {TripNavigationProps} from "../../../navigation";
 import {TripEditValues, useTripEdit} from "./TripEditHook";
 import {Formik, FormikHelpers} from "formik";
-import {enhanceFormik} from "../../../components/Form/FormikEnhanced";
 import {tripValidationSchema} from "../TripValidationSchema";
-import {TripImagePicker} from "../TripImagePicker";
 
-export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEditScreen">) => {
+export function TripEditScreen({navigation, route}: TripNavigationProps<"TripEditScreen">) {
     const {initialValues, exists, remove, update} = useTripEdit(route.params.tripId);
     useEffect(() => {
         !exists && navigation.navigate("TripHomeScreen")
@@ -28,7 +27,7 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
     if (!exists) return (<View/>)
 
 
-    const handleSubmit = async (values: TripEditValues, actions: FormikHelpers<TripEditValues>) => {
+    async function handleSubmit(values: TripEditValues, actions: FormikHelpers<TripEditValues>) {
         const valid = await actions.validateForm(values)
         if (!valid) return;
         update(values)
@@ -36,7 +35,7 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
         navigation.goBack();
     }
 
-    const handleDelete = async () => {
+    async function handleDelete() {
         const shouldDelete = await confirmMessageBox({title: "Caution!", description: "Do you want to delete trip?"});
         if (!shouldDelete) {
             return;
@@ -44,23 +43,23 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
         showToast("Trip deleted")
         remove();
     }
+
     return (
         <Screen>
             <Screen.Header title={"Edit trip"}/>
             <Screen.Content>
-                <Center style={styles.root}>
+                <ScrollView style={styles.root}>
                     <Formik<TripEditValues>
                         initialValues={initialValues}
                         onSubmit={handleSubmit}
-                        validationSchema={tripValidationSchema}
-                    >
+                        validationSchema={tripValidationSchema}>
                         {(props) => {
                             const {values} = props
                             const {hasErrors, setValueToValidate, error} = enhanceFormik(props)
                             return (
                                 <Card>
-                                    <TripImagePicker value={values.image} onChanged={setValueToValidate("image")}/>
-                                    <Column padding={16}>
+                                    <ImagePicker value={values.image} onChanged={setValueToValidate("image")}/>
+                                    <Column padding={16} alignItems={"stretch"}>
                                         <FormTextInput
                                             label={"Name"}
                                             value={values.name}
@@ -76,7 +75,15 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
                                             value={values.endDate}
                                             error={error("endDate")}
                                             onChanged={setValueToValidate("endDate")}/>
-                                        <FormButtonRow right>
+                                        <Row>
+                                            <Button
+                                                color={"primary"}
+                                                disabled={hasErrors()}
+                                                onClick={props.handleSubmit}
+                                                style={styles.button}>
+                                                <Icon iconType={"confirm"} size={22}/>
+                                            </Button>
+                                            <Expanded/>
                                             <Button
                                                 color={"error"}
                                                 onClick={handleDelete}
@@ -84,20 +91,13 @@ export const TripEditScreen = ({navigation, route}: TripNavigationProps<"TripEdi
                                                 <Icon iconType={"delete"} size={22}/>
                                             </Button>
                                             <Space size={8}/>
-                                            <Button
-                                                color={"primary"}
-                                                disabled={hasErrors()}
-                                                onClick={props.handleSubmit}
-                                                style={styles.button}>
-                                                <Icon iconType={"confirm"} size={22}/>
-                                                <Text style={{color: "white"}}>Edit</Text>
-                                            </Button>
-                                        </FormButtonRow>
+                                        </Row>
                                     </Column>
-                                </Card>)
+                                </Card>
+                            )
                         }}
                     </Formik>
-                </Center>
+                </ScrollView>
             </Screen.Content>
         </Screen>
     )

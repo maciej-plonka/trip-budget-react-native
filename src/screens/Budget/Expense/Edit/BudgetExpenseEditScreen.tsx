@@ -15,7 +15,7 @@ import {
 } from "../../../../components";
 import {Formik, FormikHelpers} from "formik";
 import {budgetEditValidationSchema, BudgetEditValues, useBudgetExpenseEdit} from "./BudgetExpenseEditHook";
-import {enhanceFormik} from "../../../../components/Form/FormikEnhanced";
+import {enhanceFormik} from "../../../../components";
 
 
 export const BudgetExpenseEditScreen = ({route, navigation}: BudgetNavigationProps<"BudgetExpenseEditScreen">) => {

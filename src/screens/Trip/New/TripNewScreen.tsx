@@ -3,10 +3,12 @@ import {
     Button,
     Card,
     Column,
+    enhanceFormik,
     FormButtonRow,
     FormCalendarInput,
     FormTextInput,
     Icon,
+    ImagePicker,
     Screen,
     TextWhite
 } from "../../../components";
@@ -15,9 +17,7 @@ import {TripNewValues, useTripNew} from "./TripNewHook";
 import {ScrollView} from "react-native";
 import {Formik, FormikHelpers} from "formik";
 import {showToast} from "../../../models";
-import {enhanceFormik} from "../../../components/Form/FormikEnhanced";
 import {tripValidationSchema} from "../TripValidationSchema";
-import {TripImagePicker} from "../TripImagePicker";
 
 export const TripNewScreen = ({navigation}: TripNavigationProps<"TripNewScreen">) => {
     const {initialValues, create} = useTripNew()
@@ -43,7 +43,7 @@ export const TripNewScreen = ({navigation}: TripNavigationProps<"TripNewScreen">
                             const {hasErrors, setValueToValidate, error} = enhanceFormik(props)
                             return (
                                 <Card>
-                                    <TripImagePicker value={values.image} onChanged={setValueToValidate("image")}/>
+                                    <ImagePicker value={values.image} onChanged={setValueToValidate("image")}/>
                                     <Column padding={16}>
                                         <FormTextInput
                                             label={"Name"}

@@ -2,15 +2,17 @@ import {WishNavigationProps} from "../../../navigation";
 import React, {useEffect} from "react";
 import {
     Button,
+    Card,
     Center,
+    Column,
+    enhanceFormik,
     FormButtonRow,
-    FormCard,
     FormCategorySelect,
-    FormImagePicker,
     FormMoneyInput,
     FormTextArea,
     FormTextInput,
     Icon,
+    ImagePicker,
     Screen,
     Space,
     TextWhite
@@ -19,7 +21,6 @@ import {confirmMessageBox, showToast} from "../../../models";
 import {ScrollView} from "react-native";
 import {useWishEdit} from "./WishEditHook";
 import {Formik, FormikHelpers} from "formik";
-import {enhanceFormik} from "../../../components/Form/FormikEnhanced";
 import {wishValidationSchema, WishValues} from "../WishValues";
 
 export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEditScreen">) => {
@@ -60,44 +61,44 @@ export const WishEditScreen = ({navigation, route}: WishNavigationProps<"WishEdi
                             {props => {
                                 const {values} = props
                                 const {hasErrors, setValueToValidate, error} = enhanceFormik(props)
-                                const avatar = <FormImagePicker value={values.image}
-                                                                onChanged={setValueToValidate("image")}/>;
                                 return (
-                                    <FormCard avatar={avatar}>
-                                        <FormCategorySelect
-                                            label={"Category"}
-                                            value={values.category}
-                                            onChanged={setValueToValidate("category")}
-                                            error={error("category")}
-                                            values={categories}/>
-                                        <FormMoneyInput
-                                            label={"Value"}
-                                            value={values.targetValue}
-                                            onChanged={setValueToValidate("targetValue")}
-                                            error={error("targetValue")}/>
-                                        <FormTextInput
-                                            label={"Name"}
-                                            value={values.name}
-                                            onChanged={setValueToValidate("name")}
-                                            error={error("name")}/>
-                                        <FormTextArea
-                                            label={"Comments"}
-                                            value={values.comments}
-                                            onChanged={setValueToValidate("comments")}
-                                            error={error("comments")}/>
-                                        <FormButtonRow right>
-                                            <Button onClick={handleDelete} color={"error"}>
-                                                <Icon iconType={"delete"} size={19}/>
-                                            </Button>
-                                            <Space size={8}/>
-                                            <Button onClick={props.handleSubmit} color={"primary"}
-                                                    disabled={hasErrors()}>
-                                                <Icon iconType={"confirm"} size={19}/>
-                                                <TextWhite>Edit</TextWhite>
-                                            </Button>
-                                        </FormButtonRow>
-                                    </FormCard>
-
+                                    <Card>
+                                        <ImagePicker value={values.image} onChanged={setValueToValidate("image")}/>
+                                        <Column padding={16}>
+                                            <FormCategorySelect
+                                                label={"Category"}
+                                                value={values.category}
+                                                onChanged={setValueToValidate("category")}
+                                                error={error("category")}
+                                                values={categories}/>
+                                            <FormMoneyInput
+                                                label={"Value"}
+                                                value={values.targetValue}
+                                                onChanged={setValueToValidate("targetValue")}
+                                                error={error("targetValue")}/>
+                                            <FormTextInput
+                                                label={"Name"}
+                                                value={values.name}
+                                                onChanged={setValueToValidate("name")}
+                                                error={error("name")}/>
+                                            <FormTextArea
+                                                label={"Comments"}
+                                                value={values.comments}
+                                                onChanged={setValueToValidate("comments")}
+                                                error={error("comments")}/>
+                                            <FormButtonRow right>
+                                                <Button onClick={handleDelete} color={"error"}>
+                                                    <Icon iconType={"delete"} size={19}/>
+                                                </Button>
+                                                <Space size={8}/>
+                                                <Button onClick={props.handleSubmit} color={"primary"}
+                                                        disabled={hasErrors()}>
+                                                    <Icon iconType={"confirm"} size={19}/>
+                                                    <TextWhite>Edit</TextWhite>
+                                                </Button>
+                                            </FormButtonRow>
+                                        </Column>
+                                    </Card>
                                 )
                             }}
                         </Formik>

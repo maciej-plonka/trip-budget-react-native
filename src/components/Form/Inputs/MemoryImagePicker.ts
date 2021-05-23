@@ -12,7 +12,8 @@ const imagePickerOptions = (aspect: [number, number]) =>  ({
 });
 
 type Result = {uri: string}
-export const useMemoryImagePicker = (onChanged: (value: string | undefined) => void, aspectRatio: [number, number]): FormImagePicker => {
+
+export function useMemoryImagePicker(onChanged: (value: string | undefined) => void, aspectRatio: [number, number]): FormImagePicker {
     const chooseImageFromMemory = async () => {
         const {granted} = await ImagePicker.requestMediaLibraryPermissionsAsync()
         if (!granted) {

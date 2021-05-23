@@ -2,14 +2,15 @@ import {WishNavigationProps} from "../../../navigation";
 import React from "react";
 import {
     Button,
-    Center,
+    Card,
+    Center, Column,
+    enhanceFormik,
     FormButtonRow,
-    FormCard,
     FormCategorySelect,
-    FormImagePicker,
     FormMoneyInput,
     FormTextInput,
     Icon,
+    ImagePicker,
     Screen,
     TextWhite
 } from "../../../components";
@@ -18,7 +19,6 @@ import {ScrollView} from "react-native";
 import {showToast} from "../../../models";
 import {Formik, FormikHelpers} from "formik";
 import {wishValidationSchema, WishValues} from "../WishValues";
-import {enhanceFormik} from "../../../components/Form/FormikEnhanced";
 
 export const WishNewScreen = ({route, navigation}: WishNavigationProps<"WishNewScreen">) => {
     const {categories, initialValues, create} = useWishNew(route.params.tripId)
@@ -43,33 +43,34 @@ export const WishNewScreen = ({route, navigation}: WishNavigationProps<"WishNewS
                             {props => {
                                 const {values} = props
                                 const {hasErrors, setValueToValidate, error} = enhanceFormik(props)
-                                const avatar = <FormImagePicker value={values.image}
-                                                                onChanged={setValueToValidate("image")}/>
                                 return (
-                                    <FormCard avatar={avatar}>
-                                        <FormCategorySelect
-                                            label={"Category"}
-                                            value={values.category}
-                                            onChanged={setValueToValidate("category")}
-                                            error={error("category")}
-                                            values={categories}/>
-                                        <FormMoneyInput
-                                            label={"Value"}
-                                            value={values.targetValue}
-                                            error={error("targetValue")}
-                                            onChanged={setValueToValidate("targetValue")}/>
-                                        <FormTextInput label={"Name"}
-                                                       value={values.name}
-                                                       error={error("name")}
-                                                       onChanged={setValueToValidate("name")}/>
-                                        <FormButtonRow right>
-                                            <Button onClick={props.handleSubmit} color={"primary"}
-                                                    disabled={hasErrors()}>
-                                                <Icon iconType={"confirm"} size={19}/>
-                                                <TextWhite>Create</TextWhite>
-                                            </Button>
-                                        </FormButtonRow>
-                                    </FormCard>
+                                    <Card>
+                                        <ImagePicker value={values.image} onChanged={setValueToValidate("image")}/>
+                                        <Column padding={16}>
+                                            <FormCategorySelect
+                                                label={"Category"}
+                                                value={values.category}
+                                                onChanged={setValueToValidate("category")}
+                                                error={error("category")}
+                                                values={categories}/>
+                                            <FormMoneyInput
+                                                label={"Value"}
+                                                value={values.targetValue}
+                                                error={error("targetValue")}
+                                                onChanged={setValueToValidate("targetValue")}/>
+                                            <FormTextInput label={"Name"}
+                                                           value={values.name}
+                                                           error={error("name")}
+                                                           onChanged={setValueToValidate("name")}/>
+                                            <FormButtonRow right>
+                                                <Button onClick={props.handleSubmit} color={"primary"}
+                                                        disabled={hasErrors()}>
+                                                    <Icon iconType={"confirm"} size={19}/>
+                                                    <TextWhite>Create</TextWhite>
+                                                </Button>
+                                            </FormButtonRow>
+                                        </Column>
+                                    </Card>
                                 )
                             }}
                         </Formik>

@@ -1,15 +1,15 @@
-import {InputProps} from "../../components/Form/Inputs/InputProps";
+import {InputProps} from "./InputProps";
 import {Image, StyleSheet, TouchableOpacity, View} from "react-native";
-import {useMemoryImagePicker} from "../../components";
-import {showToast} from "../../models";
+import {showToast} from "../../../models";
 import React from "react";
-import {Icons} from "../../icons";
+import {Icons} from "../../../icons";
+import {useMemoryImagePicker} from "./MemoryImagePicker";
 
 type Props = InputProps<string | undefined> & {}
 
 const height = 180
 
-export const TripImagePicker = ({value, onChanged}: Props) => {
+export const ImagePicker = ({value, onChanged}: Props) => {
     const {chooseImageFromMemory} = useMemoryImagePicker(onChanged, [2, 1])
     const handlePress = async () => {
         try {

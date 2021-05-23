@@ -1,6 +1,6 @@
 import React from "react";
 import {StyleSheet, View} from "react-native";
-import {Card} from "../../Blocks/Card";
+import {Card} from "../../Blocks";
 import MaskedView from "@react-native-community/masked-view";
 import {Column, Parent, Styled} from "../../Blocks";
 
@@ -8,7 +8,7 @@ type Props = Styled & Parent & {
     avatar?: React.ReactNode
 }
 
-const FormCard = ({children, avatar, style}: Props) => {
+function FormCard({children, avatar, style}: Props) {
     return (
         <Card style={[styles.root, !!avatar && styles.avatarGap, style]}>
             {avatar && (

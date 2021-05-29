@@ -3,6 +3,7 @@ import React from "react";
 import {
     Button,
     Card,
+    enhanceFormik,
     FormButtonRow,
     FormCard,
     FormMoneyInput,
@@ -13,7 +14,6 @@ import {
 } from "../../../components";
 import {Modal} from "react-native";
 import {Money} from "../../../models";
-import {enhanceFormik} from "../../../components/Form/FormikEnhanced";
 import * as yup from "yup";
 import {moneySchema} from "../../../validation";
 import {Formik, FormikHelpers} from "formik";
@@ -35,7 +35,7 @@ const categoryModalValidationSchema = yup.object().shape({
 })
 
 
-export function CategoryModal({category, onEdited, onClosed}: Props) {
+export function NewCategoryModal({category, onEdited, onClosed}: Props) {
     const initialValues: CategoryModalValues = {
         name: category.name,
         budget: category.categoryBudget

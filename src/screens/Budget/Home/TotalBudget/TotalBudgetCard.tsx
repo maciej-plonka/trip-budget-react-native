@@ -52,14 +52,13 @@ export function TotalBudgetCard(props: Props) {
                     color={color}/>
             </Column>
             <LineSpacer color={"rgba(0,0,0,0.13)"}/>
-            <FlatList data={totalBudgetCard.totalBudgetCategories} renderItem={({item}) => {
-                return (
-                    <TotalBudgetCategory
-                        name={item.name}
-                        spent={item.spent}
-                        total={item.total}/>
-                )
-            }}/>
+            {totalBudgetCard.totalBudgetCategories.map(it => (
+                <TotalBudgetCategory
+                    key={it.name}
+                    name={it.name}
+                    spent={it.spent}
+                    total={it.total}/>
+            ))}
         </Card>
     )
 }

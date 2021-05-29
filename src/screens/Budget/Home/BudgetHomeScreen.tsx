@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {BudgetNavigationProps} from "../../../navigation";
 import {Center, Column, Screen, Space} from "../../../components";
 import {useBudgetBottomDrawerNavigation} from "../BudgetBottomDrawerNavigation";
@@ -17,17 +17,24 @@ export function BudgetHomeScreen({navigation, route}: BudgetNavigationProps<"Bud
             navigation.replace("BudgetNewScreen", {tripId})
     }, [budgetHome])
 
-    function navigateToNewExpense() {
+    const navigateToNewExpense = useCallback(() => {
         if (budgetHome.type == "NOT_FOUND") return;
         navigation.push("BudgetExpenseNewScreen", {tripId, budgetId: budgetHome.budget.id})
-    }
+    }, [tripId, budgetHome])
 
-    function navigateToDailyExpense(dailyExpense: DailyExpense) {
+    const navigateToBudgetEdit = useCallback(() => {
         if (budgetHome.type == "NOT_FOUND") return;
-        const dayTime = dailyExpense.day.getTime();
-        const budgetId = budgetHome.budget.id;
-        navigation.push("BudgetExpenseDailyScreen", {tripId, budgetId, dayTime})
-    }
+        navigation.push("BudgetEditScreen", {tripId, budgetId: budgetHome.budget.id})
+    }, [tripId, budgetHome])
+
+
+    // function navigateToDailyExpense(dailyExpense: DailyExpense) {
+    //     if (budgetHome.type == "NOT_FOUND") return;
+    //     const dayTime = dailyExpense.day.getTime();
+    //     const budgetId = budgetHome.budget.id;
+    //     navigation.push("BudgetExpenseDailyScreen", {tripId, budgetId, dayTime})
+    // }
+
 
     if (budgetHome.type == "NOT_FOUND")
         return (
@@ -38,7 +45,10 @@ export function BudgetHomeScreen({navigation, route}: BudgetNavigationProps<"Bud
 
     return (
         <Screen>
-            <Screen.Header title={"Trip budget"} color={"budget"}/>
+            <Screen.Header
+                title={"Trip budget"}
+                color={"budget"}
+                onConfiguration={navigateToBudgetEdit}/>
             <Screen.Content>
                 <ScrollView>
                     <Column padding={16} marginBottom={64}>

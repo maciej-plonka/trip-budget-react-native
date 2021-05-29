@@ -1,5 +1,6 @@
-import React, {useEffect} from "react";
 import {BudgetNavigationProps} from "../../../navigation";
+import {StyleSheet, Text, View} from "react-native";
+import React, {useCallback, useEffect, useMemo} from "react";
 import {
     Button,
     Card,
@@ -13,40 +14,109 @@ import {
     Space,
     TextWhite
 } from "../../../components";
-import {formatMoney} from "../../../models";
 import {Formik, FormikHelpers} from "formik";
-import {StyleSheet, Text} from "react-native";
-import {NewCategoryModal} from "./NewCategoryModal";
-import {budgetNewValidationSchema, BudgetNewValues, useBudgetNew} from "./BudgetNewHook";
+import {BudgetNewValues} from "../New/BudgetNewHook";
+import {defaultMoney, formatMoney, Money} from "../../../models";
+import {useDispatch, useSelector} from "react-redux";
+import {selectBudgetById, selectBudgetCategoriesByBudgetId} from "../../../store/selectors";
+import {Id} from "../../../store";
+import * as yup from "yup";
+import {moneySchema} from "../../../validation";
+import {
+    createBudgetCategory,
+    deleteBudgetCategoryById,
+    updateBudgetCategory
+} from "../../../store/actions/BudgetActions";
+import {Budget, BudgetCategory} from "../../../store/models";
 
-export function BudgetNewScreen({route, navigation}: BudgetNavigationProps<"BudgetNewScreen">) {
-    const tripId = route.params.tripId;
-    const budgetNew = useBudgetNew(tripId);
+type BudgetEditValues = {
+    totalBudget: Money,
+}
+const budgetEditValidationSchema = yup.object().shape({
+    totalBudget: moneySchema
+})
+
+type BudgetEdit = { type: "NOT_FOUND" } |
+    {
+        type: "FOUND",
+        initialValues: BudgetEditValues
+        categories: ReadonlyArray<BudgetCategory>
+        update(values: BudgetEditValues): void,
+        addCategory(): void,
+        editCategory(category: BudgetCategory): void,
+        removeCategory(category: BudgetCategory): void
+    }
+
+
+function useBudgetEdit(tripId: Id, budgetId: Id): BudgetEdit {
+    const dispatch = useDispatch()
+    const budget = useSelector(selectBudgetById(budgetId));
+    const categories = useSelector(selectBudgetCategoriesByBudgetId(budgetId))
+    const update = useCallback((values: BudgetEditValues) => {
+
+    }, []);
+    const initialValues = useMemo(() => ({
+        totalBudget: budget?.totalBudget ?? defaultMoney()
+    }), [budget]);
+
+    const addCategory = useCallback(() => {
+        const newCategory = {
+            name: "New category",
+            budgetId,
+            categoryBudget: defaultMoney()
+        };
+        dispatch(createBudgetCategory(newCategory))
+    }, [budgetId]);
+
+
+    const editCategory = useCallback((category: BudgetCategory) => {
+        dispatch(updateBudgetCategory(category));
+    }, [])
+
+    const removeCategory = useCallback((category: BudgetCategory) => {
+        dispatch(deleteBudgetCategoryById(category.id))
+    }, [])
+
+    if (!budget)
+        return {type: "NOT_FOUND"};
+
+    return {
+        type: "FOUND",
+        initialValues,
+        categories,
+        update,
+        addCategory,
+        editCategory,
+        removeCategory,
+    }
+}
+
+export function BudgetEditScreen({route, navigation}: BudgetNavigationProps<"BudgetEditScreen">) {
+    const {tripId, budgetId} = route.params
+    const budgetEdit = useBudgetEdit(tripId, budgetId)
 
     useEffect(() => {
-        const {budget} = budgetNew
-        budget && navigation.replace("BudgetHomeScreen", {tripId})
-    }, [budgetNew.budget])
+        budgetEdit.type == "NOT_FOUND" && navigation.pop();
+    }, [budgetEdit.type])
 
-    const handleSubmit = async (values: BudgetNewValues, actions: FormikHelpers<BudgetNewValues>) => {
+    async function handleSubmit(values: BudgetNewValues, actions: FormikHelpers<BudgetNewValues>) {
+        if (budgetEdit.type == "NOT_FOUND") return;
         const valid = await actions.validateForm(values)
         if (!valid) return;
-        budgetNew.create(values);
+        budgetEdit.update(values);
+    }
+
+    if (budgetEdit.type == "NOT_FOUND") {
+        return (<View/>)
     }
 
     return (
         <Screen>
-            <Screen.Header title={"New Budget"} color={"budget"}/>
+            <Screen.Header title={"Edit trip budget"} color={"budget"}/>
             <Screen.Content>
-                {budgetNew.editedCategory && (
-                    <NewCategoryModal
-                        category={budgetNew.editedCategory}
-                        onClosed={budgetNew.stopEditingCategory}
-                        onEdited={budgetNew.updateEditedCategory}/>
-                )}
-                <Formik<BudgetNewValues>
-                    initialValues={budgetNew.initialValues}
-                    validationSchema={budgetNewValidationSchema}
+                <Formik<BudgetEditValues>
+                    initialValues={budgetEdit.initialValues}
+                    validationSchema={budgetEditValidationSchema}
                     onSubmit={handleSubmit}>
                     {props => {
                         const {values} = props
@@ -63,7 +133,7 @@ export function BudgetNewScreen({route, navigation}: BudgetNavigationProps<"Budg
                                         <Button onClick={props.handleSubmit} color={"primary"} disabled={hasErrors()}>
                                             <Icon iconType={"confirm"} size={18}/>
                                             <Space size={8} direction={"vertical"}/>
-                                            <TextWhite>Create Budget</TextWhite>
+                                            <TextWhite>Update Budget</TextWhite>
                                         </Button>
                                         <Space size={8}/>
 
@@ -75,13 +145,13 @@ export function BudgetNewScreen({route, navigation}: BudgetNavigationProps<"Budg
                                         <Row justifyContent={"space-between"} alignItems={"center"}>
                                             <Text style={styles.categoryHeader}>Categories</Text>
                                             <Button
-                                                onClick={budgetNew.addCategory}
+                                                onClick={budgetEdit.addCategory}
                                                 color={"primary"}
                                                 style={styles.categoryAddButton}>
                                                 <Icon iconType={"plus"} size={18}/>
                                             </Button>
                                         </Row>
-                                        {budgetNew.categories.map((category, index) => (
+                                        {budgetEdit.categories.map((category, index) => (
                                             <Row
                                                 key={index}
                                                 style={styles.categoryItem}
@@ -95,22 +165,20 @@ export function BudgetNewScreen({route, navigation}: BudgetNavigationProps<"Budg
                                                     </Column>
                                                     <Row>
                                                         <Button
-                                                            onClick={() => budgetNew.editCategory(index)}
+                                                            onClick={() => budgetEdit.editCategory(category)}
                                                             color={"primary"}
                                                             style={styles.categoryActionButton}>
                                                             <Icon iconType={"configure"} size={18}/>
                                                         </Button>
                                                         <Space size={8}/>
                                                         <Button
-                                                            onClick={() => budgetNew.removeCategory(index)}
+                                                            onClick={() => budgetEdit.removeCategory(category)}
                                                             color={"error"}
                                                             style={styles.categoryActionButton}>
                                                             <Icon iconType={"delete"} size={18}/>
                                                         </Button>
                                                     </Row>
                                                 </Row>
-
-
                                             </Row>
                                         ))}
                                     </Column>
@@ -126,6 +194,7 @@ export function BudgetNewScreen({route, navigation}: BudgetNavigationProps<"Budg
         </Screen>
     )
 }
+
 
 const styles = StyleSheet.create({
     categoryHeader: {

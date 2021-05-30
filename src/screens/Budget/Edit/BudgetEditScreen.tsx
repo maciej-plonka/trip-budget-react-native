@@ -1,6 +1,6 @@
 import {BudgetNavigationProps} from "../../../navigation";
 import {StyleSheet, Text, View} from "react-native";
-import React, {useCallback, useEffect, useMemo} from "react";
+import React, {useEffect} from "react";
 import {
     Button,
     Card,
@@ -16,80 +16,11 @@ import {
 } from "../../../components";
 import {Formik, FormikHelpers} from "formik";
 import {BudgetNewValues} from "../New/BudgetNewHook";
-import {defaultMoney, formatMoney, Money} from "../../../models";
-import {useDispatch, useSelector} from "react-redux";
-import {selectBudgetById, selectBudgetCategoriesByBudgetId} from "../../../store/selectors";
-import {Id} from "../../../store";
-import * as yup from "yup";
-import {moneySchema} from "../../../validation";
-import {
-    createBudgetCategory,
-    deleteBudgetCategoryById,
-    updateBudgetCategory
-} from "../../../store/actions/BudgetActions";
-import {Budget, BudgetCategory} from "../../../store/models";
+import {formatMoney} from "../../../models";
+import {Budget} from "../../../store/models";
+import {budgetEditValidationSchema, BudgetEditValues, useBudgetEdit} from "./BudgetEditHook";
+import {EditCategoryModal} from "./EditCategoryModal";
 
-type BudgetEditValues = {
-    totalBudget: Money,
-}
-const budgetEditValidationSchema = yup.object().shape({
-    totalBudget: moneySchema
-})
-
-type BudgetEdit = { type: "NOT_FOUND" } |
-    {
-        type: "FOUND",
-        initialValues: BudgetEditValues
-        categories: ReadonlyArray<BudgetCategory>
-        update(values: BudgetEditValues): void,
-        addCategory(): void,
-        editCategory(category: BudgetCategory): void,
-        removeCategory(category: BudgetCategory): void
-    }
-
-
-function useBudgetEdit(tripId: Id, budgetId: Id): BudgetEdit {
-    const dispatch = useDispatch()
-    const budget = useSelector(selectBudgetById(budgetId));
-    const categories = useSelector(selectBudgetCategoriesByBudgetId(budgetId))
-    const update = useCallback((values: BudgetEditValues) => {
-
-    }, []);
-    const initialValues = useMemo(() => ({
-        totalBudget: budget?.totalBudget ?? defaultMoney()
-    }), [budget]);
-
-    const addCategory = useCallback(() => {
-        const newCategory = {
-            name: "New category",
-            budgetId,
-            categoryBudget: defaultMoney()
-        };
-        dispatch(createBudgetCategory(newCategory))
-    }, [budgetId]);
-
-
-    const editCategory = useCallback((category: BudgetCategory) => {
-        dispatch(updateBudgetCategory(category));
-    }, [])
-
-    const removeCategory = useCallback((category: BudgetCategory) => {
-        dispatch(deleteBudgetCategoryById(category.id))
-    }, [])
-
-    if (!budget)
-        return {type: "NOT_FOUND"};
-
-    return {
-        type: "FOUND",
-        initialValues,
-        categories,
-        update,
-        addCategory,
-        editCategory,
-        removeCategory,
-    }
-}
 
 export function BudgetEditScreen({route, navigation}: BudgetNavigationProps<"BudgetEditScreen">) {
     const {tripId, budgetId} = route.params
@@ -104,6 +35,7 @@ export function BudgetEditScreen({route, navigation}: BudgetNavigationProps<"Bud
         const valid = await actions.validateForm(values)
         if (!valid) return;
         budgetEdit.update(values);
+        navigation.pop();
     }
 
     if (budgetEdit.type == "NOT_FOUND") {
@@ -114,6 +46,12 @@ export function BudgetEditScreen({route, navigation}: BudgetNavigationProps<"Bud
         <Screen>
             <Screen.Header title={"Edit trip budget"} color={"budget"}/>
             <Screen.Content>
+                {budgetEdit.editedCategory && (
+                    <EditCategoryModal
+                        editedCategory={budgetEdit.editedCategory}
+                        onClosed={() => budgetEdit.finishEditingCategory()}
+                        onEdited={budgetEdit.finishEditingCategory}/>
+                )}
                 <Formik<BudgetEditValues>
                     initialValues={budgetEdit.initialValues}
                     validationSchema={budgetEditValidationSchema}

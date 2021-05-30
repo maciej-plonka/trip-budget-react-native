@@ -8,7 +8,7 @@ import {
     CreateBudgetCategoryAction,
     CreateBudgetExpenseAction,
     DeleteBudgetByIdAction,
-    DeleteBudgetExpenseByIdAction,
+    DeleteBudgetExpenseByIdAction, UpdateBudgetAction,
     UpdateBudgetCategoryAction,
     UpdateBudgetExpenseAction
 } from "../actions/BudgetActions";
@@ -25,6 +25,8 @@ export function stateReducer(state: State = initialState, action: StateAction): 
             return handleDeleteTripAction(state, action);
         case "create_budget":
             return handleCreateBudgetAction(state, action);
+        case "update_budget":
+            return handleUpdateBudgetAction(state, action);
         case "create_budget_category":
             return handleCreateBudgetCategoryAction(state, action);
         case "update_budget_category":
@@ -101,6 +103,14 @@ function handleCreateBudgetAction(state: State, action: CreateBudgetAction) {
         budgetCategories: [...state.budgetCategories, ...categories],
     }
 }
+
+function handleUpdateBudgetAction(state: State, action: UpdateBudgetAction) {
+    return {
+        ...state,
+        budgets: updateItem(state.budgets, action.budget)
+    }
+}
+
 
 function handleCreateBudgetCategoryAction(state: State, action: CreateBudgetCategoryAction) {
     return {...state, budgetCategories: [...state.budgetCategories, assignId(action.newCategory)]}

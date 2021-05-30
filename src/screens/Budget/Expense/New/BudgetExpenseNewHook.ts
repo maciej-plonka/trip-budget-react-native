@@ -1,6 +1,6 @@
 import {Id} from "../../../../store";
 import {useDispatch, useSelector} from "react-redux";
-import {selectBudgetById, selectBudgetCategoriesByBudgetId} from "../../../../store/selectors";
+import {selectBudgetById, selectBudgetCategoriesByBudgetId, selectTripById} from "../../../../store/selectors";
 import {useMemo} from "react";
 import {Budget, BudgetCategory, NewBudgetExpense} from "../../../../store/models";
 import {defaultMoney, Money} from "../../../../models";
@@ -26,9 +26,9 @@ export const budgetNewValidationSchema = yup.object().shape({
 })
 
 export const useBudgetExpenseNew = (budgetId: Id) => {
-    const trip = useSelector(selectBudgetById(budgetId))
+    const budget = useSelector(selectBudgetById(budgetId))
     const categories = useSelector(selectBudgetCategoriesByBudgetId(budgetId))
-    const initialValues = useMemo(() => createInitialValues(trip), [])
+    const initialValues = useMemo(() => createInitialValues(budget), [budget])
     const dispatch = useDispatch()
     const create = (values: BudgetNewValues) => {
         const budgetExpense: NewBudgetExpense = {

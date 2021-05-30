@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import {
     selectBudgetByTripId,
     selectBudgetCategoriesByBudgetId, selectBudgetCategoriesByTripId,
-    selectBudgetExpensesByBudgetId
+    selectBudgetExpensesByBudgetId, selectBudgetExpensesByTripId
 } from "../../../store/selectors";
 import {defaultMoney, Money} from "../../../models";
 import {Budget, BudgetCategory, BudgetExpense, sumBudgetExpenses} from "../../../store/models";
@@ -35,7 +35,7 @@ type BudgetHome =
 export const useBudgetHome = (tripId: Id, daysBack: number = 5): BudgetHome => {
     const budget = useSelector(selectBudgetByTripId(tripId))
     const budgetCategories = useSelector(selectBudgetCategoriesByTripId(tripId))
-    const budgetExpenses = useSelector(selectBudgetExpensesByBudgetId(tripId))
+    const budgetExpenses = useSelector(selectBudgetExpensesByTripId(tripId))
     // const days = useTripDaysRange(tripId)
     // const dailyExpenses = useBudgetDailyExpenses(tripId, days).filter(filterByLastDays(daysBack))
     // const totalBudgetSpent = useMemo(() => sumBudgetExpenses(expenses), [expenses])

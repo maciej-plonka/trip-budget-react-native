@@ -2,7 +2,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {BudgetCategory, BudgetExpense} from "../../../../store/models";
 import {deleteBudgetExpenseById, updateBudgetExpense} from "../../../../store/actions/BudgetActions";
 import {Id} from "../../../../store";
-import {selectBudgetCategoriesByBudgetId, selectBudgetExpenseById} from "../../../../store/selectors";
+import {
+    selectBudgetCategoriesByBudgetId,
+    selectBudgetCategoriesByTripId,
+    selectBudgetExpenseById
+} from "../../../../store/selectors";
 import {defaultMoney, Money} from "../../../../models";
 import {findBy} from "../../../../utils/Collections";
 import * as yup from "yup";
@@ -29,7 +33,7 @@ const createInitialValues = (expense: BudgetExpense | undefined, categories: Rea
 
 export const useBudgetExpenseEdit = (id: Id, tripId: Id) => {
     const expense = useSelector(selectBudgetExpenseById(id))
-    const categories = useSelector(selectBudgetCategoriesByBudgetId(tripId))
+    const categories = useSelector(selectBudgetCategoriesByTripId(tripId))
     const initialValues = useMemo(() => createInitialValues(expense, categories), [expense, categories])
     const dispatch = useDispatch()
     const onSubmit = (values: BudgetEditValues) => {

@@ -16,10 +16,11 @@ import {BudgetNavigationProps} from "../../../../navigation";
 import {budgetNewValidationSchema, BudgetNewValues, useBudgetExpenseNew} from "./BudgetExpenseNewHook";
 import {showToast} from "../../../../models";
 import {Formik, FormikHelpers} from "formik";
-import {enhanceFormik} from "../../../../components/Form/FormikEnhanced";
+import {enhanceFormik} from "../../../../components";
 
 export const BudgetExpenseNewScreen = ({route, navigation}: BudgetNavigationProps<"BudgetExpenseNewScreen">) => {
-    const {initialValues, categories, create} = useBudgetExpenseNew(route.params.tripId)
+    const {budgetId, tripId} = route.params
+    const {initialValues, categories, create} = useBudgetExpenseNew(budgetId)
     const handleSubmit = async (values: BudgetNewValues, actions: FormikHelpers<BudgetNewValues>) => {
         try {
             const valid = await actions.validateForm(values)

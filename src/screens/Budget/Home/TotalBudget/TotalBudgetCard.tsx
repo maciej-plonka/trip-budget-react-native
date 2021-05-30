@@ -6,32 +6,12 @@ import {copyCurrency, formatMoney, Money, sumMoney} from "../../../../models";
 import {usePrimaryColor} from "../../../../contexts/ThemeContext";
 import {LineSpacer} from "../LineSpacer";
 import {TotalBudgetCategory} from "./TotalBudgetCategory";
+import {useTotalBudgetCard} from "./TotalBudgetHook";
 
 type Props = {
     totalBudget: Money,
     budgetExpenses: ReadonlyArray<BudgetExpense>,
     budgetCategories: ReadonlyArray<BudgetCategory>
-}
-
-
-function useTotalBudgetCard(totalBudget: Money, budgetExpenses: ReadonlyArray<BudgetExpense>, budgetCategories: ReadonlyArray<BudgetCategory>) {
-    const totalSpent = useMemo(() => sumBudgetExpenses(budgetExpenses), [budgetExpenses])
-    const totalBudgetCategories = useMemo(() => {
-        const categories = budgetCategories.map(category => ({
-            name: category.name,
-            spent: sumBudgetExpenses(budgetExpenses.filter(it => it.categoryId === category.id)),
-            total: category.categoryBudget
-        })).sort((left, right) => right.spent.amount - left.spent.amount)
-        const totalFromOtherCategories = sumMoney(categories.map(it => it.total));
-        const spentFromOtherCategories = sumMoney(categories.map(it => it.spent));
-        const essentials = {
-            name: "Essentials",
-            spent: copyCurrency(totalSpent, totalSpent.amount - spentFromOtherCategories.amount),
-            total: copyCurrency(totalBudget, totalBudget.amount - totalFromOtherCategories.amount)
-        }
-        return [essentials, ...categories]
-    }, [totalSpent, totalBudget, budgetExpenses, budgetCategories])
-    return {totalSpent, totalBudgetCategories}
 }
 
 export function TotalBudgetCard(props: Props) {

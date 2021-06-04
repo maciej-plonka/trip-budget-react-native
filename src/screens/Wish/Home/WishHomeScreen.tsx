@@ -1,17 +1,18 @@
 import React from "react";
 import {WishNavigationProps} from "../../../navigation";
-import {ScrollView, StyleSheet, View} from "react-native";
-import {Card, Column, FormCategorySelect, Screen} from "../../../components";
+import {FlatList} from "react-native";
+import {Column, Screen, Space} from "../../../components";
 import {useWishHome} from "./WishHomeHook";
-import {WishHomeList} from "./WishHomeList";
 import {useWishBottomDrawerNavigation} from "../WishBottomDrawerNavigation";
 import {CategoryPicker} from "./CategoryPicker";
+import {ItemCard} from "./ItemCard";
+import {Wish} from "../../../store/models";
 
 export const WishHomeScreen = ({navigation, route}: WishNavigationProps<"WishHomeScreen">) => {
     const tripId = route.params.tripId;
-    const bottomDrawerNavigation = useWishBottomDrawerNavigation(navigation, tripId);
     const wishHome = useWishHome(tripId)
     const navigateToCreateScreen = () => navigation.push("WishNewScreen", {tripId})
+    const navigateToEditScreen = (item: Wish) => navigation.push("WishEditScreen", {tripId, itemId: item.id})
     return (
         <Screen>
             <Screen.Header title={"Wishes"} color={"wish"} onTabChanged={wishHome.selectTab}>
@@ -25,18 +26,14 @@ export const WishHomeScreen = ({navigation, route}: WishNavigationProps<"WishHom
                         tripId={tripId}
                         onCategoryChanged={wishHome.selectCategory}
                     />
-                    <WishHomeList wishes={wishHome.wishes}/>
+                    <Space size={12} direction={"vertical"}/>
+                    <FlatList data={wishHome.wishes} renderItem={({item}) => (
+                        <ItemCard item={item} onClick={() => navigateToEditScreen(item)}/>
+                    )}/>
                 </Column>
             </Screen.Content>
             <Screen.Fab onClick={navigateToCreateScreen} position={"center"}/>
-            <Screen.BottomDrawer current={"wish"} onNavigate={bottomDrawerNavigation}/>
+            <Screen.BottomDrawer current={"wish"} onNavigate={useWishBottomDrawerNavigation(navigation, tripId)}/>
         </Screen>
     )
 }
-
-const styles = StyleSheet.create({
-    list: {
-        paddingVertical: 8,
-        paddingHorizontal: 16
-    }
-})

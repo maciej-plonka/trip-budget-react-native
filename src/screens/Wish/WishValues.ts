@@ -25,6 +25,5 @@ export const wishCommentsSchema = yup.string().defined()
 
 export const wishValidationSchema =  yup.object().shape({
     name: wishNameSchema,
-    comments: wishCommentsSchema,
     targetValue: moneySchema,
 })

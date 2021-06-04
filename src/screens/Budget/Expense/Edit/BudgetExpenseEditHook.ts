@@ -10,7 +10,7 @@ import {
 import {defaultMoney, Money} from "../../../../models";
 import {findBy} from "../../../../utils/Collections";
 import * as yup from "yup";
-import {useMemo} from "react";
+import {useCallback, useMemo} from "react";
 import {moneySchema} from "../../../../validation";
 
 export const budgetEditValidationSchema = yup.object().shape({
@@ -30,13 +30,12 @@ const createInitialValues = (expense: BudgetExpense | undefined, categories: Rea
     category: expense?.categoryId ? findBy(categories, "id", expense.categoryId) : undefined
 })
 
-
 export const useBudgetExpenseEdit = (id: Id, tripId: Id) => {
     const expense = useSelector(selectBudgetExpenseById(id))
     const categories = useSelector(selectBudgetCategoriesByTripId(tripId))
     const initialValues = useMemo(() => createInitialValues(expense, categories), [expense, categories])
     const dispatch = useDispatch()
-    const onSubmit = (values: BudgetEditValues) => {
+    const onSubmit = useCallback((values: BudgetEditValues) => {
         if (!expense) return;
         const toUpdate: BudgetExpense = {
             ...expense,
@@ -45,7 +44,7 @@ export const useBudgetExpenseEdit = (id: Id, tripId: Id) => {
             name: values.name
         }
         dispatch(updateBudgetExpense(toUpdate))
-    }
-    const remove = () => dispatch(deleteBudgetExpenseById(id))
+    }, [expense]);
+    const remove = useCallback(() => dispatch(deleteBudgetExpenseById(id)), [id]);
     return {onSubmit, remove, categories, initialValues, exists: !!expense}
 }

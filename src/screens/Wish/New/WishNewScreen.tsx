@@ -3,7 +3,8 @@ import React from "react";
 import {
     Button,
     Card,
-    Center, Column,
+    Center,
+    Column,
     enhanceFormik,
     FormButtonRow,
     FormCategorySelect,
@@ -25,6 +26,7 @@ export const WishNewScreen = ({route, navigation}: WishNavigationProps<"WishNewS
 
     const handleSubmit = async (values: WishValues, actions: FormikHelpers<WishValues>) => {
         const valid = await actions.validateForm(values)
+        console.log('form valid:', valid);
         if (!valid) return;
         create(values)
         showToast("Item created")
@@ -63,8 +65,10 @@ export const WishNewScreen = ({route, navigation}: WishNavigationProps<"WishNewS
                                                            error={error("name")}
                                                            onChanged={setValueToValidate("name")}/>
                                             <FormButtonRow right>
-                                                <Button onClick={props.handleSubmit} color={"primary"}
-                                                        disabled={hasErrors()}>
+                                                <Button
+                                                    onClick={props.handleSubmit}
+                                                    color={"primary"}
+                                                    disabled={hasErrors()}>
                                                     <Icon iconType={"confirm"} size={19}/>
                                                     <TextWhite>Create</TextWhite>
                                                 </Button>

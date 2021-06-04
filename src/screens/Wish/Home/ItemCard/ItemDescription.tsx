@@ -1,20 +1,25 @@
 import {StyleSheet, Text, View} from "react-native";
 import React from "react";
 import {useSelector} from "react-redux";
-import {selectBudgetCategoryById} from "../../../../store/selectors";
+import {selectBudgetCategoryById, selectBudgetCategoryByWishId} from "../../../../store/selectors";
 import {Wish} from "../../../../store/models";
+
+
+function useItemDescription(item: Wish) {
+    const category = useSelector(selectBudgetCategoryByWishId(item.id));
+    return {
+        categoryName: category?.name ?? "Essentials"
+    }
+}
 
 type Props = {
     item: Wish
 }
 export const ItemDescription = ({item}: Props) => {
-    const category = item.budgetCategoryId ? useSelector(selectBudgetCategoryById(item.budgetCategoryId)) : null
+    const {categoryName} = useItemDescription(item);
     return (
         <View style={styles.root}>
-            {category
-                ? (<Text style={styles.category}>{category.name}</Text>)
-                : (<View/>)
-            }
+            <Text style={styles.category}>{categoryName}</Text>
             <Text style={styles.name}>{item.name}</Text>
         </View>
     )
@@ -33,5 +38,5 @@ const styles = StyleSheet.create({
     name: {
         fontSize: 12,
         color: "gray",
-        }
+    }
 });

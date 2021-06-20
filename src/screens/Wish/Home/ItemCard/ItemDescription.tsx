@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from "react-native";
 import React from "react";
 import {useSelector} from "react-redux";
-import {selectBudgetCategoryById, selectBudgetCategoryByWishId} from "../../../../store/selectors";
+import {selectBudgetCategoryByWishId} from "../../../../store/selectors";
 import {Wish} from "../../../../store/models";
 
 

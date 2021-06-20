@@ -1,12 +1,8 @@
 import {useSelector} from "react-redux";
-import {
-    selectAllWishesByTripId,
-    selectBudgetByTripId,
-    selectBudgetCategoriesByBudgetId, selectBudgetCategoriesByTripId
-} from "../../../store/selectors";
-import {useCallback, useMemo, useState} from "react";
+import {selectAllWishesByTripId} from "../../../store/selectors";
+import {useMemo, useState} from "react";
 import {filterBy} from "../../../utils/Collections";
-import {BudgetCategory, isBought, Wish} from "../../../store/models";
+import {isBought, Wish} from "../../../store/models";
 import {Id} from "../../../store";
 import {SelectedBudgetCategory} from "./CategoryPicker";
 

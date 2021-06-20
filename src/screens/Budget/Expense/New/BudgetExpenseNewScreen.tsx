@@ -2,6 +2,7 @@ import React from "react";
 import {
     Button,
     Center,
+    enhanceFormik,
     FormButtonRow,
     FormCard,
     FormCategorySelect,
@@ -16,7 +17,6 @@ import {BudgetNavigationProps} from "../../../../navigation";
 import {budgetNewValidationSchema, BudgetNewValues, useBudgetExpenseNew} from "./BudgetExpenseNewHook";
 import {showToast} from "../../../../models";
 import {Formik, FormikHelpers} from "formik";
-import {enhanceFormik} from "../../../../components";
 
 export const BudgetExpenseNewScreen = ({route, navigation}: BudgetNavigationProps<"BudgetExpenseNewScreen">) => {
     const {budgetId, tripId} = route.params

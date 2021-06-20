@@ -1,10 +1,9 @@
-import React, {useCallback, useEffect, useMemo} from "react";
+import React, {useCallback, useEffect} from "react";
 import {BudgetNavigationProps} from "../../../navigation";
 import {Center, Column, Screen, Space} from "../../../components";
 import {useBudgetBottomDrawerNavigation} from "../BudgetBottomDrawerNavigation";
 import {useBudgetHome} from "./BudgetHomeHook";
 import {ScrollView, Text} from "react-native";
-import {DailyExpense} from "../Expense/Daily/BudgetDailyExpenseHook";
 import {TotalBudgetCard} from "./TotalBudget";
 
 export function BudgetHomeScreen({navigation, route}: BudgetNavigationProps<"BudgetHomeScreen">) {

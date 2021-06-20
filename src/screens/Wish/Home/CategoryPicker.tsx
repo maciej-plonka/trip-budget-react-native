@@ -2,7 +2,7 @@ import {BudgetCategory} from "../../../store/models";
 import {Id} from "../../../store";
 import {useSelector} from "react-redux";
 import {selectBudgetCategoriesByTripId} from "../../../store/selectors";
-import React, {useCallback, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {Modal, Pressable, ScrollView, StyleSheet, Text, View} from "react-native";
 import {Icons} from "../../../icons";
 

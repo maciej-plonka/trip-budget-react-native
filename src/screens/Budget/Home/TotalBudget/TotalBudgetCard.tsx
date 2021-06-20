@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Card, Column, Expanded, Icon, LinearProgressBar, Row} from "../../../../components";
-import { StyleSheet, Text} from "react-native";
+import {StyleSheet, Text} from "react-native";
 import {BudgetCategory, BudgetExpense} from "../../../../store/models";
 import {formatMoney, Money} from "../../../../models";
 import {usePrimaryColor} from "../../../../contexts/ThemeContext";

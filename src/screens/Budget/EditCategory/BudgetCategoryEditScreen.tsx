@@ -1,13 +1,12 @@
 import {BudgetNavigationProps} from "../../../navigation";
-import {Button, Card, Column, Icon, Row, Screen, Space} from "../../../components";
+import {Column, Screen} from "../../../components";
 import React, {useMemo} from "react";
 import {EditCategoryModal} from "./EditCategoryModal";
 import {Id} from "../../../store";
 import {useSelector} from "react-redux";
-import {StyleSheet, Text} from "react-native"
 import {selectBudgetById, selectBudgetCategoriesByBudgetId} from "../../../store/selectors";
 import {useEditedBudgetCategory} from "./EditedBudgetCategory";
-import {copyCurrency, formatMoney, sumMoney} from "../../../models";
+import {copyCurrency, sumMoney} from "../../../models";
 import {CategoryListItem} from "./CategoryListItem";
 
 function useBudgetCategoryEditScreen(budgetId: Id) {

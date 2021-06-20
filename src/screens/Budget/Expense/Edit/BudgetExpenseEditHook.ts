@@ -2,11 +2,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {BudgetCategory, BudgetExpense} from "../../../../store/models";
 import {deleteBudgetExpenseById, updateBudgetExpense} from "../../../../store/actions/BudgetActions";
 import {Id} from "../../../../store";
-import {
-    selectBudgetCategoriesByBudgetId,
-    selectBudgetCategoriesByTripId,
-    selectBudgetExpenseById
-} from "../../../../store/selectors";
+import {selectBudgetCategoriesByTripId, selectBudgetExpenseById} from "../../../../store/selectors";
 import {defaultMoney, Money} from "../../../../models";
 import {findBy} from "../../../../utils/Collections";
 import * as yup from "yup";

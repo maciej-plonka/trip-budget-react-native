@@ -1,8 +1,7 @@
 import React from "react";
 import {StyleSheet, View} from "react-native";
-import {Card} from "../../Blocks";
+import {Card, Column, Parent, Styled} from "../../Blocks";
 import MaskedView from "@react-native-community/masked-view";
-import {Column, Parent, Styled} from "../../Blocks";
 
 type Props = Styled & Parent & {
     avatar?: React.ReactNode

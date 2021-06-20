@@ -1,6 +1,6 @@
 import {Id} from "../../../../store";
 import {useDispatch, useSelector} from "react-redux";
-import {selectBudgetById, selectBudgetCategoriesByBudgetId, selectTripById} from "../../../../store/selectors";
+import {selectBudgetById, selectBudgetCategoriesByBudgetId} from "../../../../store/selectors";
 import {useMemo} from "react";
 import {Budget, BudgetCategory, NewBudgetExpense} from "../../../../store/models";
 import {defaultMoney, Money} from "../../../../models";

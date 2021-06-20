@@ -1,15 +1,6 @@
 import {Action} from "redux"
-import {
-    BudgetCategory,
-    BudgetExpense,
-    NewBudget,
-    NewExistingBudgetCategory,
-    NewBudgetExpense,
-    NewBudgetCategory, Budget
-} from "../models";
+import {Budget, BudgetCategory, BudgetExpense, NewBudget, NewBudgetExpense, NewExistingBudgetCategory} from "../models";
 import {Id} from "../BaseTypes";
-import {State} from "../State";
-import {StateAction} from "./StateActions";
 
 export type CreateBudgetAction = Action<"create_budget"> & { newBudget: NewBudget };
 export type UpdateBudgetAction = Action<"update_budget"> & { budget: Budget };

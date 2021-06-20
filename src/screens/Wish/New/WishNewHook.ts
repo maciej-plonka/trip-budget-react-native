@@ -1,6 +1,6 @@
 import {useDispatch, useSelector} from "react-redux";
 import {Id} from "../../../store";
-import {selectBudgetCategoriesByBudgetId, selectBudgetCategoriesByTripId} from "../../../store/selectors";
+import {selectBudgetCategoriesByTripId} from "../../../store/selectors";
 import {createWish} from "../../../store/actions/WishActions";
 import {createWishInitialValues, WishValues} from "../WishValues";
 import {NewWish} from "../../../store/models";

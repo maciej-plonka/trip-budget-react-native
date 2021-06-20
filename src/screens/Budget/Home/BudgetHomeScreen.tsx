@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useCallback, useEffect, useMemo} from "react";
 import {BudgetNavigationProps} from "../../../navigation";
 import {Center, Column, Screen, Space} from "../../../components";
 import {useBudgetBottomDrawerNavigation} from "../BudgetBottomDrawerNavigation";
@@ -27,14 +27,10 @@ export function BudgetHomeScreen({navigation, route}: BudgetNavigationProps<"Bud
         navigation.push("BudgetEditScreen", {tripId, budgetId: budgetHome.budget.id})
     }, [tripId, budgetHome])
 
-
-    // function navigateToDailyExpense(dailyExpense: DailyExpense) {
-    //     if (budgetHome.type == "NOT_FOUND") return;
-    //     const dayTime = dailyExpense.day.getTime();
-    //     const budgetId = budgetHome.budget.id;
-    //     navigation.push("BudgetExpenseDailyScreen", {tripId, budgetId, dayTime})
-    // }
-
+    const navigateToCategoryEdit = useCallback(() => {
+        if (budgetHome.type == "NOT_FOUND") return;
+        navigation.push("BudgetCategoryEditScreen", {tripId, budgetId: budgetHome.budget.id})
+    }, [tripId, budgetHome])
 
     if (budgetHome.type == "NOT_FOUND")
         return (
@@ -45,17 +41,16 @@ export function BudgetHomeScreen({navigation, route}: BudgetNavigationProps<"Bud
 
     return (
         <Screen>
-            <Screen.Header
-                title={"Trip budget"}
-                color={"budget"}
-                onConfiguration={navigateToBudgetEdit}/>
+            <Screen.Header title={"Trip budget"} color={"budget"}/>
             <Screen.Content>
                 <ScrollView>
                     <Column padding={16} marginBottom={64}>
                         <TotalBudgetCard
                             totalBudget={budgetHome.budget.totalBudget}
                             budgetExpenses={budgetHome.budgetExpenses}
-                            budgetCategories={budgetHome.budgetCategories}/>
+                            budgetCategories={budgetHome.budgetCategories}
+                            navigateToBudgetEdit={navigateToBudgetEdit}
+                            navigateToBudgetCategoryEdit={navigateToCategoryEdit}/>
                         <Space size={8} direction={"vertical"}/>
                     </Column>
                 </ScrollView>

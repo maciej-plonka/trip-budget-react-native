@@ -11,7 +11,7 @@ type Props = {
 
 export function TotalBudgetCategory(props: Props) {
     return (
-        <Row padding={16}>
+        <Row>
             <Text style={styles.categoryName}>{props.name}</Text>
             <Expanded/>
             <Text>{formatMoney(props.spent)}</Text>

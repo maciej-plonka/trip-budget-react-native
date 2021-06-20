@@ -91,16 +91,9 @@ function handleCreateBudgetAction(state: State, action: CreateBudgetAction) {
     if (existsBy(state.budgets, "tripId", action.newBudget.tripId)) {
         return state;
     }
-    const budget = assignId(action.newBudget)
-    const categories: BudgetCategory[] = action.newCategories.map(it => assignId({
-        name: it.name,
-        categoryBudget: it.categoryBudget,
-        budgetId: budget.id
-    }));
     return {
         ...state,
-        budgets: [...state.budgets, budget],
-        budgetCategories: [...state.budgetCategories, ...categories],
+        budgets: [...state.budgets, assignId(action.newBudget)],
     }
 }
 

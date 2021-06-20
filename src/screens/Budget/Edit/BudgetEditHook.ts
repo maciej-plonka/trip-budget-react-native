@@ -7,7 +7,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {selectBudgetById, selectBudgetCategoriesByBudgetId} from "../../../store/selectors";
 import {useCallback, useMemo} from "react";
 import {updateBudget} from "../../../store/actions/BudgetActions";
-import {EditedBudgetCategory, useEditedBudgetCategory} from "./EditedBudgetCategory";
 
 
 export type BudgetEditValues = {
@@ -23,21 +22,13 @@ type BudgetEdit =
     {
         type: "FOUND",
         initialValues: BudgetEditValues
-        categories: ReadonlyArray<BudgetCategory>
         update(values: BudgetEditValues): void,
-        addCategory(): void,
-        editCategory(category: BudgetCategory): void,
-        removeCategory(category: BudgetCategory): void,
-        finishEditingCategory(updatedCategory?: EditedBudgetCategory): void,
-        editedCategory: EditedBudgetCategory | undefined
     }
 
 
 export function useBudgetEdit(tripId: Id, budgetId: Id): BudgetEdit {
     const dispatch = useDispatch()
     const budget = useSelector(selectBudgetById(budgetId));
-    const categories = useSelector(selectBudgetCategoriesByBudgetId(budgetId))
-    const editedBudgetCategory = useEditedBudgetCategory(budget)
     const update = useCallback((values: BudgetEditValues) => {
         if (!budget) return;
         dispatch(updateBudget({...budget, totalBudget: values.totalBudget}))
@@ -52,9 +43,7 @@ export function useBudgetEdit(tripId: Id, budgetId: Id): BudgetEdit {
     return {
         type: "FOUND",
         initialValues,
-        categories,
         update,
-        ...editedBudgetCategory
     }
 }
 

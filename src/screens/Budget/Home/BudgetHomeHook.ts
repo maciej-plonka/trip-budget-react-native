@@ -2,17 +2,12 @@ import {Id} from "../../../store";
 import {useSelector} from "react-redux";
 import {
     selectBudgetByTripId,
-    selectBudgetCategoriesByBudgetId, selectBudgetCategoriesByTripId,
-    selectBudgetExpensesByBudgetId, selectBudgetExpensesByTripId
+    selectBudgetCategoriesByTripId,
+    selectBudgetExpensesByTripId
 } from "../../../store/selectors";
-import {defaultMoney, Money} from "../../../models";
-import {Budget, BudgetCategory, BudgetExpense, sumBudgetExpenses} from "../../../store/models";
-import {filterBy} from "../../../utils/Collections";
-import {useBudgetDailyExpenses} from "../TripDailyExpensesHook";
+import {Budget, BudgetCategory, BudgetExpense} from "../../../store/models";
 import {DailyExpense} from "../Expense/Daily/BudgetDailyExpenseHook";
-import {useTripDaysRange} from "../TripDayRangeHook";
 import {addDays, endOfDay, isAfter, isBefore, startOfDay} from "date-fns";
-import {useMemo} from "react";
 
 
 export type CategoryExpense = {

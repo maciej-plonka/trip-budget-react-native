@@ -15,7 +15,7 @@ export const editCategoryValidationSchema = yup.object().shape({
     name: yup.string().required("Name is required")
 })
 
-export function useEditCategory(editedCategory: EditedBudgetCategory, onEdit: (updateCategory: EditedBudgetCategory) => void) {
+export function useEditCategoryModal(editedCategory: EditedBudgetCategory, onEdit: (updateCategory: EditedBudgetCategory) => void) {
     const initialValues = useMemo(() => ({
         name: editedCategory.category.name,
         budget: editedCategory.category.categoryBudget

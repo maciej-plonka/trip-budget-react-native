@@ -13,7 +13,7 @@ import {
 } from "../../../components";
 import {Modal} from "react-native";
 import {Formik, FormikHelpers} from "formik";
-import {editCategoryValidationSchema, EditCategoryValues, useEditCategory} from "./EditCategoryHook";
+import {editCategoryValidationSchema, EditCategoryValues, useEditCategoryModal} from "./EditCategoryModalHook";
 import {EditedBudgetCategory} from "./EditedBudgetCategory";
 
 type Props = {
@@ -23,7 +23,7 @@ type Props = {
 }
 
 export function EditCategoryModal({editedCategory, onEdited, onClosed}: Props) {
-    const editCategory = useEditCategory(editedCategory, onEdited)
+    const editCategory = useEditCategoryModal(editedCategory, onEdited)
 
     const handleSubmit = async (values: EditCategoryValues, actions: FormikHelpers<EditCategoryValues>) => {
         const valid = await actions.validateForm(values)

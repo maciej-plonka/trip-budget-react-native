@@ -11,7 +11,7 @@ import {Id} from "../BaseTypes";
 import {State} from "../State";
 import {StateAction} from "./StateActions";
 
-export type CreateBudgetAction = Action<"create_budget"> & { newBudget: NewBudget, newCategories: NewBudgetCategory[] };
+export type CreateBudgetAction = Action<"create_budget"> & { newBudget: NewBudget };
 export type UpdateBudgetAction = Action<"update_budget"> & { budget: Budget };
 export type CreateBudgetCategoryAction = Action<"create_budget_category"> & { newCategory: NewExistingBudgetCategory };
 export type UpdateBudgetCategoryAction = Action<"update_budget_category"> & { category: BudgetCategory };
@@ -29,13 +29,12 @@ export type BudgetAction =
     UpdateBudgetExpenseAction |
     DeleteBudgetExpenseByIdAction
 
-export const createBudget = (newBudget: NewBudget, newCategories: NewBudgetCategory[]): CreateBudgetAction => ({
+export const createBudget = (newBudget: NewBudget): CreateBudgetAction => ({
     type: "create_budget",
-    newBudget,
-    newCategories
+    newBudget
 })
 
-export const updateBudget = (budget: Budget): UpdateBudgetAction => ({type:"update_budget", budget})
+export const updateBudget = (budget: Budget): UpdateBudgetAction => ({type: "update_budget", budget})
 export const createBudgetCategory = (newCategory: NewExistingBudgetCategory): CreateBudgetCategoryAction => ({
     type: "create_budget_category",
     newCategory

@@ -1,8 +1,7 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {BudgetNavigationProps} from "../../../navigation";
 import {
     Button,
-    Card,
     Column,
     enhanceFormik,
     FormCard,
@@ -13,10 +12,7 @@ import {
     Space,
     TextWhite
 } from "../../../components";
-import {formatMoney} from "../../../models";
 import {Formik, FormikHelpers} from "formik";
-import {StyleSheet, Text} from "react-native";
-import {NewCategoryModal} from "./NewCategoryModal";
 import {budgetNewValidationSchema, BudgetNewValues, useBudgetNew} from "./BudgetNewHook";
 
 export function BudgetNewScreen({route, navigation}: BudgetNavigationProps<"BudgetNewScreen">) {
@@ -28,22 +24,16 @@ export function BudgetNewScreen({route, navigation}: BudgetNavigationProps<"Budg
         budget && navigation.replace("BudgetHomeScreen", {tripId})
     }, [budgetNew.budget])
 
-    const handleSubmit = async (values: BudgetNewValues, actions: FormikHelpers<BudgetNewValues>) => {
+    const handleSubmit = useCallback(async (values: BudgetNewValues, actions: FormikHelpers<BudgetNewValues>) => {
         const valid = await actions.validateForm(values)
         if (!valid) return;
         budgetNew.create(values);
-    }
+    }, [])
 
     return (
         <Screen>
             <Screen.Header title={"New Budget"} color={"budget"}/>
             <Screen.Content>
-                {budgetNew.editedCategory && (
-                    <NewCategoryModal
-                        category={budgetNew.editedCategory}
-                        onClosed={budgetNew.stopEditingCategory}
-                        onEdited={budgetNew.updateEditedCategory}/>
-                )}
                 <Formik<BudgetNewValues>
                     initialValues={budgetNew.initialValues}
                     validationSchema={budgetNewValidationSchema}
@@ -69,54 +59,6 @@ export function BudgetNewScreen({route, navigation}: BudgetNavigationProps<"Budg
 
                                     </Row>
                                 </FormCard>
-                                <Space size={12} direction={"vertical"}/>
-                                <Card padding={16}>
-                                    <Column alignItems={"stretch"}>
-                                        <Row justifyContent={"space-between"} alignItems={"center"}>
-                                            <Text style={styles.categoryHeader}>Categories</Text>
-                                            <Button
-                                                onClick={budgetNew.addCategory}
-                                                color={"primary"}
-                                                style={styles.categoryAddButton}>
-                                                <Icon iconType={"plus"} size={18}/>
-                                            </Button>
-                                        </Row>
-                                        {budgetNew.categories.map((category, index) => (
-                                            <Row
-                                                key={index}
-                                                style={styles.categoryItem}
-                                                marginVertical={8}
-                                                paddingTop={8}
-                                                paddingBottom={0}>
-                                                <Row justifyContent={"space-between"}>
-                                                    <Column alignItems={"flex-start"}>
-                                                        <Text>{category.name}</Text>
-                                                        <Text>{formatMoney(category.categoryBudget)}</Text>
-                                                    </Column>
-                                                    <Row>
-                                                        <Button
-                                                            onClick={() => budgetNew.editCategory(index)}
-                                                            color={"primary"}
-                                                            style={styles.categoryActionButton}>
-                                                            <Icon iconType={"configure"} size={18}/>
-                                                        </Button>
-                                                        <Space size={8}/>
-                                                        <Button
-                                                            onClick={() => budgetNew.removeCategory(index)}
-                                                            color={"error"}
-                                                            style={styles.categoryActionButton}>
-                                                            <Icon iconType={"delete"} size={18}/>
-                                                        </Button>
-                                                    </Row>
-                                                </Row>
-
-
-                                            </Row>
-                                        ))}
-                                    </Column>
-
-                                </Card>
-                                <Space size={16}/>
 
                             </Column>
                         )
@@ -126,19 +68,3 @@ export function BudgetNewScreen({route, navigation}: BudgetNavigationProps<"Budg
         </Screen>
     )
 }
-
-const styles = StyleSheet.create({
-    categoryHeader: {
-        fontSize: 16
-    },
-    categoryAddButton: {
-        padding: 8,
-    },
-    categoryItem: {
-        borderTopColor: '#bbb',
-        borderTopWidth: 0.2,
-    },
-    categoryActionButton: {
-        padding: 8,
-    }
-})

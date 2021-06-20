@@ -1,8 +1,8 @@
-import React, {useMemo} from "react";
-import {Card, Column, Expanded, LinearProgressBar, Row} from "../../../../components";
-import {FlatList, StyleSheet, Text} from "react-native";
-import {BudgetCategory, BudgetExpense, sumBudgetExpenses} from "../../../../store/models";
-import {copyCurrency, formatMoney, Money, sumMoney} from "../../../../models";
+import React from "react";
+import {Button, Card, Column, Expanded, Icon, LinearProgressBar, Row} from "../../../../components";
+import { StyleSheet, Text} from "react-native";
+import {BudgetCategory, BudgetExpense} from "../../../../store/models";
+import {formatMoney, Money} from "../../../../models";
 import {usePrimaryColor} from "../../../../contexts/ThemeContext";
 import {LineSpacer} from "../LineSpacer";
 import {TotalBudgetCategory} from "./TotalBudgetCategory";
@@ -12,6 +12,8 @@ type Props = {
     totalBudget: Money,
     budgetExpenses: ReadonlyArray<BudgetExpense>,
     budgetCategories: ReadonlyArray<BudgetCategory>
+    navigateToBudgetEdit: () => void,
+    navigateToBudgetCategoryEdit: () => void
 }
 
 export function TotalBudgetCard(props: Props) {
@@ -20,7 +22,12 @@ export function TotalBudgetCard(props: Props) {
     return (
         <Card>
             <Column padding={16}>
-                <Text style={styles.cardHeader}>Total Budget</Text>
+                <Row justifyContent={"space-between"} alignItems={"center"}>
+                    <Text style={styles.cardHeader}>Total Budget</Text>
+                    <Button onClick={props.navigateToBudgetEdit} color={"primary"} style={styles.configureButton} >
+                        <Icon iconType={"configure"} size={12}/>
+                    </Button>
+                </Row>
                 <Row paddingHorizontal={4} paddingTop={8} paddingBottom={4}>
                     <Text>{formatMoney(totalBudgetCard.totalSpent)}</Text>
                     <Expanded/>
@@ -32,13 +39,22 @@ export function TotalBudgetCard(props: Props) {
                     color={color}/>
             </Column>
             <LineSpacer color={"rgba(0,0,0,0.13)"}/>
-            {totalBudgetCard.totalBudgetCategories.map(it => (
-                <TotalBudgetCategory
-                    key={it.name}
-                    name={it.name}
-                    spent={it.spent}
-                    total={it.total}/>
-            ))}
+            <Column padding={16}>
+                <Row marginBottom={8} justifyContent={"space-between"} alignItems={"center"}>
+                    <Text style={styles.categoriesHeading}>Categories</Text>
+                    <Button onClick={props.navigateToBudgetCategoryEdit} color={"primary"} style={styles.configureButton} >
+                        <Icon iconType={"configure"} size={12}/>
+                    </Button>
+                </Row>
+                {totalBudgetCard.totalBudgetCategories.map(it => (
+                    <TotalBudgetCategory
+                        key={it.name}
+                        name={it.name}
+                        spent={it.spent}
+                        total={it.total}/>
+                ))}
+            </Column>
+
         </Card>
     )
 }
@@ -54,7 +70,16 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
 
+    categoriesHeading: {
+        fontSize: 16,
+        fontWeight: "bold"
+    },
+
     progressText: {
         fontSize: 18
+    },
+
+    configureButton: {
+        padding: 10,
     }
 })

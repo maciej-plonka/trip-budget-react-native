@@ -6,7 +6,7 @@ import {
     BudgetExpenseNewScreen,
     BudgetHomeScreen,
     BudgetNewScreen,
-    BudgetEditScreen
+    BudgetEditScreen, BudgetCategoryEditScreen
 } from "../../screens";
 import {BudgetParamList} from "./BudgetNavigationProps";
 import {RootNavigationProps} from "../RootNavigationProps";
@@ -26,6 +26,7 @@ export const BudgetNavigationScreens = ({route}: RootNavigationProps<"Budget">) 
             <Stack.Screen name={"BudgetExpenseNewScreen"} component={BudgetExpenseNewScreen}/>
             <Stack.Screen name={"BudgetExpenseEditScreen"} component={BudgetExpenseEditScreen}/>
             <Stack.Screen name={"BudgetExpenseDailyScreen"}  component={BudgetExpenseDailyScreen}/>
+            <Stack.Screen name={"BudgetCategoryEditScreen"} component={BudgetCategoryEditScreen} />
         </Stack.Navigator>
     )
 }
